@@ -3,7 +3,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { useState, useEffect } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useState, useEffect, use } from "react";
 
 // pour avoir des ingrédients mieux harmonisés, on garde que la première majuscule
 const formatIngredientName = (name) => {
@@ -14,7 +15,8 @@ const getOBFImageUrl = (ean) => {
   return `https://images.openbeautyfacts.org/images/products/${ean.slice(0, 3)}/${ean.slice(3, 6)}/${ean.slice(6, 9)}/${ean.slice(9)}/front_fr.4.full.jpg`;
 };
 
-export default function ProductPage({ params }) {
+export default function ProductPage({ params: paramsPromise }) {
+  const params = use(paramsPromise);
   const [product, setProduct] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
@@ -68,6 +70,7 @@ export default function ProductPage({ params }) {
               <span className="text-gray-400">Chargement...</span>
             )}
           </div>
+          <p className="text-xs text-gray-400 mt-2">Code Barre: {product.OBFProductId}</p>
           <div className="w-2/3">
             <h1 className="text-3xl font-bold mb-2">{product.product_name}</h1>
             <p className="text-lg mb-4">{product.brands}</p>
@@ -77,8 +80,24 @@ export default function ProductPage({ params }) {
               ))}
             </div>
             <div className="flex gap-2 mb-4">
+              <a href={`https://world.openbeautyfacts.org/product/${product.OBFProductId}`} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 hover:text-gray-700">
+              🔗 OpenBeautyFact Ref: {product.OBFProductId}
+              </a>
+            </div>
+            <div className="flex gap-2 mb-4">
               {product.additives.map((additive, index) => (
-                <Badge key={index} className="bg-red-200 text-red-800">{additive.shortName}</Badge>
+                <Popover key={index}>
+                  <PopoverTrigger>
+                    <Badge className="bg-red-200 text-red-800 cursor-pointer">{additive.shortName}</Badge>
+                  </PopoverTrigger>
+                  <PopoverContent className="p-4">
+                    <p><strong>Additive:</strong> {additive.shortName}</p>
+                    <p><strong>Name:</strong> {additive.additiveRef.name.en}</p>
+                    <p><strong>Description:</strong> {additive.additiveRef.description?.en || "N/A"}</p>
+                    <p><strong>Origin:</strong> {additive.additiveRef.origin || "N/A"}</p>
+                    <p><strong>Risk:</strong> {additive.additiveRef.risk || "N/A"}</p>
+                  </PopoverContent>
+                </Popover>
               ))}
             </div>
             <button className="bg-green-500 text-white px-4 py-2 rounded">Ajouter aux favoris</button>
