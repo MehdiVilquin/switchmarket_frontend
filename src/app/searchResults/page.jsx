@@ -39,7 +39,6 @@ function SearchResults() {
   const [displayedProducts, setDisplayedProducts] = useState([]); // On initialise le state pour afficher les produits
 
   const [isLoading, setIsLoading] = useState(false); // On initialise le state pour le chargement
-
   async function loadMoreProducts() {
     // Fonction pour charger plus de produits
     setIsLoading(true); // Charger les produits
