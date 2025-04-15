@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useState, useEffect, use } from "react";
+import Barcode from 'react-barcode';
 
 // pour avoir des ingrédients mieux harmonisés, on garde que la première majuscule
 const formatIngredientName = (name) => {
@@ -59,18 +60,31 @@ export default function ProductPage({ params: paramsPromise }) {
     <main className="min-h-screen flex flex-col items-center justify-center p-6 bg-background text-foreground">
       <div className="max-w-4xl w-full">
         <div className="flex gap-8">
-          <div className="w-1/3 bg-gray-100 h-64 flex items-center justify-center rounded-lg shadow-md">
-            {imageUrl ? (
-              <img
-                src={imageUrl}
-                alt={product.product_name}
-                className="object-contain h-full"
+          <div className="w-1/3 flex flex-col">
+            <div className="bg-gray-100 h-64 flex items-center justify-center rounded-lg shadow-md">
+              {imageUrl ? (
+                <img
+                  src={imageUrl}
+                  alt={product.product_name}
+                  className="object-contain h-full"
+                />
+              ) : (
+                <span className="text-gray-400">Chargement...</span>
+              )}
+            </div>
+            {/* Code-barres positionné discrètement sous l'image */}
+            <div className="mt-3 flex justify-center">
+              <Barcode 
+                value={product.OBFProductId} 
+                format="EAN13" 
+                height={40}
+                width={1.5}
+                fontSize={12}
+                margin={0}
+                background="#f8f9fa"
               />
-            ) : (
-              <span className="text-gray-400">Chargement...</span>
-            )}
+            </div>
           </div>
-          <p className="text-xs text-gray-400 mt-2">Code Barre: {product.OBFProductId}</p>
           <div className="w-2/3">
             <h1 className="text-3xl font-bold mb-2">{product.product_name}</h1>
             <p className="text-lg mb-4">{product.brands}</p>
@@ -81,7 +95,7 @@ export default function ProductPage({ params: paramsPromise }) {
             </div>
             <div className="flex gap-2 mb-4">
               <a href={`https://world.openbeautyfacts.org/product/${product.OBFProductId}`} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 hover:text-gray-700">
-              🔗 OpenBeautyFact Ref: {product.OBFProductId}
+                🔗 OpenBeautyFact Ref: {product.OBFProductId}
               </a>
             </div>
             <div className="flex gap-2 mb-4">
