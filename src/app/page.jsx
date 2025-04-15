@@ -233,7 +233,7 @@ export default function Home() {
 
     try {
       // Redirect to search results page with query parameter
-      router.push(`/search?q=${encodeURIComponent(searchQuery)}`)
+      router.push(`/searchResults?q=${encodeURIComponent(searchQuery)}`)
     } catch (error) {
       console.error("Error during search:", error)
     } finally {
