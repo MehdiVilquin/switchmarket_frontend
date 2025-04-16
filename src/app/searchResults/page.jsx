@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import Link from "next/link"
-import ProductCard from "@/components/ProductCard"
+import ProductCard from "@/components/cards/ProductCard"
 
 // API base URL
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
