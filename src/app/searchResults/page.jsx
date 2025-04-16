@@ -303,7 +303,7 @@ export default function SearchResults() {
                     variants={itemVariants}
                     whileHover={{ y: -5, transition: { duration: 0.2 } }}
                   >
-                    <Link href={`/products/${product.id}`} className="block h-full">
+                    <Link href={`/product/${product.id}`} className="block h-full">
                       <ProductCard
                         name={product.name}
                         brand={product.brand}
