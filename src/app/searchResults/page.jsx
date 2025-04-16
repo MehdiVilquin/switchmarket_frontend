@@ -81,7 +81,7 @@ export default function SearchResults() {
 
         // Using the all parameter for search
         const response = await fetch(
-          `${API_URL}/products?all=${encodeURIComponent(query)}&page=${pageNum}&limit=${PRODUCTS_PER_PAGE}`,
+          `${API_URL}/product?all=${encodeURIComponent(query)}&page=${pageNum}&limit=${PRODUCTS_PER_PAGE}`,
         )
 
         if (!response.ok) {

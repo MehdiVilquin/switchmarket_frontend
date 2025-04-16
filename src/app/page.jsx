@@ -364,7 +364,7 @@ export default function Home() {
                   variants={itemVariants}
                   whileHover={{ y: -5, transition: { duration: 0.2 } }} // Légère translation vers le haut au survol
                 >
-                  <Link href={`/products/${product.id}`} className="block h-full">
+                  <Link href={`/product/${product.id}`} className="block h-full">
                     {/* Composant ProductCard avec transmission de toutes les infos du produit */}
                     <ProductCard
                       name={product.name}
