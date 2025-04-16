@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
-import { Loader2, Search, Filter } from "lucide-react"
+import { Loader2, Search, Filter } from 'lucide-react'
 import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -81,7 +81,7 @@ export default function SearchResults() {
 
         // Using the all parameter for search
         const response = await fetch(
-          `${API_URL}/product?all=${encodeURIComponent(query)}&page=${pageNum}&limit=${PRODUCTS_PER_PAGE}`,
+          `${API_URL}/products?all=${encodeURIComponent(query)}&page=${pageNum}&limit=${PRODUCTS_PER_PAGE}`,
         )
 
         if (!response.ok) {
@@ -324,7 +324,7 @@ export default function SearchResults() {
                     variants={itemVariants}
                     whileHover={{ y: -5, transition: { duration: 0.2 } }}
                   >
-                    <Link href={`/products/${product.id}`} className="block h-full">
+                    <Link href={`/product/${product.id}`} className="block h-full">
                       <ProductCard
                         name={product.name}
                         brand={product.brand}
