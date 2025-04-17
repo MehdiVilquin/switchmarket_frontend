@@ -35,7 +35,7 @@ export default function Navbar() {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-6">
-                <Link href="/search" className="text-gray-600 hover:text-emerald-600 transition-colors">
+                <Link href="/searchResults" className="text-gray-600 hover:text-emerald-600 transition-colors">
                     Search
                 </Link>
                 <Link href="/discover" className="text-gray-600 hover:text-emerald-600 transition-colors">
@@ -80,7 +80,7 @@ export default function Navbar() {
                     >
                         <nav className="flex flex-col space-y-6">
                             <Link
-                                href="/search"
+                                href="/searchResults"
                                 className="text-gray-800 hover:text-emerald-600 text-lg"
                                 onClick={() => setMobileMenuOpen(false)}
                             >

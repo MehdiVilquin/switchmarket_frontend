@@ -1,55 +1,64 @@
 "use client"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { useState, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Input } from "@/components/ui/input"
-import { Filter, Loader2, Search } from "lucide-react"
+import { X } from "lucide-react"
 
-export default function SearchHeader({ searchQuery }) {
-    const [localQuery, setLocalQuery] = useState(searchQuery)
-    const [isSearching, setIsSearching] = useState(false)
+export default function SearchHeader() {
+    const searchParams = useSearchParams()
     const router = useRouter()
+
+    const [query, setQuery] = useState(searchParams.get("q") || "")
+
+    useEffect(() => {
+        setQuery(searchParams.get("q") || "")
+    }, [searchParams])
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (!localQuery.trim()) return
+        const params = new URLSearchParams(searchParams.toString())
 
-        setIsSearching(true)
-        router.push(`/searchResults?q=${encodeURIComponent(localQuery)}`)
-        setIsSearching(false)
+        if (query) {
+            params.set("q", query)
+        } else {
+            params.delete("q")
+        }
+
+        router.replace(`/searchResults?${params.toString()}`, { scroll: false })
+    }
+
+    const handleClear = () => {
+        const params = new URLSearchParams(searchParams.toString())
+        params.delete("q")
+        router.replace(`/searchResults?${params.toString()}`, { scroll: false })
     }
 
     return (
-        <section className="bg-gradient-to-b from-emerald-50 to-white pt-8 pb-12 px-4 md:px-8 border-b border-gray-100">
-            <div className="max-w-7xl mx-auto">
-                <div className="mb-8">
-                    <Badge className="mb-2 px-3 py-1 bg-emerald-100 text-emerald-800">Search Results</Badge>
-                    <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Results for "{searchQuery}"</h1>
-                    <p className="text-gray-600">Explore products matching your search criteria</p>
-                </div>
-                <form
-                    onSubmit={handleSubmit}
-                    className="max-w-3xl bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100"
+        <form onSubmit={handleSubmit} className="bg-white py-6 px-4 md:px-8 border-b">
+            <div className="max-w-4xl mx-auto flex items-center gap-2">
+                <Input
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Rechercher un produit..."
+                />
+                {query && (
+                    <button
+                        type="button"
+                        onClick={handleClear}
+                        className="text-sm text-gray-500 hover:text-gray-700 flex items-center"
+                    >
+                        <X className="w-4 h-4 mr-1" />
+                        Vider
+                    </button>
+                )}
+                <button
+                    type="submit"
+                    className="ml-auto bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600"
                 >
-                    <div className="flex items-center p-3">
-                        <Search className="h-5 w-5 text-emerald-500 ml-2 mr-3" />
-                        <Input
-                            className="border-none flex-1 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400"
-                            placeholder="Refine your search..."
-                            value={localQuery}
-                            onChange={(e) => setLocalQuery(e.target.value)}
-                        />
-                        <Button type="submit" size="sm" disabled={isSearching} className="bg-emerald-500 text-white px-4">
-                            {isSearching ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : "Search"}
-                        </Button>
-                    </div>
-                    <div className="border-t px-4 py-2 flex items-center text-sm text-gray-500 bg-gray-50 hover:bg-gray-100 cursor-pointer">
-                        <Filter className="h-4 w-4 mr-2 text-emerald-500" />
-                        <span className="font-medium">Advanced Filters</span>
-                    </div>
-                </form>
+                    Rechercher
+                </button>
             </div>
-        </section>
+        </form>
     )
 }

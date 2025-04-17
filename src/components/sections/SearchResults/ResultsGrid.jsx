@@ -1,10 +1,9 @@
 "use client"
-import { useRef, useCallback, useEffect } from "react"
+import { useRef, useCallback, memo } from "react"
 import { motion } from "framer-motion"
 import ProductCard from "@/components/cards/ProductCard"
 import { Skeleton } from "@/components/ui/skeleton"
 import Link from "next/link"
-import { Loader2 } from "lucide-react"
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -23,7 +22,7 @@ const itemVariants = {
     },
 }
 
-export default function ResultsGrid({ products, isLoading, hasMore, loadMore, page }) {
+const ResultsGrid = memo(function ResultsGrid({ products, isLoading, hasMore, loadMore, page }) {
     const observer = useRef()
 
     const lastItemRef = useCallback(
@@ -39,7 +38,7 @@ export default function ResultsGrid({ products, isLoading, hasMore, loadMore, pa
 
             if (node) observer.current.observe(node)
         },
-        [isLoading, hasMore, page, loadMore]
+        [isLoading, hasMore, page, loadMore],
     )
 
     return (
@@ -52,7 +51,7 @@ export default function ResultsGrid({ products, isLoading, hasMore, loadMore, pa
             {products.map((product, index) => {
                 const card = (
                     <motion.div
-                        key={product.id}
+                        key={`${product.id}-${index}`}
                         variants={itemVariants}
                         whileHover={{ y: -5, transition: { duration: 0.2 } }}
                     >
@@ -63,7 +62,9 @@ export default function ResultsGrid({ products, isLoading, hasMore, loadMore, pa
                 )
 
                 return index === products.length - 1 ? (
-                    <div key={product.id} ref={lastItemRef}>{card}</div>
+                    <div key={`${product.id}-${index}-ref`} ref={lastItemRef}>
+                        {card}
+                    </div>
                 ) : (
                     card
                 )
@@ -71,11 +72,15 @@ export default function ResultsGrid({ products, isLoading, hasMore, loadMore, pa
 
             {isLoading &&
                 page > 1 &&
-                Array(4).fill(0).map((_, i) => (
-                    <motion.div key={`loading-${i}`} variants={itemVariants}>
-                        <Skeleton className="h-[180px] w-full rounded-xl" />
-                    </motion.div>
-                ))}
+                Array(4)
+                    .fill(0)
+                    .map((_, i) => (
+                        <motion.div key={`loading-${i}`} variants={itemVariants}>
+                            <Skeleton className="h-[180px] w-full rounded-xl" />
+                        </motion.div>
+                    ))}
         </motion.div>
     )
-}
+})
+
+export default ResultsGrid

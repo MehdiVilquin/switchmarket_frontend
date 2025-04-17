@@ -78,10 +78,6 @@ export default function HeroSection() {
                             {isSearching ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : "Search"}
                         </Button>
                     </div>
-                    <div className="border-t px-4 py-3 flex items-center text-sm text-gray-500 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
-                        <Filter className="h-4 w-4 mr-2 text-emerald-500" />
-                        <span className="font-medium">Advanced Filters</span>
-                    </div>
                 </motion.form>
             </div>
         </section>
