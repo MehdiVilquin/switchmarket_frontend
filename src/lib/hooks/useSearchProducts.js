@@ -90,7 +90,7 @@ export default function useSearchProducts(searchQuery = "", filterParams = {}) {
                 chemicalPercentage: p.chemicalPercentage || 0,
                 effects: p.effects || [],
                 OBFProductId: p.OBFProductId || null,
-                image: "/placeholder.svg?height=200&width=200",
+                image: "/placeholder.png?height=200&width=200",
               }
 
               // Fetch image from OBF if EAN is present

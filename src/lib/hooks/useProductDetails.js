@@ -65,18 +65,18 @@ const useProductDetails = (productId) => {
                         if (fallback) {
                             try {
                                 const check = await fetch(fallback, { method: "HEAD" })
-                                setImageUrl(check.ok ? fallback : "/placeholder.svg?text=Product+Image")
+                                setImageUrl(check.ok ? fallback : "/placeholder.png?text=Product+Image")
                             } catch {
-                                setImageUrl("/placeholder.svg?text=Product+Image")
+                                setImageUrl("/placeholder.png?text=Product+Image")
                             }
                         }
                     }
                 } else {
-                    setImageUrl("/placeholder.svg?text=Product+Image")
+                    setImageUrl("/placeholder.png?text=Product+Image")
                 }
             } catch (err) {
                 setError(err.message)
-                setImageUrl("/placeholder.svg?text=Product+Image")
+                setImageUrl("/placeholder.png?text=Product+Image")
             } finally {
                 setIsLoading(false)
             }
