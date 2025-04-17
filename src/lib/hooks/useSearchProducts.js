@@ -1,185 +1,188 @@
 "use client"
 import { useState, useRef, useEffect, useCallback } from "react"
+import { fetchOBFData, getBestOBFImage } from "@/lib/openBeautyFacts"
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
 const PRODUCTS_PER_PAGE = 12
-const MAX_RETRIES = 3
-const RETRY_DELAY = 1000
+
+// Simple in-memory cache to avoid redundant fetches
+const obfImageCache = new Map()
 
 /**
- * Hook personnalisé pour charger et gérer les produits de recherche
- * @param {Object} searchParams - Paramètres de recherche pour l'API
- * @returns {Object} - État et fonctions pour gérer les produits
+ * Hook for searching and filtering products
+ * @param {string} searchQuery - Text search query
+ * @param {Object} filterParams - Additional filter parameters
+ * @returns {Object} - State and functions to manage products
  */
-export default function useSearchProducts(searchParams = {}) {
-    const [products, setProducts] = useState([])
-    const [page, setPage] = useState(1)
-    const [isLoading, setIsLoading] = useState(false)
-    const [hasMore, setHasMore] = useState(true)
-    const [error, setError] = useState(null)
-    const [retryCount, setRetryCount] = useState(0)
+export default function useSearchProducts(searchQuery = "", filterParams = {}) {
+  const [products, setProducts] = useState([])
+  const [page, setPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+  const [error, setError] = useState(null)
 
-    // Références pour suivre les pages chargées et les paramètres actuels
-    const loadedPagesRef = useRef(new Set())
-    const currentParamsRef = useRef(JSON.stringify(searchParams))
-    const abortControllerRef = useRef(null)
-    const isMountedRef = useRef(true)
+  const loadedPagesRef = useRef(new Set())
+  const abortControllerRef = useRef(null)
+  const isMountedRef = useRef(true)
 
-    // Fonction pour charger les produits
-    const loadProducts = useCallback(
-        async (pageNum = 1, params = searchParams) => {
-            if (isLoading) return
+  const allParams = useRef({
+    ...(searchQuery ? { all: searchQuery } : {}),
+    ...filterParams,
+  })
 
-            // Annuler toute requête précédente
-            if (abortControllerRef.current) {
-                abortControllerRef.current.abort()
-            }
+  const loadProducts = useCallback(
+    async (pageNum = 1, params = allParams.current) => {
+      if (isLoading) return
 
-            // Créer un nouveau contrôleur d'abandon
-            abortControllerRef.current = new AbortController()
-            const signal = abortControllerRef.current.signal
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
 
-            // Créer une clé unique pour cette combinaison de page et paramètres
-            const paramsKey = JSON.stringify(params)
-            const pageKey = `${paramsKey}-${pageNum}`
+      abortControllerRef.current = new AbortController()
+      const signal = abortControllerRef.current.signal
 
-            if (loadedPagesRef.current.has(pageKey)) return
+      const paramsKey = JSON.stringify(params)
+      const pageKey = `${paramsKey}-${pageNum}`
 
-            setIsLoading(true)
-            setError(null)
+      if (loadedPagesRef.current.has(pageKey)) return
 
-            try {
-                // Construire l'URL avec tous les paramètres de recherche
-                // Filtrer les paramètres undefined ou null
-                const cleanParams = Object.fromEntries(Object.entries(params).filter(([_, v]) => v != null && v !== undefined))
+      setIsLoading(true)
+      setError(null)
 
-                const queryParams = new URLSearchParams({
-                    page: pageNum,
-                    limit: PRODUCTS_PER_PAGE,
-                    ...cleanParams,
-                })
+      try {
+        const cleanParams = Object.fromEntries(
+          Object.entries(params).filter(([_, v]) => v != null && v !== "")
+        )
 
-                // Si aucun paramètre n'est fourni, charger des produits aléatoires
-                const endpoint =
-                    Object.keys(cleanParams).length === 0
-                        ? `${API_URL}/products/random/${PRODUCTS_PER_PAGE}`
-                        : `${API_URL}/products?${queryParams.toString()}`
+        const queryParams = new URLSearchParams({
+          page: pageNum,
+          limit: PRODUCTS_PER_PAGE,
+          ...cleanParams,
+        })
 
-                const response = await fetch(endpoint, { signal })
+        const endpoint =
+          Object.keys(cleanParams).length === 0
+            ? `${API_URL}/products/random/${PRODUCTS_PER_PAGE}`
+            : `${API_URL}/products?${queryParams.toString()}`
 
-                if (!response.ok) {
-                    throw new Error(`API error: ${response.status}`)
-                }
+        console.log("Fetching products from:", endpoint)
 
-                const data = await response.json()
-
-                if (!isMountedRef.current) return
-
-                if (data.result && data.products?.length) {
-                    // Assurer que chaque produit a un ID unique
-                    const processed = data.products.map((p) => ({
-                        id: p._id || `product-${Math.random().toString(36).substr(2, 9)}`,
-                        name: p.product_name || "Produit sans nom",
-                        brands: p.brands || "Marque inconnue",
-                        score: p.completion_score || 0,
-                        ingredients: p.ingredients || [],
-                        additives: p.additives || [],
-                        labeltags: p.labeltags || [],
-                        naturalPercentage: p.naturalPercentage || 0,
-                        chemicalPercentage: p.chemicalPercentage || 0,
-                        effects: p.effects || [],
-                        image: p.image || "/placeholder.svg?height=200&width=200",
-                    }))
-
-                    setProducts((prev) => {
-                        // Si les paramètres ont changé ou c'est la première page, remplacer les produits
-                        if (paramsKey !== currentParamsRef.current || pageNum === 1) {
-                            return processed
-                        }
-                        // Sinon, ajouter à la liste existante en évitant les doublons
-                        const existingIds = new Set(prev.map((p) => p.id))
-                        const newProducts = processed.filter((p) => !existingIds.has(p.id))
-                        return [...prev, ...newProducts]
-                    })
-
-                    setHasMore(data.pagination ? pageNum < data.pagination.pages : data.products.length >= PRODUCTS_PER_PAGE)
-                    loadedPagesRef.current.add(pageKey)
-                    setRetryCount(0)
-
-                    // Mettre à jour les paramètres courants
-                    if (paramsKey !== currentParamsRef.current) {
-                        currentParamsRef.current = paramsKey
-                        loadedPagesRef.current.clear()
-                        loadedPagesRef.current.add(pageKey)
-                    }
-                } else {
-                    if (pageNum === 1 || paramsKey !== currentParamsRef.current) {
-                        setProducts([])
-                        currentParamsRef.current = paramsKey
-                    }
-                    setHasMore(false)
-                }
-            } catch (err) {
-                // Ne pas traiter les erreurs d'abandon
-                if (err.name === "AbortError") return
-                if (!isMountedRef.current) return
-
-                console.error("Error loading products:", err)
-                if (retryCount < MAX_RETRIES) {
-                    setRetryCount((prev) => prev + 1)
-                    setTimeout(() => loadProducts(pageNum, params), RETRY_DELAY)
-                } else {
-                    setError(err.message || "Erreur lors du chargement des produits")
-                }
-            } finally {
-                if (isMountedRef.current && !signal.aborted) {
-                    setIsLoading(false)
-                }
-            }
-        },
-        [isLoading, retryCount, searchParams],
-    )
-
-    // Fonction pour réinitialiser la recherche
-    const resetSearch = useCallback(() => {
-        setProducts([])
-        setPage(1)
-        setHasMore(true)
-        setRetryCount(0)
-        loadedPagesRef.current.clear()
-    }, [])
-
-    // Charger les produits quand les paramètres de recherche changent
-    useEffect(() => {
-        const paramsKey = JSON.stringify(searchParams)
-        if (paramsKey !== currentParamsRef.current) {
-            resetSearch()
-            loadProducts(1, searchParams)
+        const response = await fetch(endpoint, { signal })
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`)
         }
-    }, [searchParams, resetSearch, loadProducts])
 
-    // Charger les produits initiaux - même sans paramètres de recherche
-    useEffect(() => {
-        isMountedRef.current = true
-        loadProducts(1, searchParams)
+        const data = await response.json()
+        if (!isMountedRef.current) return
 
-        // Nettoyer les requêtes en cours lors du démontage
-        return () => {
-            isMountedRef.current = false
-            if (abortControllerRef.current) {
-                abortControllerRef.current.abort()
-            }
+        if (data.result && data.products?.length) {
+          const processed = await Promise.all(
+            data.products.map(async (p) => {
+              const base = {
+                id: p._id || `product-${Math.random().toString(36).substr(2, 9)}`,
+                name: p.product_name || "Unnamed Product",
+                brands: p.brands || "Unknown Brand",
+                score: p.completion_score || 0,
+                ingredients: p.ingredients || [],
+                additives: p.additives || [],
+                labeltags: p.labeltags || [],
+                naturalPercentage: p.naturalPercentage || 0,
+                chemicalPercentage: p.chemicalPercentage || 0,
+                effects: p.effects || [],
+                OBFProductId: p.OBFProductId || null,
+                image: "/placeholder.svg?height=200&width=200",
+              }
+
+              // Fetch image from OBF if EAN is present
+              if (p.OBFProductId) {
+                if (obfImageCache.has(p.OBFProductId)) {
+                  base.image = obfImageCache.get(p.OBFProductId)
+                } else {
+                  const obfData = await fetchOBFData(p.OBFProductId)
+                  const imageUrl = getBestOBFImage(obfData)
+                  if (imageUrl) {
+                    base.image = imageUrl
+                    obfImageCache.set(p.OBFProductId, imageUrl)
+                  }
+                }
+              }
+
+              return base
+            })
+          )
+
+          setProducts((prev) => {
+            if (pageNum === 1) return processed
+            const existingIds = new Set(prev.map((p) => p.id))
+            const newProducts = processed.filter((p) => !existingIds.has(p.id))
+            return [...prev, ...newProducts]
+          })
+
+          setHasMore(data.pagination ? pageNum < data.pagination.pages : data.products.length >= PRODUCTS_PER_PAGE)
+          loadedPagesRef.current.add(pageKey)
+        } else {
+          if (pageNum === 1) {
+            setProducts([])
+          }
+          setHasMore(false)
         }
-    }, [])
+      } catch (err) {
+        if (err.name === "AbortError") return
+        if (!isMountedRef.current) return
+        console.error("Error loading products:", err)
+        setError(err.message || "Error loading products")
+      } finally {
+        if (isMountedRef.current && !signal.aborted) {
+          setIsLoading(false)
+        }
+      }
+    },
+    [isLoading]
+  )
 
-    return {
-        products,
-        isLoading,
-        hasMore,
-        error,
-        page,
-        setPage,
-        loadProducts,
-        resetSearch,
+  const resetSearch = useCallback(() => {
+    setProducts([])
+    setPage(1)
+    setHasMore(true)
+    loadedPagesRef.current.clear()
+  }, [])
+
+  useEffect(() => {
+    const newParams = {
+      ...(searchQuery ? { all: searchQuery } : {}),
+      ...filterParams,
     }
+
+    const newParamsKey = JSON.stringify(newParams)
+    const currentParamsKey = JSON.stringify(allParams.current)
+
+    if (newParamsKey !== currentParamsKey) {
+      allParams.current = newParams
+      resetSearch()
+      loadProducts(1, newParams)
+    }
+  }, [searchQuery, filterParams, resetSearch, loadProducts])
+
+  useEffect(() => {
+    isMountedRef.current = true
+    loadProducts(1, allParams.current)
+
+    return () => {
+      isMountedRef.current = false
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
+    }
+  }, [])
+
+  return {
+    products,
+    isLoading,
+    hasMore,
+    error,
+    page,
+    setPage,
+    loadProducts,
+    resetSearch,
+  }
 }

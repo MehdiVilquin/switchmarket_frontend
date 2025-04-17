@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Input } from "@/components/ui/input"
-import { X } from "lucide-react"
+import { X, Search } from "lucide-react"
 
 export default function SearchHeader() {
     const searchParams = useSearchParams()
@@ -34,14 +34,18 @@ export default function SearchHeader() {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white py-6 px-4 md:px-8 border-b">
+        <form onSubmit={handleSubmit} className="bg-white py-6 px-4 md:px-8 border-b sticky top-0 z-10">
             <div className="max-w-4xl mx-auto flex items-center gap-2">
-                <Input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Rechercher un produit..."
-                />
+                <div className="relative flex-1">
+                    <Input
+                        type="text"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder="Rechercher un produit..."
+                        className="pl-10"
+                    />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                </div>
                 {query && (
                     <button
                         type="button"
@@ -52,10 +56,7 @@ export default function SearchHeader() {
                         Vider
                     </button>
                 )}
-                <button
-                    type="submit"
-                    className="ml-auto bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600"
-                >
+                <button type="submit" className="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600">
                     Rechercher
                 </button>
             </div>

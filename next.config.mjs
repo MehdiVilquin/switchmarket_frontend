@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    
-};
-
-export default nextConfig;
+    images: {
+      domains: ["images.openbeautyfacts.org"],
+    },
+  }
+  
+  export default nextConfig
