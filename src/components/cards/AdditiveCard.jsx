@@ -1,35 +1,37 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronRight } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 
 export default function AdditiveCard({
   shortName,
   name,
   function: functionName,
   note,
+  allergy = false,
 }) {
   return (
-    <Card className="group bg-white hover:shadow-2xl transition-all duration-300 h-full border border-gray-100 rounded-xl overflow-hidden">
-      <CardContent className="p-6 flex flex-col h-full relative">
-        <div className="absolute top-4 right-4 bg-black/5 p-2 rounded-full text-black/70 transform group-hover:translate-x-1 transition-transform">
-          <ChevronRight className="h-4 w-4" />
-        </div>
+    <Card className="group bg-white hover:bg-gray-50/50 transition-all duration-300 h-full border border-gray-100 rounded-xl overflow-hidden">
+      <CardContent className="p-8 flex flex-col h-full">
+        {allergy && (
+          <div className="mb-6">
+            <div className="inline-flex items-center gap-1.5 bg-red-50 text-red-600 px-2.5 py-1 rounded-md text-sm font-medium">
+              <AlertCircle className="h-4 w-4" />
+              Allergène
+            </div>
+          </div>
+        )}
 
         <div className="space-y-4">
-          <div>
-            <h2 className="text-2xl font-medium text-black mb-1 tracking-tight">
+          <div className="space-y-1">
+            <h3 className="text-4xl font-medium text-black tracking-tight">
               {shortName}
-            </h2>
-            <p className="text-[#3D3F3D] text-base">{name}</p>
+            </h3>
+            <p className="text-xl text-[#3D3F3D]/70">{name}</p>
           </div>
 
-          <div className="bg-emerald-50 rounded-lg px-3 py-2">
-            <p className="text-sm font-medium text-emerald-800">
-              {functionName}
-            </p>
-          </div>
+          <p className="text-lg text-[#3D3F3D] line-clamp-1">{functionName}</p>
 
           {note && (
-            <div className="text-sm text-[#3D3F3D]/80 leading-relaxed">
+            <div className="text-base text-[#3D3F3D]/60 line-clamp-1">
               {note}
             </div>
           )}

@@ -26,7 +26,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative pt-16 pb-24 px-4 md:px-8 h-200 flex items-center justify-center overflow-hidden">
+    <section className="relative pt-16 pb-24 px-4 md:px-8 h-screen flex items-center justify-center overflow-hidden">
       <div
         className="absolute inset-0"
         style={{

@@ -46,7 +46,7 @@ export default function FeaturesSection() {
           {features.map((f, i) => (
             <motion.div
               key={i}
-              className="bg-[#F3F4F2] px-8 py-6 pb-16"
+              className="bg-white px-8 py-6 pb-16"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 * i }}
