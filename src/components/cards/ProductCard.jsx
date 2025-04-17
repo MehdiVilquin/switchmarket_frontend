@@ -13,8 +13,8 @@ export default function ProductCard({
 }) {
   // Calculate health score color
   const getScoreColor = (score) => {
-    if (score >= 80) return "bg-green-500";
-    if (score >= 60) return "bg-green-400";
+    if (score >= 80) return "bg-emerald-500";
+    if (score >= 60) return "bg-emerald-400";
     if (score >= 40) return "bg-yellow-400";
     if (score >= 20) return "bg-orange-400";
     return "bg-red-500";
@@ -34,7 +34,7 @@ export default function ProductCard({
               <Badge
                 key={index}
                 variant="secondary"
-                className="text-xs bg-gray-100 text-gray-700"
+                className="text-sm bg-gray-100 text-[#3D3F3D] px-3 py-1 rounded-full"
               >
                 {tag}
               </Badge>
@@ -61,7 +61,7 @@ export default function ProductCard({
                 <div
                   className={`absolute top-0 right-0 ${getScoreColor(
                     displayScore
-                  )} text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md`}
+                  )} text-white text-sm font-medium px-3 py-1 rounded-full`}
                 >
                   {displayScore}
                 </div>
@@ -69,35 +69,43 @@ export default function ProductCard({
             </div>
 
             {/* Product Info */}
-            <div className="flex flex-col gap-2">
-              <div className="text-sm text-gray-500">{brands}</div>
-              <h2 className="font-semibold text-gray-900 line-clamp-2">
+            <div className="flex flex-col gap-3">
+              <div className="text-base text-[#3D3F3D]">{brands}</div>
+              <h2 className="text-2xl font-medium text-black leading-tight tracking-tight line-clamp-2">
                 {name}
               </h2>
 
               {/* Composition Bars */}
-              <div className="space-y-3 mt-2">
-                <div className="flex flex-col gap-1">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-green-700 font-medium">Natural</span>
-                    <span className="text-gray-600">{naturalPercentage}%</span>
+              <div className="space-y-4 mt-2">
+                <div className="flex flex-col gap-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-base font-medium text-[#3D3F3D]">
+                      Natural
+                    </span>
+                    <span className="text-base text-[#3D3F3D]">
+                      {naturalPercentage}%
+                    </span>
                   </div>
-                  <div className="w-full bg-gray-100 rounded-full h-1.5">
+                  <div className="w-full bg-gray-100 rounded-full h-2">
                     <div
-                      className="bg-green-500 h-1.5 rounded-full transition-all duration-300"
+                      className="bg-emerald-500 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${naturalPercentage}%` }}
                     />
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-1">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-red-700 font-medium">Chemical</span>
-                    <span className="text-gray-600">{chemicalPercentage}%</span>
+                <div className="flex flex-col gap-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-base font-medium text-[#3D3F3D]">
+                      Chemical
+                    </span>
+                    <span className="text-base text-[#3D3F3D]">
+                      {chemicalPercentage}%
+                    </span>
                   </div>
-                  <div className="w-full bg-gray-100 rounded-full h-1.5">
+                  <div className="w-full bg-gray-100 rounded-full h-2">
                     <div
-                      className="bg-red-500 h-1.5 rounded-full transition-all duration-300"
+                      className="bg-red-500 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${chemicalPercentage}%` }}
                     />
                   </div>

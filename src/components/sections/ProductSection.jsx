@@ -25,33 +25,28 @@ const itemVariants = {
 
 export default function ProductSection({ products, isLoading }) {
   return (
-    <section className="py-16 px-4 md:px-8 bg-gray-50">
+    <section className="py-32 px-4 md:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         <motion.div
-          className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10"
+          className="flex flex-col items-center text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div>
-            <Badge className="mb-2 px-3 py-1 bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition-colors">
-              Featured Products
-            </Badge>
-            <div className="flex items-center">
-              <Sparkles className="h-7 w-7 text-emerald-500 mr-3" />
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-                Discover Products
-              </h2>
-            </div>
-          </div>
-          <p className="text-gray-600 text-lg max-w-md">
+          <Badge className="mb-4 px-3 py-1 bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition-colors">
+            Featured Products
+          </Badge>
+          <h2 className="text-5xl md:text-[80px] font-medium text-black leading-tight tracking-tight md:leading-[1.35] -tracking-[0.02em] mb-5 max-w-4xl">
+            Discover our best products
+          </h2>
+          <p className="text-xl md:text-3xl text-[#3D3F3D] leading-[1.35] max-w-4xl">
             Explore high-scoring cosmetics based on real data and ethical
             standards.
           </p>
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
           initial="hidden"
           animate="show"
@@ -80,10 +75,10 @@ export default function ProductSection({ products, isLoading }) {
               ))}
         </motion.div>
 
-        <div className="flex justify-center mt-12">
+        <div className="flex justify-center mt-16">
           <Button
             variant="outline"
-            className="text-emerald-600 border-emerald-200 hover:bg-emerald-50 rounded-full px-6 group"
+            className="bg-black hover:bg-gray-900 text-white rounded-lg px-8 h-12 text-base group"
           >
             Explore more products
             <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
