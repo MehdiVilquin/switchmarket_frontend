@@ -43,7 +43,7 @@ const ResultsGrid = memo(function ResultsGrid({ products, isLoading, hasMore, lo
 
     return (
         <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+            className="grid gap-6 auto-rows-auto grid-cols-[repeat(auto-fit,_minmax(280px,_1fr))]"
             variants={containerVariants}
             initial="hidden"
             animate="show"
@@ -55,7 +55,7 @@ const ResultsGrid = memo(function ResultsGrid({ products, isLoading, hasMore, lo
                         variants={itemVariants}
                         whileHover={{ y: -5, transition: { duration: 0.2 } }}
                     >
-                        <Link href={`/product/${product.id}`} className="block h-full">
+                        <Link href={`/product/${product.id}`} className="block">
                             <ProductCard {...product} />
                         </Link>
                     </motion.div>

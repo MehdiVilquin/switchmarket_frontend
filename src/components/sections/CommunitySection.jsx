@@ -39,7 +39,7 @@ export default function CommunitySection() {
                             </motion.div>
                         </div>
                         <div className="hidden md:block relative">
-                            <div className="absolute inset-0 bg-[url('/placeholder.svg?height=600&width=600')] bg-center bg-cover opacity-20"></div>
+                            <div className="absolute inset-0 bg-[url('/placeholder.png?height=600&width=600')] bg-center bg-cover opacity-20"></div>
                             <div className="absolute inset-0 bg-gradient-to-l from-transparent to-emerald-500/90"></div>
                             <div className="absolute bottom-12 left-12 flex items-center">
                                 <div className="bg-white/20 backdrop-blur-md rounded-xl p-4 flex items-center">

@@ -27,7 +27,7 @@ export default function HeroSection() {
 
     return (
         <section className="relative bg-gradient-to-b from-emerald-50 to-white pt-16 pb-24 px-4 md:px-8 overflow-hidden">
-            <div className="absolute inset-0 bg-[url('/placeholder.svg?height=800&width=1600')] opacity-5 bg-center bg-no-repeat bg-cover"></div>
+            <div className="absolute inset-0 bg-[url('/placeholder.png?height=800&width=1600')] opacity-5 bg-center bg-no-repeat bg-cover"></div>
             <div className="max-w-7xl mx-auto relative z-10">
                 <motion.div
                     className="max-w-3xl mx-auto text-center mb-12"

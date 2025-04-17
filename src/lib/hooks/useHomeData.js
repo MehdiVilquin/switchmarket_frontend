@@ -23,7 +23,7 @@ export default function useHomeData() {
         if (productsData.result && productsData.products) {
           const processedProducts = await Promise.all(
             productsData.products.map(async (p) => {
-              let image = "/placeholder.svg"
+              let image = "/placeholder.png"
               if (p.OBFProductId) {
                 try {
                   const obf = await fetchOBFData(p.OBFProductId)

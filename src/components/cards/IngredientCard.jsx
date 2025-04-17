@@ -34,7 +34,7 @@ export default function IngredientCard({ name, description, imageUrl }) {
                     style={{ backgroundColor: bgColor }}
                 >
                     <Image
-                        src={imageUrl || "/placeholder.svg"}
+                        src={imageUrl || "/placeholder.png"}
                         alt={name}
                         width={80}
                         height={80}
