@@ -21,51 +21,66 @@ export default function FilterSidebar({ onFiltersChange }) {
     const [selectedLabels, setSelectedLabels] = useState([])
     const [selectedCategories, setSelectedCategories] = useState([])
 
-    // Popular brands (could be fetched from API)
-    const popularBrands = [
-        "Nestlé",
-        "Danone",
-        "Unilever",
-        "Mondelez",
-        "Kellogg's",
-        "Coca-Cola",
-        "PepsiCo",
-        "Mars",
-        "Ferrero",
-        "General Mills",
-    ]
+    // Replace the hardcoded popularBrands array and add a state for brands
+    const [brands, setBrands] = useState([])
 
     // Fetch labels and categories on mount
     useEffect(() => {
-        const fetchLabels = async () => {
+        const fetchFiltersData = async () => {
             setIsLoading(true)
             setError(null)
 
             try {
                 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
-                const response = await fetch(`${API_URL}/labels`)
 
-                if (!response.ok) {
-                    throw new Error(`API error: ${response.status}`)
+                // Fetch labels
+                const labelsResponse = await fetch(`${API_URL}/labels`)
+                if (!labelsResponse.ok) {
+                    throw new Error(`API error: ${labelsResponse.status}`)
+                }
+                const labelsData = await labelsResponse.json()
+
+                if (labelsData.result) {
+                    setLabels(labelsData.labels || {})
+                    setCategories(labelsData.categories || {})
                 }
 
-                const data = await response.json()
-
-                if (data.result) {
-                    setLabels(data.labels || {})
-                    setCategories(data.categories || {})
+                // Fetch unique brands from products
+                const brandsResponse = await fetch(`${API_URL}/products/brands`)
+                if (brandsResponse.ok) {
+                    const brandsData = await brandsResponse.json()
+                    if (brandsData.result) {
+                        setBrands(brandsData.brands || [])
+                    }
                 } else {
-                    throw new Error("Failed to fetch labels")
+                    // If the brands endpoint doesn't exist, fetch some products and extract brands
+                    const productsResponse = await fetch(`${API_URL}/products/random/50`)
+                    if (productsResponse.ok) {
+                        const productsData = await productsResponse.json()
+                        if (productsData.result && productsData.products) {
+                            // Extract unique brands from products
+                            const uniqueBrands = [
+                                ...new Set(
+                                    productsData.products
+                                        .map((p) => p.brands)
+                                        .filter(Boolean)
+                                        .flatMap((brand) => brand.split(",").map((b) => b.trim()))
+                                        .filter((b) => b.length > 0),
+                                ),
+                            ]
+                            setBrands(uniqueBrands)
+                        }
+                    }
                 }
             } catch (err) {
-                console.error("Error fetching labels:", err)
+                console.error("Error fetching filters data:", err)
                 setError(err.message || "Error loading filters")
             } finally {
                 setIsLoading(false)
             }
         }
 
-        fetchLabels()
+        fetchFiltersData()
     }, [])
 
     // Initialize filters from URL params
@@ -207,16 +222,20 @@ export default function FilterSidebar({ onFiltersChange }) {
                             <AccordionTrigger className="text-base">Brands</AccordionTrigger>
                             <AccordionContent>
                                 <div className="grid gap-2 max-h-60 overflow-y-auto pr-2">
-                                    {popularBrands.map((brand) => (
-                                        <Label key={brand} className="flex items-center gap-2 font-normal cursor-pointer">
-                                            <Checkbox
-                                                id={`brand-${brand}`}
-                                                checked={selectedBrands.includes(brand)}
-                                                onCheckedChange={() => toggleBrand(brand)}
-                                            />
-                                            {brand}
-                                        </Label>
-                                    ))}
+                                    {brands.length > 0 ? (
+                                        brands.map((brand) => (
+                                            <Label key={brand} className="flex items-center gap-2 font-normal cursor-pointer">
+                                                <Checkbox
+                                                    id={`brand-${brand}`}
+                                                    checked={selectedBrands.includes(brand)}
+                                                    onCheckedChange={() => toggleBrand(brand)}
+                                                />
+                                                {brand}
+                                            </Label>
+                                        ))
+                                    ) : (
+                                        <div className="text-sm text-gray-500 py-2">No brands available</div>
+                                    )}
                                 </div>
                             </AccordionContent>
                         </AccordionItem>
