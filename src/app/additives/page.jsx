@@ -4,19 +4,60 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import BigAdditiveCard from "@/components/cards/BigAdditiveCard";
 import { Skeleton } from "@/components/ui/skeleton";
-import useInfiniteScroll from "@/lib/hooks/useInfiniteScroll";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+const ITEMS_PER_BATCH = 6;
 
 export default function AdditivesPage() {
   const [additives, setAdditives] = useState([]);
-  const { isLoading } = useInfiniteScroll(fetchAdditives);
+  const [filteredAdditives, setFilteredAdditives] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [displayCount, setDisplayCount] = useState(ITEMS_PER_BATCH);
 
-  async function fetchAdditives(pageNumber) {
+  // Filter states
+  const [allergyFilter, setAllergyFilter] = useState("all");
+  const [originFilter, setOriginFilter] = useState("all");
+  const [noteFilter, setNoteFilter] = useState("all");
+
+  // Unique values for filters
+  const [origins, setOrigins] = useState(new Set());
+  const [notes, setNotes] = useState(new Set());
+
+  useEffect(() => {
+    fetchAdditives();
+  }, []);
+
+  useEffect(() => {
+    // Apply filters
+    let result = [...additives];
+
+    if (allergyFilter !== "all") {
+      result = result.filter((item) => item.possibleAllergy === allergyFilter);
+    }
+
+    if (originFilter !== "all") {
+      result = result.filter((item) => item.origin === originFilter);
+    }
+
+    if (noteFilter !== "all") {
+      result = result.filter((item) => item.note === noteFilter);
+    }
+
+    setFilteredAdditives(result);
+    setDisplayCount(ITEMS_PER_BATCH); // Reset display count when filters change
+  }, [additives, allergyFilter, originFilter, noteFilter]);
+
+  async function fetchAdditives() {
     try {
-      const res = await fetch(
-        `${API_URL}/additives?page=${pageNumber}&limit=8`
-      );
+      const res = await fetch(`${API_URL}/additives`);
       const data = await res.json();
 
       if (data.result && data.additives) {
@@ -35,19 +76,30 @@ export default function AdditivesPage() {
           note: a.note,
         }));
 
-        if (pageNumber === 1) {
-          setAdditives(processedAdditives);
-        } else {
-          setAdditives((prev) => [...prev, ...processedAdditives]);
-        }
-        return processedAdditives.length > 0;
+        // Extract unique values for filters
+        const uniqueOrigins = new Set(processedAdditives.map((a) => a.origin));
+        const uniqueNotes = new Set(
+          processedAdditives.filter((a) => a.note).map((a) => a.note)
+        );
+
+        setOrigins(uniqueOrigins);
+        setNotes(uniqueNotes);
+        setAdditives(processedAdditives);
+        setFilteredAdditives(processedAdditives);
       }
-      return false;
     } catch (error) {
       console.error("Error fetching additives:", error);
-      return false;
+    } finally {
+      setIsLoading(false);
     }
   }
+
+  const loadMore = () => {
+    setDisplayCount((prev) => prev + ITEMS_PER_BATCH);
+  };
+
+  const displayedAdditives = filteredAdditives.slice(0, displayCount);
+  const hasMore = displayCount < filteredAdditives.length;
 
   return (
     <main className="min-h-screen py-16 px-4 md:px-8 bg-gray-50">
@@ -64,25 +116,99 @@ export default function AdditivesPage() {
           </p>
         </div>
 
-        {/* Grid of Additives */}
-        <div className="space-y-6">
-          {additives.map((additive, index) => (
-            <motion.div
-              key={additive.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <BigAdditiveCard {...additive} />
-            </motion.div>
-          ))}
+        {/* Filters */}
+        <div className="flex flex-wrap gap-4 mb-8 items-center justify-center">
+          <Select value={allergyFilter} onValueChange={setAllergyFilter}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter by Allergy" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Allergies</SelectItem>
+              <SelectItem value="Yes">With Allergy</SelectItem>
+              <SelectItem value="No">No Allergy</SelectItem>
+            </SelectContent>
+          </Select>
 
-          {/* Loading States */}
-          {isLoading && (
-            <div className="space-y-6">
-              {[1, 2].map((i) => (
-                <Skeleton key={i} className="h-[300px] w-full rounded-xl" />
+          <Select value={originFilter} onValueChange={setOriginFilter}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter by Origin" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Origins</SelectItem>
+              {Array.from(origins).map((origin) => (
+                <SelectItem key={origin} value={origin}>
+                  {origin}
+                </SelectItem>
               ))}
+            </SelectContent>
+          </Select>
+
+          {notes.size > 0 && (
+            <Select value={noteFilter} onValueChange={setNoteFilter}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Filter by Note" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Notes</SelectItem>
+                {Array.from(notes).map((note) => (
+                  <SelectItem key={note} value={note}>
+                    {note}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+
+          {/* Reset Filters Button */}
+          <Button
+            variant="outline"
+            onClick={() => {
+              setAllergyFilter("all");
+              setOriginFilter("all");
+              setNoteFilter("all");
+            }}
+            className="bg-white"
+          >
+            Reset Filters
+          </Button>
+        </div>
+
+        {/* Grid of Additives */}
+        <div className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {!isLoading &&
+              displayedAdditives.map((additive, index) => (
+                <motion.div
+                  key={additive.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <BigAdditiveCard {...additive} />
+                </motion.div>
+              ))}
+
+            {/* Loading States */}
+            {isLoading && (
+              <>
+                {[1, 2, 3, 4].map((i) => (
+                  <Skeleton key={i} className="h-[300px] w-full rounded-xl" />
+                ))}
+              </>
+            )}
+          </div>
+
+          {/* Load More Button */}
+          {!isLoading && hasMore && (
+            <div className="flex justify-center mt-8">
+              <Button
+                onClick={loadMore}
+                variant="outline"
+                size="lg"
+                className="bg-white hover:bg-gray-50"
+              >
+                Load More Additives
+              </Button>
             </div>
           )}
         </div>
