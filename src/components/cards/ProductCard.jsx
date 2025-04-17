@@ -1,150 +1,80 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Info, AlertCircle, Database } from "lucide-react"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import Image from "next/image"
 
-export default function ProductCard({ name, brand, score, ingredients = [], additives = [] }) {
-    // Calculate transparency score based on available data
-    const getTransparencyLevel = () => {
-        if (!ingredients.length && !additives.length) return "low"
-        if (ingredients.length > 10 || additives.length > 3) return "high"
-        return "medium"
+export default function ProductCard({
+    name,
+    brands,
+    score,
+    naturalPercentage,
+    chemicalPercentage,
+    labeltags = [],
+    image = "/placeholder.svg?height=200&width=200",
+}) {
+    // Calculate health score color
+    const getScoreColor = (score) => {
+        if (score >= 80) return "bg-green-500"
+        if (score >= 60) return "bg-green-400"
+        if (score >= 40) return "bg-yellow-400"
+        if (score >= 20) return "bg-orange-400"
+        return "bg-red-500"
     }
 
-    const transparencyLevel = getTransparencyLevel()
-
-    // Get appropriate styling based on transparency level
-    const getTransparencyStyles = () => {
-        switch (transparencyLevel) {
-            case "high":
-                return {
-                    bgColor: "bg-blue-100",
-                    textColor: "text-blue-800",
-                    icon: <Info className="h-4 w-4" />,
-                    label: "Detailed info",
-                }
-            case "medium":
-                return {
-                    bgColor: "bg-amber-100",
-                    textColor: "text-amber-800",
-                    icon: <AlertCircle className="h-4 w-4" />,
-                    label: "Basic info",
-                }
-            case "low":
-            default:
-                return {
-                    bgColor: "bg-gray-100",
-                    textColor: "text-gray-600",
-                    icon: <AlertCircle className="h-4 w-4" />,
-                    label: "Limited info",
-                }
-        }
-    }
-
-    const transparencyStyles = getTransparencyStyles()
-
-    // Calculate completion percentage from string
-    const completionPercentage = Number.parseFloat(score) || 0
+    // Format score for display
+    const formattedScore = typeof score === "string" ? Number.parseInt(score, 10) : score
+    const displayScore = isNaN(formattedScore) ? 0 : formattedScore
 
     return (
-        <Card className="bg-white hover:shadow-lg transition-all duration-300 cursor-pointer h-full border border-gray-100 group overflow-hidden">
-            <CardContent className="p-5">
-                <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                        <h3 className="font-medium text-gray-800 group-hover:text-emerald-600 transition-colors line-clamp-2">
-                            {name || "Unnamed product"}
-                        </h3>
-                        <p className="text-xs text-gray-500 mt-1">{brand || "Unknown brand"}</p>
+        <Card className="h-full overflow-hidden hover:shadow-md transition-shadow">
+            <div className="relative pt-[100%]">
+                <Image src={image || "/placeholder.svg"} alt={name} fill className="object-cover" />
 
-                        {/* Transparency indicator */}
-                        <div className="flex items-center mt-3">
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <div
-                                            className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${transparencyStyles.bgColor} ${transparencyStyles.textColor}`}
-                                        >
-                                            {transparencyStyles.icon}
-                                            <span className="ml-1">{transparencyStyles.label}</span>
-                                        </div>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>
-                                            Based on {ingredients.length} ingredients and {additives.length} additives in our database
-                                        </p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                        </div>
+                {/* Score badge */}
+                <div
+                    className={`absolute top-2 right-2 ${getScoreColor(displayScore)} text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm`}
+                >
+                    {displayScore}
+                </div>
+            </div>
+
+            <CardContent className="p-4">
+                <div className="text-sm text-gray-500 mb-1">{brands}</div>
+                <h3 className="font-medium text-gray-900 line-clamp-2">{name}</h3>
+
+                {/* Composition bars */}
+                <div className="mt-3 space-y-1">
+                    <div className="flex items-center justify-between text-xs">
+                        <span className="text-green-600">Natural</span>
+                        <span>{naturalPercentage}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-1.5">
+                        <div className="bg-green-500 h-1.5 rounded-full" style={{ width: `${naturalPercentage}%` }}></div>
                     </div>
 
-                    {/* Data completeness indicator */}
-                    <div className="relative">
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <div className="relative">
-                                        <svg className="w-12 h-12" viewBox="0 0 36 36">
-                                            <circle
-                                                cx="18"
-                                                cy="18"
-                                                r="15.91549430918954"
-                                                fill="transparent"
-                                                stroke="#f3f4f6"
-                                                strokeWidth="3"
-                                            />
-                                            <circle
-                                                cx="18"
-                                                cy="18"
-                                                r="15.91549430918954"
-                                                fill="transparent"
-                                                stroke="#64748b" // Neutral color for data completeness
-                                                strokeWidth="3"
-                                                strokeDasharray={`${completionPercentage}, 100`}
-                                                strokeDashoffset="25"
-                                                className="transition-all duration-1000 ease-out group-hover:stroke-dasharray-[100,100]"
-                                            />
-                                            <text
-                                                x="18"
-                                                y="18.5"
-                                                textAnchor="middle"
-                                                dominantBaseline="middle"
-                                                className="text-xs font-medium"
-                                                fill="#475569" // Slate-600
-                                            >
-                                                {Math.round(completionPercentage)}%
-                                            </text>
-                                        </svg>
-                                        <Database className="h-3 w-3 absolute bottom-0 right-0 text-slate-500" />
-                                    </div>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Data completeness: {Math.round(completionPercentage)}% of product information available</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
+                    <div className="flex items-center justify-between text-xs">
+                        <span className="text-red-600">Chemical</span>
+                        <span>{chemicalPercentage}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-1.5">
+                        <div className="bg-red-500 h-1.5 rounded-full" style={{ width: `${chemicalPercentage}%` }}></div>
                     </div>
                 </div>
-
-                {/* Ingredient count indicator */}
-                {ingredients.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-1">
-                        {ingredients.length > 3 ? (
-                            <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
-                                {ingredients.length} ingredients
-                            </span>
-                        ) : (
-                            ingredients.slice(0, 3).map((ing, idx) => (
-                                <span
-                                    key={idx}
-                                    className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full truncate max-w-[100px]"
-                                >
-                                    {ing.text}
-                                </span>
-                            ))
-                        )}
-                    </div>
-                )}
             </CardContent>
+
+            {labeltags && labeltags.length > 0 && (
+                <CardFooter className="p-4 pt-0 flex flex-wrap gap-1">
+                    {labeltags.slice(0, 3).map((label, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                            {label}
+                        </Badge>
+                    ))}
+                    {labeltags.length > 3 && (
+                        <Badge variant="outline" className="text-xs">
+                            +{labeltags.length - 3}
+                        </Badge>
+                    )}
+                </CardFooter>
+            )}
         </Card>
     )
 }
