@@ -54,7 +54,7 @@ import { Button } from "@/components/ui/button"
 import { Loader2, ChevronLeft } from "lucide-react"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/app/contexts/auth-context"
+import { useAuth } from "@/contexts/auth-context"
 import { ProfileCard } from "@/components/sections/profile/ProfileCard"
 
 export default function ProfilePage() {

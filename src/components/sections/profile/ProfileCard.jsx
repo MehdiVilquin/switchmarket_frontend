@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { toast } from "sonner"
-import { useAuth } from "@/app/contexts/auth-context"
+import { useAuth } from "@/contexts/auth-context"
 import { ProfileHeader } from "./ProfileHeader"
 import { ProfileView } from "./ProfileView"
 import { ProfileEditForm } from "./ProfileEditForm"

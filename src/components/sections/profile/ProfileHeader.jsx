@@ -28,7 +28,7 @@
 import { Button } from "@/components/ui/button"
 import { CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { LogOut } from "lucide-react"
-import { useAuth } from "@/app/contexts/auth-context"
+import { useAuth } from "@/contexts/auth-context"
 import { motion } from "framer-motion"
 
 export function ProfileHeader() {
