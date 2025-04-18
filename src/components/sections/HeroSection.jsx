@@ -33,11 +33,10 @@ export default function HeroSection() {
           backgroundImage: "url('/hero-background.jpg')",
           backgroundPosition: "50% 50%",
           backgroundSize: "cover",
-          opacity: "0.8",
         }}
       ></div>
-      <div className="absolute inset-0 bg-gradient-to-t from-white/60 to-transparent"></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-white/50 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent"></div>
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           className="max-w-3xl mx-auto text-center mb-12"
@@ -48,7 +47,7 @@ export default function HeroSection() {
           <Badge className="mb-4 px-3 py-1.5 bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition-colors">
             Ethical Beauty Choices
           </Badge>
-          <h1 className="text-5xl md:text-[80px] font-medium text-black h-32 leading-tight tracking-tight md:leading-[1.35] -tracking-[0.02em] whitespace-nowrap">
+          <h1 className="text-5xl md:text-[80px] font-medium text-white h-32 leading-tight tracking-tight md:leading-[1.35] -tracking-[0.02em] whitespace-nowrap">
             Beauty begins with truth
           </h1>
 
