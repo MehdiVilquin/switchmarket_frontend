@@ -7,7 +7,7 @@ export default function ProductImage({ imageUrl, OBFProductId, productName }) {
         <div className="w-full md:w-1/3 flex flex-col">
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 p-4 flex items-center justify-center h-80">
                 <img
-                    src={imageUrl || "/placeholder.svg"}
+                    src={imageUrl || "/placeholder.png"}
                     alt={productName || "Product image"}
                     className="object-contain max-h-full max-w-full"
                 />

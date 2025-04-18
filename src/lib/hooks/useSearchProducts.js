@@ -86,7 +86,7 @@ export default function useSearchProducts(searchQuery = "", filterParams = {}) {
                 ingredients: p.ingredients || [],
                 additives: p.additives || [],
                 labeltags: p.labeltags || [],
-                naturalPercentage: p.naturalPercentage || 0,
+                naturalPercentage:  100 - (p.chemicalPercentage || 0),
                 chemicalPercentage: p.chemicalPercentage || 0,
                 effects: p.effects || [],
                 OBFProductId: p.OBFProductId || null,
