@@ -1,38 +1,32 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Menu, X, User, LogOut } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Menu, X, User, LogOut } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [username, setUsername] = useState("")
-  const router = useRouter()
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
+  const router = useRouter();
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true)
-      } else {
-        setIsScrolled(false)
-      }
-    }
+      setIsScrolled(window.scrollY > 10);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  // Check if user is logged in
   useEffect(() => {
     const checkLoginStatus = async () => {
-      const token = localStorage.getItem("token")
+      const token = localStorage.getItem("token");
 
       if (token) {
         try {
@@ -40,41 +34,44 @@ export default function Navbar() {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          })
+          });
 
           if (response.ok) {
-            const userData = await response.json()
-            setIsLoggedIn(true)
-            setUsername(userData.username || userData.firstname)
+            const userData = await response.json();
+            setIsLoggedIn(true);
+            setUsername(userData.username || userData.firstname);
           } else {
-            // Token invalid or expired
-            localStorage.removeItem("token")
-            setIsLoggedIn(false)
+            localStorage.removeItem("token");
+            setIsLoggedIn(false);
           }
         } catch (error) {
-          console.error("Error checking login status:", error)
-          setIsLoggedIn(false)
+          console.error("Error checking login status:", error);
+          setIsLoggedIn(false);
         }
       } else {
-        setIsLoggedIn(false)
+        setIsLoggedIn(false);
       }
-    }
+    };
 
-    checkLoginStatus()
-  }, [])
+    checkLoginStatus();
+    // Event listener pour mise à jour après login
+    window.addEventListener("login-success", checkLoginStatus);
+    return () => window.removeEventListener("login-success", checkLoginStatus);
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token")
-    setIsLoggedIn(false)
-    toast.success("Déconnexion réussie")
-    router.push("/")
-    setMobileMenuOpen(false)
-  }
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    toast.success("Déconnexion réussie");
+    router.push("/");
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header
-      className={`sticky top-0 w-full px-10 py-4 flex justify-between items-center z-50 transition-all duration-300 ${isScrolled ? "bg-white shadow-sm" : "bg-[#78E5A8]"
-        }`}
+      className={`sticky top-0 w-full px-10 py-4 flex justify-between items-center z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white shadow-sm" : "bg-[#78E5A8]"
+      }`}
     >
       <Link href="/" className="text-xl font-black tracking-wide">
         SWITCH MARKET
@@ -120,7 +117,7 @@ export default function Navbar() {
               <Link href="/login">Sign in</Link>
             </Button>
             <Button className="bg-black hover:bg-gray-800 text-white font-bold text-sm px-3 py-1 h-8" asChild>
-              <Link href="/register">Login</Link>
+              <Link href="/register">Sign up</Link>
             </Button>
           </>
         )}
@@ -142,41 +139,21 @@ export default function Navbar() {
             transition={{ duration: 0.2 }}
           >
             <nav className="flex flex-col space-y-6">
-              <Link
-                href="/searchResults"
-                className="text-black hover:text-emerald-700 text-lg font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link href="/searchResults" className="text-black hover:text-emerald-700 text-lg font-medium" onClick={() => setMobileMenuOpen(false)}>
                 Search
               </Link>
-              <Link
-                href="/spotted"
-                className="text-black hover:text-emerald-700 text-lg font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link href="/spotted" className="text-black hover:text-emerald-700 text-lg font-medium" onClick={() => setMobileMenuOpen(false)}>
                 Spotted
               </Link>
-              <Link
-                href="/shop"
-                className="text-black hover:text-emerald-700 text-lg font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link href="/shop" className="text-black hover:text-emerald-700 text-lg font-medium" onClick={() => setMobileMenuOpen(false)}>
                 Shop
               </Link>
-              <Link
-                href="/discover"
-                className="text-black hover:text-emerald-700 text-lg font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link href="/discover" className="text-black hover:text-emerald-700 text-lg font-medium" onClick={() => setMobileMenuOpen(false)}>
                 Discover
               </Link>
 
               {isLoggedIn && (
-                <Link
-                  href="/profile"
-                  className="text-black hover:text-emerald-700 text-lg font-medium flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
+                <Link href="/profile" className="text-black hover:text-emerald-700 text-lg font-medium flex items-center" onClick={() => setMobileMenuOpen(false)}>
                   <User className="h-5 w-5 mr-2" />
                   Mon Profil
                 </Link>
@@ -191,13 +168,13 @@ export default function Navbar() {
                 ) : (
                   <>
                     <Button variant="outline" className="w-full font-bold border-[#DCDBE6]" asChild>
-                      <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                         Sign in
                       </Link>
                     </Button>
                     <Button className="w-full bg-black hover:bg-gray-800 text-white font-bold" asChild>
-                      <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                        Login
+                      <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+                        Sign up
                       </Link>
                     </Button>
                   </>
@@ -208,5 +185,5 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </header>
-  )
+  );
 }
