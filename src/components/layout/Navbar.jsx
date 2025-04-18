@@ -68,13 +68,23 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 w-full px-10 py-4 flex justify-between items-center z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-sm" : "bg-[#78E5A8]"
-      }`}
-    >
-      <Link href="/" className="text-xl font-black tracking-wide">
-        SWITCH MARKET
-      </Link>
+    className={`sticky top-0 w-full px-10 py-2 flex justify-between items-center z-50 transition-all duration-300 ${
+      isScrolled ? "bg-white shadow-sm" : "bg-[#78E5A8]"
+    }`}
+  >
+  
+  <Link href="/" className="relative w-[120px] h-[120px] -mb-10 z-50 block">
+  <img
+    src="/logoswitch.png"
+    alt="Switch Market Logo"
+    className="w-full h-full object-contain rounded-xl border border-[#3c6e47] shadow-lg bg-[#e6f5e5] hover:scale-105 transition-transform"
+  />
+</Link>
+
+
+
+
+
 
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center gap-8">
