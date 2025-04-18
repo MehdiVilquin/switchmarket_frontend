@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import { use } from "react"
-import { motion } from "framer-motion"
-import useProductDetails from "@/lib/hooks/useProductDetails"
+import { use } from "react";
+import { motion } from "framer-motion";
+import useProductDetails from "@/lib/hooks/useProductDetails"; // hook to get the product details
 
-import ProductHeader from "@/components/sections/Product/ProductHeader"
-import ProductImage from "@/components/sections/Product/ProductImage"
-import ProductDetails from "@/components/sections/Product/ProductDetails"
-import ProductIngredients from "@/components/sections/Product/ProductIngredients"
-import ProductEffects from "@/components/sections/Product/ProductEffects"
-import ProductError from "@/components/sections/Product/ProductError"
-import { Skeleton } from "@/components/ui/skeleton"
+import ProductHeader from "@/components/sections/Product/ProductHeader";
+import ProductImage from "@/components/sections/Product/ProductImage";
+import ProductDetails from "@/components/sections/Product/ProductDetails";
+import ProductIngredients from "@/components/sections/Product/ProductIngredients";
+import ProductEffects from "@/components/sections/Product/ProductEffects";
+import ProductError from "@/components/sections/Product/ProductError";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ProductPage({ params: paramsPromise }) {
-  const { id } = use(paramsPromise)
-  const { product, imageUrl, isLoading, error } = useProductDetails(id)
+  const { id } = use(paramsPromise);
+  const { product, imageUrl, isLoading, error } = useProductDetails(id);
 
-  if (error) return <ProductError message={error} />
+  if (error) return <ProductError message={error} />;
 
   if (isLoading) {
     return (
@@ -53,27 +53,37 @@ export default function ProductPage({ params: paramsPromise }) {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   if (!product) {
-    return <ProductError message="Product not found." />
+    return <ProductError message="Product not found." />;
   }
 
   return (
     <main className="min-h-screen bg-gray-50 pb-16">
       <ProductHeader productName={product.product_name} />
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="flex flex-col md:flex-row gap-8">
-            <ProductImage imageUrl={imageUrl} OBFProductId={product.OBFProductId} productName={product.product_name} />
+            <ProductImage
+              imageUrl={imageUrl}
+              OBFProductId={product.OBFProductId}
+              productName={product.product_name}
+            />
             <ProductDetails product={product} imageUrl={imageUrl} />
           </div>
-
+          <ProductEffects
+            effects={product.effects}
+            ingredients={product.ingredients}
+          />
           <ProductIngredients ingredients={product.ingredients} />
-          <ProductEffects effects={product.effects} />
         </motion.div>
       </div>
     </main>
-  )
+  );
 }
