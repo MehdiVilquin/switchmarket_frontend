@@ -54,7 +54,6 @@ export default function Navbar() {
     };
 
     checkLoginStatus();
-    // Event listener pour mise à jour après login
     window.addEventListener("login-success", checkLoginStatus);
     return () => window.removeEventListener("login-success", checkLoginStatus);
   }, []);
@@ -62,7 +61,7 @@ export default function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
-    toast.success("Déconnexion réussie");
+    toast.success("Successfully logged out");
     router.push("/");
     setMobileMenuOpen(false);
   };
@@ -108,7 +107,7 @@ export default function Navbar() {
               onClick={handleLogout}
             >
               <LogOut className="h-4 w-4 mr-1" />
-              Déconnexion
+              Logout
             </Button>
           </>
         ) : (
@@ -155,7 +154,7 @@ export default function Navbar() {
               {isLoggedIn && (
                 <Link href="/profile" className="text-black hover:text-emerald-700 text-lg font-medium flex items-center" onClick={() => setMobileMenuOpen(false)}>
                   <User className="h-5 w-5 mr-2" />
-                  Mon Profil
+                  My Profile
                 </Link>
               )}
 
@@ -163,7 +162,7 @@ export default function Navbar() {
                 {isLoggedIn ? (
                   <Button className="w-full bg-black hover:bg-gray-800 text-white font-bold" onClick={handleLogout}>
                     <LogOut className="h-4 w-4 mr-2" />
-                    Déconnexion
+                    Logout
                   </Button>
                 ) : (
                   <>

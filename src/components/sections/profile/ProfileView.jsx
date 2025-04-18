@@ -66,7 +66,6 @@ import { Button } from "@/components/ui/button"
 import { User, Mail, Calendar, Edit, ChevronRight } from "lucide-react"
 
 export function ProfileView({ user, onEdit, formatDate }) {
-  // Animation variants pour les éléments
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -94,7 +93,7 @@ export function ProfileView({ user, onEdit, formatDate }) {
             <User className="w-5 h-5" />
           </div>
           <div className="flex-1">
-            <p className="text-sm text-gray-500 font-medium">Nom d'utilisateur</p>
+            <p className="text-sm text-gray-500 font-medium">Username</p>
             <p className="font-semibold text-gray-800">{user.username}</p>
           </div>
           <ChevronRight className="w-4 h-4 text-gray-400" />
@@ -125,7 +124,7 @@ export function ProfileView({ user, onEdit, formatDate }) {
               <User className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-sm text-gray-500 font-medium">Prénom</p>
+              <p className="text-sm text-gray-500 font-medium">First name</p>
               <p className="font-semibold text-gray-800">{user.firstname}</p>
             </div>
           </motion.div>
@@ -139,7 +138,7 @@ export function ProfileView({ user, onEdit, formatDate }) {
               <User className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-sm text-gray-500 font-medium">Nom</p>
+              <p className="text-sm text-gray-500 font-medium">Last name</p>
               <p className="font-semibold text-gray-800">{user.lastname}</p>
             </div>
           </motion.div>
@@ -154,7 +153,7 @@ export function ProfileView({ user, onEdit, formatDate }) {
             <Calendar className="w-5 h-5" />
           </div>
           <div className="flex-1">
-            <p className="text-sm text-gray-500 font-medium">Date de naissance</p>
+            <p className="text-sm text-gray-500 font-medium">Birthdate</p>
             <p className="font-semibold text-gray-800">{formatDate(user.birthdate)}</p>
           </div>
           <ChevronRight className="w-4 h-4 text-gray-400" />
@@ -169,7 +168,7 @@ export function ProfileView({ user, onEdit, formatDate }) {
           <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-emerald-400 to-teal-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-x-0 group-hover:scale-x-100 origin-left"></span>
           <span className="relative flex items-center justify-center">
             <Edit className="mr-2 h-4 w-4" />
-            Modifier le profil
+            Edit Profile
           </span>
         </Button>
       </motion.div>

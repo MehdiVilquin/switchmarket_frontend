@@ -169,7 +169,6 @@ export function ProfileEditForm({ formData, handleInputChange, handleSubmit, han
     confirm: false,
   })
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -200,17 +199,18 @@ export function ProfileEditForm({ formData, handleInputChange, handleSubmit, han
       onSubmit={handleSubmit}
       className="space-y-8"
     >
+      {/* Personal info block */}
       <motion.div variants={itemVariants} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
           <User className="h-5 w-5 text-emerald-600" />
-          Informations personnelles
+          Personal Information
         </h3>
 
         <div className="grid gap-6 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="username" className="flex items-center gap-2 font-medium text-gray-700">
               <User className="h-4 w-4 text-emerald-600" />
-              Nom d'utilisateur
+              Username
             </Label>
             <Input
               id="username"
@@ -239,7 +239,7 @@ export function ProfileEditForm({ formData, handleInputChange, handleSubmit, han
           <div className="space-y-2">
             <Label htmlFor="firstname" className="flex items-center gap-2 font-medium text-gray-700">
               <User className="h-4 w-4 text-emerald-600" />
-              Prénom
+              First name
             </Label>
             <Input
               id="firstname"
@@ -253,7 +253,7 @@ export function ProfileEditForm({ formData, handleInputChange, handleSubmit, han
           <div className="space-y-2">
             <Label htmlFor="lastname" className="flex items-center gap-2 font-medium text-gray-700">
               <User className="h-4 w-4 text-emerald-600" />
-              Nom
+              Last name
             </Label>
             <Input
               id="lastname"
@@ -267,7 +267,7 @@ export function ProfileEditForm({ formData, handleInputChange, handleSubmit, han
           <div className="space-y-2 sm:col-span-2">
             <Label htmlFor="birthdate" className="flex items-center gap-2 font-medium text-gray-700">
               <Calendar className="h-4 w-4 text-emerald-600" />
-              Date de naissance
+              Birthdate
             </Label>
             <Input
               id="birthdate"
@@ -282,16 +282,17 @@ export function ProfileEditForm({ formData, handleInputChange, handleSubmit, han
         </div>
       </motion.div>
 
+      {/* Password block */}
       <motion.div variants={itemVariants} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
           <Lock className="h-5 w-5 text-emerald-600" />
-          Changer de mot de passe
+          Change Password
         </h3>
 
         <div className="grid gap-6 sm:grid-cols-2">
           <div className="space-y-2 sm:col-span-2">
             <Label htmlFor="currentPassword" className="font-medium text-gray-700">
-              Mot de passe actuel
+              Current Password
             </Label>
             <div className="relative">
               <Input
@@ -313,7 +314,7 @@ export function ProfileEditForm({ formData, handleInputChange, handleSubmit, han
           </div>
           <div className="space-y-2">
             <Label htmlFor="newPassword" className="font-medium text-gray-700">
-              Nouveau mot de passe
+              New Password
             </Label>
             <div className="relative">
               <Input
@@ -335,7 +336,7 @@ export function ProfileEditForm({ formData, handleInputChange, handleSubmit, han
           </div>
           <div className="space-y-2">
             <Label htmlFor="confirmPassword" className="font-medium text-gray-700">
-              Confirmer le mot de passe
+              Confirm Password
             </Label>
             <div className="relative">
               <Input
@@ -358,6 +359,7 @@ export function ProfileEditForm({ formData, handleInputChange, handleSubmit, han
         </div>
       </motion.div>
 
+      {/* Buttons */}
       <motion.div variants={itemVariants} className="flex justify-end gap-3 pt-4">
         <Button
           type="button"
@@ -366,7 +368,7 @@ export function ProfileEditForm({ formData, handleInputChange, handleSubmit, han
           className="border-gray-300 hover:bg-gray-50 text-gray-700"
         >
           <X className="mr-2 h-4 w-4" />
-          Annuler
+          Cancel
         </Button>
 
         <Button
@@ -377,12 +379,12 @@ export function ProfileEditForm({ formData, handleInputChange, handleSubmit, han
           {loading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Enregistrement...
+              Saving...
             </>
           ) : (
             <>
               <Save className="mr-2 h-4 w-4" />
-              Enregistrer
+              Save Changes
             </>
           )}
         </Button>

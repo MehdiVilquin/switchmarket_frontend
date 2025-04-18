@@ -61,7 +61,6 @@ export default function ProfilePage() {
   const { user, loading, isAuthenticated } = useAuth()
   const router = useRouter()
 
-  // Rediriger vers la page de connexion si l'utilisateur n'est pas authentifié
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       router.push("/login")
@@ -72,13 +71,13 @@ export default function ProfilePage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
         <Loader2 className="w-10 h-10 animate-spin text-emerald-500 mb-4" />
-        <p className="text-gray-500 animate-pulse">Chargement de votre profil...</p>
+        <p className="text-gray-500 animate-pulse">Loading your profile...</p>
       </div>
     )
   }
 
   if (!isAuthenticated) {
-    return null // Redirection gérée par useEffect
+    return null
   }
 
   return (
@@ -98,7 +97,7 @@ export default function ProfilePage() {
               onClick={() => router.push("/")}
             >
               <ChevronLeft className="h-4 w-4 mr-1" />
-              Retour
+              Back
             </Button>
           </div>
 

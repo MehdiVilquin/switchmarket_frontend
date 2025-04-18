@@ -25,7 +25,7 @@ export function ProfileCard() {
 
     // Fonction pour formater la date de naissance
     const formatDate = (dateString) => {
-        if (!dateString) return "Non spécifiée"
+        if (!dateString) return "Not specified"
         const date = new Date(dateString)
         return date.toLocaleDateString("fr-FR", {
             day: "numeric",
@@ -67,12 +67,12 @@ export function ProfileCard() {
         // Vérification des mots de passe si l'utilisateur souhaite le changer
         if (formData.newPassword) {
             if (!formData.currentPassword) {
-                toast.error("Veuillez entrer votre mot de passe actuel")
+                toast.error("Please enter your current password")
                 return
             }
 
             if (formData.newPassword !== formData.confirmPassword) {
-                toast.error("Les nouveaux mots de passe ne correspondent pas")
+                toast.error("New passwords do not match")
                 return
             }
         }
@@ -109,15 +109,15 @@ export function ProfileCard() {
             const data = await response.json()
 
             if (response.ok) {
-                toast.success("Profil mis à jour avec succès")
+                toast.success("Profile updated successfully")
                 setIsEditing(false)
                 // Rafraîchir les données utilisateur
                 refreshUser()
             } else {
-                toast.error(data.message || "Erreur lors de la mise à jour du profil")
+                toast.error(data.message || "Error updating profile")
             }
         } catch (error) {
-            toast.error("Erreur de connexion au serveur")
+            toast.error("Server connection error")
             console.error(error)
         } finally {
             setLoading(false)
