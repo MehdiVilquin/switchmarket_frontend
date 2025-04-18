@@ -191,12 +191,12 @@ export default function Navbar() {
                 ) : (
                   <>
                     <Button variant="outline" className="w-full font-bold border-[#DCDBE6]" asChild>
-                      <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
                         Sign in
                       </Link>
                     </Button>
                     <Button className="w-full bg-black hover:bg-gray-800 text-white font-bold" asChild>
-                      <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                         Login
                       </Link>
                     </Button>
