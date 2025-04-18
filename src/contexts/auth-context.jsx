@@ -91,6 +91,11 @@ export function AuthProvider({ children }) {
         router.push("/")
     }
 
+    // Vérifier si l'utilisateur est admin
+    const isAdmin = () => {
+        return user && user.role === "admin"
+    }
+
     // Vérifier l'état d'authentification au chargement
     useEffect(() => {
         checkAuthStatus()
@@ -101,6 +106,7 @@ export function AuthProvider({ children }) {
         user,
         loading,
         isAuthenticated: !!user,
+        isAdmin: isAdmin,
         login,
         logout,
         refreshUser: checkAuthStatus,
