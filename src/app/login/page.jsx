@@ -23,13 +23,15 @@ export default function LoginPage() {
       const { token } = await loginUser({ usernameOrEmail, password });
       localStorage.setItem("token", token);
       toast.success("Login successful!");
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
+  
+      // ✅ Redirection relative
+      window.location.href = "/searchResults";
+  
     } catch (err) {
       toast.error(err.message || "Login failed");
     }
   };
+  
 
   return (
     <>
