@@ -3,13 +3,13 @@
 // Configuration des couleurs selon le type et le score
 const TAG_COLORS = {
   benefit: {
-    high: "bg-emerald-100 text-emerald-800", // Score >= 7
-    medium: "bg-green-100 text-green-800", // Score >= 5
+    high: "bg-emerald-300 text-emerald-800", // Score >= 7
+    medium: "bg-green-200 text-green-800", // Score >= 5
     low: "bg-gray-100 text-gray-800", // Score < 5
   },
   concern: {
-    high: "bg-red-100 text-red-800", // Score >= 7
-    medium: "bg-orange-100 text-orange-800", // Score >= 5
+    high: "bg-red-300 text-red-800", // Score >= 7
+    medium: "bg-orange-200 text-orange-800", // Score >= 5
     low: "bg-yellow-100 text-yellow-800", // Score < 5
   },
 };
@@ -46,6 +46,7 @@ const formatIngredients = (ingredients) => {
     .join("\n");
 };
 
+// Composant pour afficher un effet
 export const EffectTag = ({ label, score, type = "benefit", ingredients }) => (
   <div className="group relative">
     <div
@@ -68,6 +69,7 @@ export const EffectTag = ({ label, score, type = "benefit", ingredients }) => (
   </div>
 );
 
+// Composant pour afficher un groupe d'effets
 export const EffectTagGroup = ({ title, tags, type = "benefit" }) => {
   if (!tags?.length) return null;
 

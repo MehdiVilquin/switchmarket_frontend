@@ -3,6 +3,7 @@
 import useIngredientEffects from "@/lib/hooks/useIngredientEffects";
 import { Card } from "@/components/ui/card";
 import { EffectTagGroup } from "@/components/ui/EffectTag";
+import { processEffects } from "@/lib/utils/effects";
 
 // Composant pour afficher les groupes d'effets
 const EffectsDisplay = ({ effects }) => {
@@ -36,24 +37,6 @@ const EffectsDisplay = ({ effects }) => {
     </div>
   );
 };
-
-// Fonction pour traiter les effets directs
-const processEffects = (effects) => ({
-  benefits: effects
-    .filter((e) => e.eco_score >= 5)
-    .map((e) => ({
-      ingredient: e.name,
-      function: e.functions,
-      score: e.eco_score,
-    })),
-  concerns: effects
-    .filter((e) => e.toxicity_score >= 5)
-    .map((e) => ({
-      ingredient: e.name,
-      function: e.functions,
-      score: e.toxicity_score,
-    })),
-});
 
 export default function ProductEffects({ effects = [], ingredients = [] }) {
   // Si nous avons des effets directs, les utiliser
