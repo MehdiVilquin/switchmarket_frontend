@@ -26,7 +26,7 @@ export default function ProductCard({
   const natural = 100 - chemicalPercentage;
 
   return (
-    <Card className="group relative h-full cursor-pointer overflow-hidden transition-all duration-300 bg-white border-2 border-gray-200">
+    <Card className="group relative h-full cursor-pointer overflow-hidden transition-all duration-300 bg-white border-2 border-gray-200 hover:border-black">
       <div className="flex flex-col p-4">
         {/* Main Content */}
         <CardContent className="flex flex-col gap-6 p-0">
@@ -42,6 +42,14 @@ export default function ProductCard({
                 priority={false}
               />
             </div>
+          </div>
+
+          {/* Product Info */}
+          <div className="flex flex-col gap-2">
+            <div className="text-lg font-medium text-gray-600">{brands}</div>
+            <h2 className="text-2xl font-semibold text-gray-900 leading-tight tracking-tight line-clamp-2">
+              {name}
+            </h2>
           </div>
 
           {/* Score Circles */}
@@ -65,14 +73,6 @@ export default function ProductCard({
             </div>
           </div>
 
-          {/* Product Info */}
-          <div className="flex flex-col gap-2">
-            <div className="text-lg font-medium text-gray-600">{brands}</div>
-            <h2 className="text-2xl font-semibold text-gray-900 leading-tight tracking-tight line-clamp-2">
-              {name}
-            </h2>
-          </div>
-
           {/* Tags Section */}
           {labeltags.length > 0 && (
             <div className="flex flex-wrap gap-2">
@@ -89,16 +89,16 @@ export default function ProductCard({
           )}
 
           {/* Ingredients Info */}
-          <div className="flex gap-4 mt-2">
-            <div className="flex items-center gap-2 text-gray-600">
-              <span className="text-lg font-medium">20</span>
-              <span className="text-sm">ingredients</span>
+          {/* <div className="flex gap-2">
+            <div className="flex items-center gap-1.5 bg-gray-100 px-3 py-1.5 rounded-full">
+              <span className="text-base font-medium text-gray-900">20</span>
+              <span className="text-sm text-gray-600">ingredients</span>
             </div>
-            <div className="flex items-center gap-2 text-gray-600">
-              <span className="text-lg font-medium">2</span>
-              <span className="text-sm">additives</span>
+            <div className="flex items-center gap-1.5 bg-gray-100 px-3 py-1.5 rounded-full">
+              <span className="text-base font-medium text-gray-900">2</span>
+              <span className="text-sm text-gray-600">additives</span>
             </div>
-          </div>
+          </div> */}
         </CardContent>
       </div>
     </Card>
