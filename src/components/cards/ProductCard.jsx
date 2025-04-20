@@ -3,7 +3,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { Leaf, Beaker } from "lucide-react";
 
-
 export default function ProductCard({
   name,
   brands,
@@ -27,82 +26,77 @@ export default function ProductCard({
   const natural = 100 - chemicalPercentage;
 
   return (
-    <Card className="group h-full cursor-pointer overflow-hidden hover:shadow-lg transition-all duration-300 bg-white rounded-lg border border-gray-100">
-      <div className="relative flex flex-col pt-4">
-        {/* Tags Section */}
-        {labeltags.length > 0 && (
-          <div className="flex items-start gap-2 px-4 pb-2">
-            {labeltags.map((tag, index) => (
-              <Badge
-                key={index}
-                variant="secondary"
-                className="text-sm bg-gray-100 text-[#3D3F3D] px-3 py-1 rounded-full"
-              >
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        )}
-
+    <Card className="group relative h-full cursor-pointer overflow-hidden transition-all duration-300 bg-white border-2 border-gray-200">
+      <div className="flex flex-col p-4">
         {/* Main Content */}
-        <CardContent className="p-4 pt-0">
-          <div className="flex flex-col gap-4">
-            {/* Image Container */}
-            <div className="relative w-full h-40">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative w-32 h-32 group-hover:scale-105 transition-transform duration-300">
-                  <Image
-                    src={image}
-                    alt={name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-contain"
-                    priority={false}
-                  />
-                </div>
-                <div
-                  className={`absolute top-0 right-0 ${getScoreColor(
-                    displayScore
-                  )} text-white text-sm font-medium px-3 py-1 rounded-full`}
-                >
-                  {displayScore}
-                </div>
+        <CardContent className="flex flex-col gap-6 p-0">
+          {/* Image Container */}
+          <div className="relative flex justify-center">
+            <div className="relative h-48 w-48 group-hover:scale-105 transition-transform duration-300">
+              <Image
+                src={image}
+                alt={name}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-contain"
+                priority={false}
+              />
+            </div>
+          </div>
+
+          {/* Score Circles */}
+          <div className="flex items-center gap-3">
+            <div
+              className={`flex h-12 w-12 items-center justify-center rounded-full border-2 border-gray-200 bg-white`}
+            >
+              <span className="text-lg font-medium">{displayScore}</span>
+            </div>
+            <div className="flex h-[52px] items-center justify-center rounded-full border-2 border-gray-200 bg-white px-4">
+              <div className="flex items-center gap-2">
+                <Beaker className="h-5 w-5" />
+                <span className="text-lg">{chemicalPercentage}</span>
               </div>
             </div>
-
-            {/* Product Info */}
-            <div className="flex flex-col gap-3">
-              <div className="text-base text-[#3D3F3D]">{brands}</div>
-              <h2 className="text-2xl font-medium text-black leading-tight tracking-tight line-clamp-2">
-                {name}
-              </h2>
-
-              {/* Unified Composition Bar */}
-              <div className="flex flex-col gap-2 mt-2">
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="flex items-center gap-1 text-emerald-600">
-                    <Leaf className="w-4 h-4" /> Natural
-                  </span>
-                  <span className="flex items-center gap-1 text-amber-600">
-                    <Beaker className="w-4 h-4" /> Chemical
-                  </span>
-                </div>
-
-                <div className="flex h-2.5 rounded-full overflow-hidden bg-gray-100">
-                  <div
-                    className="bg-emerald-400"
-                    style={{ width: `${natural}%` }}
-                  />
-                  <div
-                    className="bg-amber-400"
-                    style={{ width: `${chemicalPercentage}%` }}
-                  />
-                </div>
-                <div className="flex justify-between text-xs text-gray-500 mt-1">
-                  <span>{natural}%</span>
-                  <span>{chemicalPercentage}%</span>
-                </div>
+            <div className="flex h-[52px] items-center justify-center rounded-full border-2 border-gray-200 bg-white px-4">
+              <div className="flex items-center gap-2">
+                <Leaf className="h-5 w-5" />
+                <span className="text-lg">{natural}</span>
               </div>
+            </div>
+          </div>
+
+          {/* Product Info */}
+          <div className="flex flex-col gap-2">
+            <div className="text-lg font-medium text-gray-600">{brands}</div>
+            <h2 className="text-2xl font-semibold text-gray-900 leading-tight tracking-tight line-clamp-2">
+              {name}
+            </h2>
+          </div>
+
+          {/* Tags Section */}
+          {labeltags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {labeltags.map((tag, index) => (
+                <Badge
+                  key={index}
+                  variant="secondary"
+                  className="text-sm bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full"
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          )}
+
+          {/* Ingredients Info */}
+          <div className="flex gap-4 mt-2">
+            <div className="flex items-center gap-2 text-gray-600">
+              <span className="text-lg font-medium">20</span>
+              <span className="text-sm">ingredients</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-600">
+              <span className="text-lg font-medium">2</span>
+              <span className="text-sm">additives</span>
             </div>
           </div>
         </CardContent>
