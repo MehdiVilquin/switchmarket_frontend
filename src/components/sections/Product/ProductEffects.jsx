@@ -1,46 +1,17 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-
-export default function ProductEffects({ effects }) {
-  if (!effects || effects.length === 0) return null;
-
-  return (
-    <div className="mt-12">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Effects</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {effects.map((effect, index) => (
-          <Card key={index}>
-            <CardContent className="p-4">
-              <h3 className="font-medium text-gray-800">
-                {effect.name || "Effect"}
-              </h3>
-              <p className="text-gray-600 text-sm mt-1">
-                {effect.description || "No description available"}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-"use client";
-
 import useIngredientEffects from "@/lib/hooks/useIngredientEffects";
 import { Card } from "@/components/ui/card";
 import { EffectTagGroup } from "@/components/ui/EffectTag";
 import { processEffects } from "@/lib/utils/effects";
 
-// Composant pour afficher les groupes d'effets
+// Component to display effect groups
 const EffectsDisplay = ({ effects }) => {
-  // Si aucun effet, ne rien afficher
+  // If no effects, display nothing
   if (!effects?.benefits?.length && !effects?.concerns?.length) {
     return null;
   }
 
-  // Afficher les effets
   return (
     <div className="mt-12">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Effects</h2>
@@ -67,12 +38,12 @@ const EffectsDisplay = ({ effects }) => {
 };
 
 export default function ProductEffects({ effects = [], ingredients = [] }) {
-  // Si nous avons des effets directs, les utiliser
+  // If we have direct effects, use them
   if (effects?.length > 0) {
     return <EffectsDisplay effects={processEffects(effects)} />;
   }
 
-  // Sinon, utiliser les effets basés sur les ingrédients
+  // Otherwise, use ingredient-based effects
   const { effects: ingredientEffects, error } =
     useIngredientEffects(ingredients);
 
