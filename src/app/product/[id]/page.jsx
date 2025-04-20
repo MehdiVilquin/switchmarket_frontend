@@ -2,7 +2,7 @@
 
 import { use } from "react";
 import { motion } from "framer-motion";
-import useProductDetails from "@/lib/hooks/useProductDetails"; // hook to get the product details
+import useProductDetails from "@/lib/hooks/useProductDetails";
 
 import ProductHeader from "@/components/sections/Product/ProductHeader";
 import ProductImage from "@/components/sections/Product/ProductImage";
@@ -13,8 +13,9 @@ import ProductError from "@/components/sections/Product/ProductError";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ProductPage({ params: paramsPromise }) {
-  const { id } = use(paramsPromise);
-  const { product, imageUrl, isLoading, error } = useProductDetails(id);
+  // params: paramsPromise is a prop that is passed to the ProductPage component
+  const { id } = use(paramsPromise); // id is the id of the product;
+  const { product, imageUrl, isLoading, error } = useProductDetails(id); // product is the product data, imageUrl is the image url, isLoading is a boolean that is true if the product is loading, error is the error message
 
   if (error) return <ProductError message={error} />;
 

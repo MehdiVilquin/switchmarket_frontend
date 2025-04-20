@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { fetchOBFData, getBestOBFImage } from "@/lib/openBeautyFacts"
+
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
@@ -19,15 +21,36 @@ export default function useHomeData() {
         const additivesData = await additivesRes.json();
 
         if (productsData.result && productsData.products) {
-          const processedProducts = productsData.products.map((p) => ({
-            id: p._id,
-            name: p.product_name,
-            brand: p.brands,
-            score: p.completion_score,
-            ingredients: p.ingredients || [],
-            additives: p.additives || [],
-            labeltags: p.labeltags || [],
-          }));
+            const processedProducts = await Promise.all(
+                productsData.products.map(async (p) => {
+                  let image = "/placeholder.png"
+              
+                  if (p.OBFProductId) {
+                    try {
+                      const obfData = await fetchOBFData(p.OBFProductId)
+                      const bestImage = getBestOBFImage(obfData)
+                      if (bestImage) {
+                        image = bestImage
+                      }
+                    } catch (err) {
+                      console.warn("Failed to fetch OBF image:", err.message)
+                    }
+                  }
+              
+                  return {
+                    id: p._id,
+                    name: p.product_name,
+                    brand: p.brands,
+                    score: p.completion_score,
+                    ingredients: p.ingredients || [],
+                    additives: p.additives || [],
+                    labeltags: p.labeltags || [],
+                    image,
+                    chemicalPercentage: p.chemicalPercentage || 0
+                  }
+                })
+              )
+              
           setProducts(processedProducts);
         }
 
@@ -38,7 +61,7 @@ export default function useHomeData() {
             name: a.name?.uk || "Unknown",
             function: a.fonction || "No function specified",
             note: a.note || "No note available",
-            imageUrl: `/placeholder.svg?height=100&width=100&text=${encodeURIComponent(
+            imageUrl: `/placeholder.png?height=100&width=100&text=${encodeURIComponent(
               a.shortName || "A"
             )}`,
           }));

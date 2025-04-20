@@ -23,8 +23,8 @@ export default function ProductDetails({ product, imageUrl }) {
         }
     }
 
-    const natural = product.naturalPercentage || 65
-    const chemical = product.chemicalPercentage || 35
+    const chemical = product.chemicalPercentage || 0
+    const natural = 100-chemical // désormais on calcule le pourcentage naturel à partir du pourcentage chimique
 
     return (
         <div className="w-full md:w-2/3">

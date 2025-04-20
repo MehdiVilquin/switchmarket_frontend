@@ -1,17 +1,17 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
+import { Leaf, Beaker } from "lucide-react";
+
 
 export default function ProductCard({
   name,
   brands,
   score,
-  naturalPercentage,
-  chemicalPercentage,
+  chemicalPercentage = 0,
   labeltags = [],
   image = "/placeholder.png",
 }) {
-  // Calculate health score color
   const getScoreColor = (score) => {
     if (score >= 80) return "bg-emerald-500";
     if (score >= 60) return "bg-emerald-400";
@@ -23,6 +23,8 @@ export default function ProductCard({
   const formattedScore =
     typeof score === "string" ? Number.parseInt(score, 10) : score;
   const displayScore = isNaN(formattedScore) ? 0 : formattedScore;
+
+  const natural = 100 - chemicalPercentage;
 
   return (
     <Card className="group h-full cursor-pointer overflow-hidden hover:shadow-lg transition-all duration-300 bg-white rounded-lg border border-gray-100">
@@ -75,40 +77,30 @@ export default function ProductCard({
                 {name}
               </h2>
 
-              {/* Composition Bars */}
-              <div className="space-y-4 mt-2">
-                <div className="flex flex-col gap-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-base font-medium text-[#3D3F3D]">
-                      Natural
-                    </span>
-                    <span className="text-base text-[#3D3F3D]">
-                      {naturalPercentage}%
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-100 rounded-full h-2">
-                    <div
-                      className="bg-emerald-500 h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${naturalPercentage}%` }}
-                    />
-                  </div>
+              {/* Unified Composition Bar */}
+              <div className="flex flex-col gap-2 mt-2">
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="flex items-center gap-1 text-emerald-600">
+                    <Leaf className="w-4 h-4" /> Natural
+                  </span>
+                  <span className="flex items-center gap-1 text-amber-600">
+                    <Beaker className="w-4 h-4" /> Chemical
+                  </span>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-base font-medium text-[#3D3F3D]">
-                      Chemical
-                    </span>
-                    <span className="text-base text-[#3D3F3D]">
-                      {chemicalPercentage}%
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-100 rounded-full h-2">
-                    <div
-                      className="bg-red-500 h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${chemicalPercentage}%` }}
-                    />
-                  </div>
+                <div className="flex h-2.5 rounded-full overflow-hidden bg-gray-100">
+                  <div
+                    className="bg-emerald-400"
+                    style={{ width: `${natural}%` }}
+                  />
+                  <div
+                    className="bg-amber-400"
+                    style={{ width: `${chemicalPercentage}%` }}
+                  />
+                </div>
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>{natural}%</span>
+                  <span>{chemicalPercentage}%</span>
                 </div>
               </div>
             </div>
