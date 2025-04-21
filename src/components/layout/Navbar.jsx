@@ -13,7 +13,7 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
 
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, logout, user, isAdmin } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,7 +78,7 @@ export default function Navbar() {
             </Button>
             <Button
               variant="outline"
-              className="font-bold text-sm px-3 py-1 h-8 border-[#DCDBE6]"
+              className="cursor-pointer font-bold text-sm px-3 py-1 h-8 border-[#DCDBE6]"
               onClick={logout}
             >
               <LogOut className="h-4 w-4 mr-1" />
@@ -102,7 +102,16 @@ export default function Navbar() {
             </Button>
           </>
         )}
+        {isAdmin() && (
+          <Link
+            href="/admin"
+            className="text-black hover:text-emerald-700 transition-colors font-medium"
+          >
+            Admin
+          </Link>
+        )}
       </div>
+
 
       {/* Mobile menu button */}
       <Button
