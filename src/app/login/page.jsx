@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 import { motion } from "framer-motion"
 import { Eye, EyeOff, LogIn, User, Lock } from "lucide-react"
+import { useAuth } from "@/contexts/auth-context"
 
 export default function LoginPage() {
   const [usernameOrEmail, setUsernameOrEmail] = useState("")
@@ -17,6 +18,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [focusedField, setFocusedField] = useState(null)
   const router = useRouter()
+  const { refreshUser } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -30,22 +32,21 @@ export default function LoginPage() {
       })
 
       const data = await res.json()
-
       if (res.ok) {
-        toast.success("Connexion réussie !")
-        localStorage.setItem("token", data.token)
+        toast.success("Connexion réussie !");
+        localStorage.setItem("token", data.token);
 
-        // Force a refresh after redirect to update UI
-        sessionStorage.setItem("justLoggedIn", "true")
-        router.push("/")
-        router.refresh()
+        await refreshUser();
+
+        //Redirection après mise à jour du contexte
+        router.push("/");
       } else {
-        toast.error(data.message || "Erreur de connexion")
+        toast.error(data.message || "Erreur de connexion");
       }
     } catch (error) {
-      toast.error("Erreur de connexion au serveur")
+      toast.error("Erreur de connexion au serveur");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
