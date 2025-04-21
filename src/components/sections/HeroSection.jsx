@@ -44,12 +44,15 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Badge className="mb-4 px-3 py-1.5 bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition-colors">
+          <Badge className="mb-2 px-3 py-1.5 bg-emerald-300 text-white-800 hover:bg-emerald-200 transition-colors">
             Ethical Beauty Choices
           </Badge>
-          <h1 className="text-5xl md:text-[80px] font-medium text-white h-32 leading-tight tracking-tight md:leading-[1.35] -tracking-[0.02em] whitespace-nowrap">
+          <h1 className="text-5xl md:text-[80px] font-medium text-white h-28 leading-tight tracking-tight md:leading-[1.35] -tracking-[0.02em] whitespace-nowrap">
             Beauty begins with truth
           </h1>
+          <h2 className="text-5xl md:text-[24px] font-regular text-white h-16  tracking-tight md:leading-[1.35] -tracking-[0.02em] whitespace-nowrap">
+            Better understand your beauty products to make informed choices
+          </h2>
 
           <motion.form
             onSubmit={handleSearch}

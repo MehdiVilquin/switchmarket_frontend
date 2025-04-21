@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchOBFData, getBestOBFImage } from "@/lib/openBeautyFacts"
-
+import { fetchOBFData, getBestOBFImage } from "@/lib/openBeautyFacts";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
@@ -21,36 +20,36 @@ export default function useHomeData() {
         const additivesData = await additivesRes.json();
 
         if (productsData.result && productsData.products) {
-            const processedProducts = await Promise.all(
-                productsData.products.map(async (p) => {
-                  let image = "/placeholder.png"
-              
-                  if (p.OBFProductId) {
-                    try {
-                      const obfData = await fetchOBFData(p.OBFProductId)
-                      const bestImage = getBestOBFImage(obfData)
-                      if (bestImage) {
-                        image = bestImage
-                      }
-                    } catch (err) {
-                      console.warn("Failed to fetch OBF image:", err.message)
-                    }
+          const processedProducts = await Promise.all(
+            productsData.products.map(async (p) => {
+              let image = "/placeholder.png";
+
+              if (p.OBFProductId) {
+                try {
+                  const obfData = await fetchOBFData(p.OBFProductId);
+                  const bestImage = getBestOBFImage(obfData);
+                  if (bestImage) {
+                    image = bestImage;
                   }
-              
-                  return {
-                    id: p._id,
-                    name: p.product_name,
-                    brand: p.brands,
-                    score: p.completion_score,
-                    ingredients: p.ingredients || [],
-                    additives: p.additives || [],
-                    labeltags: p.labeltags || [],
-                    image,
-                    chemicalPercentage: p.chemicalPercentage || 0
-                  }
-                })
-              )
-              
+                } catch (err) {
+                  console.warn("Failed to fetch OBF image:", err.message);
+                }
+              }
+
+              return {
+                id: p._id,
+                name: p.product_name,
+                brand: p.brands,
+                score: p.completion_score,
+                ingredients: p.ingredients || [],
+                additives: p.additives || [],
+                labeltags: p.labeltags || [],
+                image,
+                chemicalPercentage: p.chemicalPercentage || 0,
+              };
+            })
+          );
+
           setProducts(processedProducts);
         }
 

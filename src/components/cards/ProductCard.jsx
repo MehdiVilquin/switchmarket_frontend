@@ -1,7 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import Image from "next/image";
-import { Leaf, Beaker } from "lucide-react";
+import { Leaf, Beaker, Pen } from "lucide-react";
 
 export default function ProductCard({
   name,
@@ -54,23 +60,49 @@ export default function ProductCard({
 
           {/* Score Circles */}
           <div className="flex items-center gap-3">
-            <div
-              className={`flex h-12 w-12 items-center justify-center rounded-full border-2 border-gray-200 bg-white`}
-            >
-              <span className="text-lg font-medium">{displayScore}</span>
-            </div>
-            <div className="flex h-[52px] items-center justify-center rounded-full border-2 border-gray-200 bg-white px-4">
-              <div className="flex items-center gap-2">
-                <Beaker className="h-5 w-5" />
-                <span className="text-lg">{chemicalPercentage}</span>
-              </div>
-            </div>
-            <div className="flex h-[52px] items-center justify-center rounded-full border-2 border-gray-200 bg-white px-4">
-              <div className="flex items-center gap-2">
-                <Leaf className="h-5 w-5" />
-                <span className="text-lg">{natural}</span>
-              </div>
-            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <div className="flex h-[52px] items-center justify-center rounded-full border-2 border-gray-200 bg-white px-4">
+                    <div className="flex items-center gap-2">
+                      <Pen className="h-5 w-5" />
+                      <span className="text-lg">{displayScore}%</span>
+                    </div>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Completion score</p>
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger>
+                  <div className="flex h-[52px] items-center justify-center rounded-full border-2 border-gray-200 bg-white px-4">
+                    <div className="flex items-center gap-2">
+                      <Beaker className="h-5 w-5" />
+                      <span className="text-lg">{chemicalPercentage}%</span>
+                    </div>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Chemical ingredients</p>
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger>
+                  <div className="flex h-[52px] items-center justify-center rounded-full border-2 border-gray-200 bg-white px-4">
+                    <div className="flex items-center gap-2">
+                      <Leaf className="h-5 w-5" />
+                      <span className="text-lg">{natural}%</span>
+                    </div>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Natural ingredients</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
 
           {/* Tags Section */}

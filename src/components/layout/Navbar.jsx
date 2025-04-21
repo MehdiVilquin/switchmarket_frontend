@@ -87,16 +87,10 @@ export default function Navbar() {
           Search
         </Link>
         <Link
-          href="/spotted"
+          href="/contribute"
           className="text-black hover:text-emerald-700 transition-colors font-medium"
         >
           Spotted
-        </Link>
-        <Link
-          href="/shop"
-          className="text-black hover:text-emerald-700 transition-colors font-medium"
-        >
-          Shop
         </Link>
         <Link
           href="/discover"
@@ -180,18 +174,11 @@ export default function Navbar() {
                 Search
               </Link>
               <Link
-                href="/spotted"
+                href="/contribute"
                 className="text-black hover:text-emerald-700 text-lg font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Spotted
-              </Link>
-              <Link
-                href="/shop"
-                className="text-black hover:text-emerald-700 text-lg font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Shop
               </Link>
               <Link
                 href="/discover"
