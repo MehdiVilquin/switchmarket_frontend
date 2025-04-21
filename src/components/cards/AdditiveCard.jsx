@@ -9,7 +9,7 @@ export default function AdditiveCard({
   allergy = false,
 }) {
   return (
-    <Card className="group bg-white hover:bg-gray-50/50 transition-all duration-300 h-full border border-gray-100 rounded-xl overflow-hidden">
+    <Card className="group relative h-full cursor-pointer overflow-hidden transition-all duration-300 bg-white border-2 border-gray-200 hover:border-black ">
       <CardContent className="p-8 flex flex-col h-full">
         {allergy && (
           <div className="mb-6">

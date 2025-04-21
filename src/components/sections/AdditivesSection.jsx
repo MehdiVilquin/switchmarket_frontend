@@ -65,7 +65,10 @@ export default function AdditivesSection({ additives, isLoading }) {
                   variants={itemVariants}
                   whileHover={{ y: -5, transition: { duration: 0.2 } }}
                 >
-                  <Link href={`/additives/${add.id}`} className="block h-full">
+                  <Link
+                    href={`/additives#additive-${add.id}`}
+                    className="block h-full"
+                  >
                     <AdditiveCard {...add} />
                   </Link>
                 </motion.div>

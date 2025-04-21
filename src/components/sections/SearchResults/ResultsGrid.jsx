@@ -49,7 +49,7 @@ const ResultsGrid = memo(function ResultsGrid({
 
   return (
     <motion.div
-      className="grid gap-6 auto-rows-auto grid-cols-[repeat(auto-fit,_minmax(280px,_1fr))]"
+      className="grid gap-6 auto-rows-auto grid-cols-1 sm:grid-cols-2"
       variants={containerVariants}
       initial="hidden"
       animate="show"

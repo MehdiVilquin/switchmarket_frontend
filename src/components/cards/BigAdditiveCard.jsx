@@ -18,16 +18,22 @@ export default function BigAdditiveCard({
   adi,
   possibleAllergy,
   note,
+  id,
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Card className="bg-white hover:shadow-xl transition-all duration-300 border border-gray-100">
+    <Card
+      id={`additive-${id}`}
+      className="group relative h-full cursor-pointer overflow-hidden transition-all duration-300 bg-white border-2 border-gray-200 hover:border-black"
+    >
       <CardContent className="p-6 flex flex-col h-full">
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">{shortName}</h2>
-          <p className="text-lg text-gray-600 mt-2">{name}</p>
+          <h3 className="text-4xl font-medium text-black tracking-tight">
+            {shortName}
+          </h3>
+          <p className="text-xl text-[#3D3F3D]/70">{name}</p>
         </div>
 
         {/* Main Content */}
@@ -79,9 +85,7 @@ export default function BigAdditiveCard({
             />
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-2">
-            <div className="text-sm text-gray-700 bg-gray-50 p-3 rounded-md">
-              {risk}
-            </div>
+            <div className="text-sm text-gray-700 bg-gray-50 p-3">{risk}</div>
           </CollapsibleContent>
         </Collapsible>
       </CardContent>
@@ -93,9 +97,7 @@ function InfoItem({ label, value, fullWidth = false }) {
   if (!value) return null;
 
   return (
-    <div
-      className={`${fullWidth ? "col-span-2" : ""} bg-gray-50 rounded-lg p-3`}
-    >
+    <div className={`${fullWidth ? "col-span-2" : ""} bg-gray-50  p-3`}>
       <label className="block text-sm font-medium text-gray-500 mb-1">
         {label}
       </label>
