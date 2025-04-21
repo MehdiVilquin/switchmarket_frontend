@@ -56,6 +56,12 @@ export default function Navbar() {
         >
           Discover
         </Link>
+        <Link
+          href="http://localhost:3001/contributions"
+          className="text-black hover:text-emerald-700 transition-colors font-medium"
+        >
+          Contributions
+        </Link>
       </nav>
 
       <div className="hidden md:flex items-center gap-2">
@@ -147,18 +153,18 @@ export default function Navbar() {
                 Spotted
               </Link>
               <Link
-                href={isAuthenticated ? "/contributions" : "/learn-more"}
-                className="text-black hover:text-emerald-700 text-lg font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Contribution
-              </Link>
-              <Link
                 href="/discover"
                 className="text-black hover:text-emerald-700 text-lg font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Discover
+              </Link>
+              <Link
+                href="http://localhost:3001/contributions"
+                className="text-black hover:text-emerald-700 text-lg font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contributions
               </Link>
 
               <div className="pt-6 border-t">
