@@ -40,7 +40,7 @@ export default function useHomeData() {
                   return {
                     id: p._id,
                     name: p.product_name,
-                    brand: p.brands,
+                    brands: p.brands,
                     score: p.completion_score,
                     ingredients: p.ingredients || [],
                     additives: p.additives || [],
