@@ -76,15 +76,16 @@ export default function AdditivesSection({ additives, isLoading }) {
         </motion.div>
 
         <div className="flex justify-center mt-16">
-          <Link href="/additives">
-            <Button
-              variant="outline"
-              className="bg-black hover:bg-gray-900 text-white rounded-lg px-8 h-12 text-base group"
-            >
+          <Button
+            asChild
+            variant="outline"
+            className="bg-black hover:bg-white text-white rounded-lg px-8 h-12 text-base group"
+          >
+            <Link href="/additives">
               Explore all additives
               <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

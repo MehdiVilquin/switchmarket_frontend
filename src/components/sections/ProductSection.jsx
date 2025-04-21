@@ -53,35 +53,38 @@ export default function ProductSection({ products, isLoading }) {
         >
           {isLoading
             ? Array(6)
-                .fill(0)
-                .map((_, index) => (
-                  <motion.div key={index} variants={itemVariants}>
-                    <Skeleton className="h-[400px] w-full rounded-xl" />
-                  </motion.div>
-                ))
-            : products.map((product, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  className="h-full"
-                >
-                  <Link
-                    href={`/product/${product.id}`}
-                    className="block h-full"
-                  >
-                    <ProductCard {...product} />
-                  </Link>
+              .fill(0)
+              .map((_, index) => (
+                <motion.div key={index} variants={itemVariants}>
+                  <Skeleton className="h-[400px] w-full rounded-xl" />
                 </motion.div>
-              ))}
+              ))
+            : products.map((product, index) => (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                className="h-full"
+              >
+                <Link
+                  href={`/product/${product.id}`}
+                  className="block h-full"
+                >
+                  <ProductCard {...product} />
+                </Link>
+              </motion.div>
+            ))}
         </motion.div>
 
         <div className="flex justify-center mt-16">
           <Button
+            asChild
             variant="outline"
-            className="bg-black hover:bg-gray-900 text-white rounded-lg px-8 h-12 text-base group"
+            className="bg-black hover:bg-white text-white rounded-lg px-8 h-12 text-base group"
           >
-            Explore more products
-            <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+            <Link href="/searchResults">
+              Explore more products
+              <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </Button>
         </div>
       </div>

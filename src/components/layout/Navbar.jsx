@@ -6,14 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, User, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
   const router = useRouter();
+
+  const { isAuthenticated, logout, user, isAdmin } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,48 +23,6 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        try {
-          const response = await fetch("http://localhost:3000/users/me", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          if (response.ok) {
-            const userData = await response.json();
-            setIsLoggedIn(true);
-            setUsername(userData.username || userData.firstname);
-          } else {
-            localStorage.removeItem("token");
-            setIsLoggedIn(false);
-          }
-        } catch (error) {
-          console.error("Error checking login status:", error);
-          setIsLoggedIn(false);
-        }
-      } else {
-        setIsLoggedIn(false);
-      }
-    };
-
-    checkLoginStatus();
-    window.addEventListener("login-success", checkLoginStatus);
-    return () => window.removeEventListener("login-success", checkLoginStatus);
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    toast.success("Successfully logged out");
-    router.push("/");
-    setMobileMenuOpen(false);
-  };
 
   return (
     <header
@@ -101,7 +59,7 @@ export default function Navbar() {
       </nav>
 
       <div className="hidden md:flex items-center gap-2">
-        {isLoggedIn ? (
+        {isAuthenticated ? (
           <>
             <Button
               variant="ghost"
@@ -110,13 +68,13 @@ export default function Navbar() {
             >
               <Link href="/profile">
                 <User className="h-4 w-4 mr-1" />
-                {username}
+                {user?.username || user?.firstname}
               </Link>
             </Button>
             <Button
               variant="outline"
-              className="font-bold text-sm px-3 py-1 h-8 border-[#DCDBE6]"
-              onClick={handleLogout}
+              className="cursor-pointer font-bold text-sm px-3 py-1 h-8 border-[#DCDBE6]"
+              onClick={logout}
             >
               <LogOut className="h-4 w-4 mr-1" />
               Logout
@@ -138,6 +96,14 @@ export default function Navbar() {
               <Link href="/register">Sign up</Link>
             </Button>
           </>
+        )}
+        {isAdmin() && (
+          <Link
+            href="/admin"
+            className="text-black hover:text-emerald-700 transition-colors font-medium"
+          >
+            Admin
+          </Link>
         )}
       </div>
 
@@ -181,6 +147,13 @@ export default function Navbar() {
                 Spotted
               </Link>
               <Link
+                href={isAuthenticated ? "/contributions" : "/learn-more"}
+                className="text-black hover:text-emerald-700 text-lg font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contribution
+              </Link>
+              <Link
                 href="/discover"
                 className="text-black hover:text-emerald-700 text-lg font-medium"
                 onClick={() => setMobileMenuOpen(false)}
@@ -189,7 +162,7 @@ export default function Navbar() {
               </Link>
 
               <div className="pt-6 border-t">
-                {isLoggedIn ? (
+                {isAuthenticated ? (
                   <>
                     <Link
                       href="/profile"
@@ -197,10 +170,13 @@ export default function Navbar() {
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <User className="h-5 w-5 mr-2" />
-                      {username}
+                      {user?.username || user?.firstname}
                     </Link>
                     <button
-                      onClick={handleLogout}
+                      onClick={() => {
+                        logout();
+                        setMobileMenuOpen(false);
+                      }}
                       className="flex items-center text-black hover:text-emerald-700 text-lg font-medium"
                     >
                       <LogOut className="h-5 w-5 mr-2" />

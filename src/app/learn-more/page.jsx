@@ -1,17 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import {
-    CircleCheck,
-    AlertTriangle,
-    MessageSquare,
-    ThumbsUp,
-    Share2,
-    CheckCircle2,
-    Search,
-    ShieldCheck,
-    Upload,
-} from "lucide-react"
+import { CircleCheck, Share2, CheckCircle2, Upload } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -39,256 +29,165 @@ export default function ContributePage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Hero Section */}
-            <section className="bg-gradient-to-b from-emerald-50 to-white pt-24 pb-16 px-4">
-                <div className="max-w-5xl mx-auto text-center">
-                    <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                        <Badge className="bg-emerald-100 text-emerald-700 border-0 mb-4 px-3 py-1">Community Contributions</Badge>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-                            Contribute to SwitchMarket
-                        </h1>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                            Help us build the most comprehensive ethical shopping platform by sharing your knowledge and experiences
-                        </p>
-                    </motion.div>
-                </div>
-            </section>
+        <div className="min-h-screen bg-white">
+            {/* Hero Section - Redesigned with split layout */}
+            <section className="relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-emerald-50 clip-path-hero z-0"></div>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid lg:grid-cols-2 gap-12 py-20 lg:py-32 items-center">
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.7 }}
+                            className="relative z-10"
+                        >
+                            <Badge className="bg-emerald-100 text-emerald-700 border-0 mb-6 px-4 py-1.5 text-sm rounded-full">
+                                Community Contributions
+                            </Badge>
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                                Contribute to <span className="text-emerald-600">SwitchMarket</span>
+                            </h1>
+                            <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed max-w-lg">
+                                Help us build the most comprehensive ethical shopping platform by sharing your knowledge and experiences
+                            </p>
+                            <Button
+                                asChild
+                                size="lg"
+                                className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-8 py-6 text-lg shadow-lg hover:shadow-emerald-200/50 hover:translate-y-[-2px] transition-all"
+                            >
+                                <a href="/contributions">Start Contributing</a>
+                            </Button>
+                        </motion.div>
 
-            {/* Main Content */}
-            <section className="py-12 px-4">
-                <div className="max-w-6xl mx-auto">
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="show"
-                        className="grid md:grid-cols-2 gap-8"
-                    >
-                        {/* Suggest an Ethical Brand */}
-                        <motion.div variants={itemVariants}>
-                            <Card className="h-full border-none shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.7, delay: 0.2 }}
+                            className="relative z-10"
+                        >
+                            {/* Suggest an Ethical Brand - Moved to hero section */}
+                            <Card className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden bg-white rounded-2xl transform hover:translate-y-[-5px]">
                                 <div className="h-2 bg-gradient-to-r from-emerald-400 to-teal-500"></div>
-                                <CardHeader className="pb-4">
-                                    <div className="flex items-center gap-3 mb-2">
-                                        <div className="p-2 bg-emerald-100 rounded-full">
-                                            <CircleCheck className="h-6 w-6 text-emerald-600" />
+                                <CardHeader className="pb-2 pt-6">
+                                    <div className="flex items-center gap-4 mb-3">
+                                        <div className="p-3 bg-emerald-100 rounded-full">
+                                            <CircleCheck className="h-7 w-7 text-emerald-600" />
                                         </div>
-                                        <CardTitle className="text-2xl">Suggest an Ethical Brand</CardTitle>
+                                        <CardTitle className="text-2xl font-bold">Suggest an Ethical Brand</CardTitle>
                                     </div>
-                                    <CardDescription className="text-base">
-                                        Know an ethical brand that should be on our platform? Help us grow our database by suggesting brands
-                                        that align with ethical values.
+                                    <CardDescription className="text-base text-gray-600">
+                                        Know an ethical brand that should be on our platform? Help us grow our database.
                                     </CardDescription>
                                 </CardHeader>
-                                <CardContent>
-                                    <ul className="space-y-3">
+                                <CardContent className="pt-4">
+                                    <ul className="space-y-4">
                                         {[
                                             "Share brands with sustainable practices",
                                             "Highlight companies with ethical labor policies",
                                             "Introduce local businesses with positive impact",
                                         ].map((item, i) => (
-                                            <li key={i} className="flex items-start gap-2">
-                                                <CheckCircle2 className="h-5 w-5 text-emerald-500 mt-0.5 flex-shrink-0" />
+                                            <li key={i} className="flex items-start gap-3">
+                                                <div className="bg-emerald-50 p-1.5 rounded-full mt-0.5">
+                                                    <CheckCircle2 className="h-5 w-5 text-emerald-500 flex-shrink-0" />
+                                                </div>
                                                 <span className="text-gray-700">{item}</span>
                                             </li>
                                         ))}
                                     </ul>
                                 </CardContent>
-                                <CardFooter>
-                                    <Button className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white">
-                                        Suggest a Brand
-                                    </Button>
-                                </CardFooter>
                             </Card>
                         </motion.div>
+                    </div>
+                </div>
+            </section>
 
-                        {/* Report Unethical Practices */}
-                        <motion.div variants={itemVariants}>
-                            <Card className="h-full border-none shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                                <div className="h-2 bg-gradient-to-r from-amber-400 to-red-500"></div>
-                                <CardHeader className="pb-4">
-                                    <div className="flex items-center gap-3 mb-2">
-                                        <div className="p-2 bg-amber-100 rounded-full">
-                                            <AlertTriangle className="h-6 w-6 text-amber-600" />
-                                        </div>
-                                        <CardTitle className="text-2xl">Report Unethical Practices</CardTitle>
-                                    </div>
-                                    <CardDescription className="text-base">
-                                        Help keep brands accountable by reporting unethical practices or misleading claims that you've
-                                        discovered.
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <ul className="space-y-3">
-                                        {[
-                                            "Report environmental violations",
-                                            "Flag labor rights concerns",
-                                            "Identify greenwashing or false claims",
-                                        ].map((item, i) => (
-                                            <li key={i} className="flex items-start gap-2">
-                                                <AlertTriangle className="h-5 w-5 text-amber-500 mt-0.5 flex-shrink-0" />
-                                                <span className="text-gray-700">{item}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </CardContent>
-                                <CardFooter>
-                                    <Button className="w-full bg-gradient-to-r from-amber-500 to-red-500 hover:from-amber-600 hover:to-red-600 text-white">
-                                        Report an Issue
-                                    </Button>
-                                </CardFooter>
-                            </Card>
-                        </motion.div>
-                    </motion.div>
-
-                    {/* Additional Ways to Contribute */}
+            {/* Verification Process - Redesigned as timeline */}
+            <section className="py-20 bg-gray-50">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="mt-16"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-16"
                     >
-                        <h2 className="text-3xl font-bold text-center mb-10">More Ways to Contribute</h2>
-
-                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {/* Give Feedback */}
-                            <Card className="border border-gray-100 shadow-md hover:shadow-lg transition-all duration-300 hover:translate-y-[-5px]">
-                                <CardHeader className="pb-2">
-                                    <div className="flex justify-center mb-4">
-                                        <div className="p-3 bg-blue-100 rounded-full">
-                                            <MessageSquare className="h-6 w-6 text-blue-600" />
-                                        </div>
-                                    </div>
-                                    <CardTitle className="text-xl text-center">Give Feedback</CardTitle>
-                                </CardHeader>
-                                <CardContent className="text-center pb-4">
-                                    <p className="text-gray-600">
-                                        Share your thoughts on how we can improve the platform and user experience.
-                                    </p>
-                                </CardContent>
-                                <CardFooter className="pt-0 flex justify-center">
-                                    <Button variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50">
-                                        Provide Feedback
-                                    </Button>
-                                </CardFooter>
-                            </Card>
-
-                            {/* Vote on Campaigns */}
-                            <Card className="border border-gray-100 shadow-md hover:shadow-lg transition-all duration-300 hover:translate-y-[-5px]">
-                                <CardHeader className="pb-2">
-                                    <div className="flex justify-center mb-4">
-                                        <div className="p-3 bg-purple-100 rounded-full">
-                                            <ThumbsUp className="h-6 w-6 text-purple-600" />
-                                        </div>
-                                    </div>
-                                    <CardTitle className="text-xl text-center">Vote on Campaigns</CardTitle>
-                                </CardHeader>
-                                <CardContent className="text-center pb-4">
-                                    <p className="text-gray-600">
-                                        Help ethical brands reach discount goals by voting on active campaigns.
-                                    </p>
-                                </CardContent>
-                                <CardFooter className="pt-0 flex justify-center">
-                                    <Button variant="outline" className="border-purple-200 text-purple-700 hover:bg-purple-50">
-                                        View Campaigns
-                                    </Button>
-                                </CardFooter>
-                            </Card>
-
-                            {/* Spread the Word */}
-                            <Card className="border border-gray-100 shadow-md hover:shadow-lg transition-all duration-300 hover:translate-y-[-5px]">
-                                <CardHeader className="pb-2">
-                                    <div className="flex justify-center mb-4">
-                                        <div className="p-3 bg-teal-100 rounded-full">
-                                            <Share2 className="h-6 w-6 text-teal-600" />
-                                        </div>
-                                    </div>
-                                    <CardTitle className="text-xl text-center">Spread the Word</CardTitle>
-                                </CardHeader>
-                                <CardContent className="text-center pb-4">
-                                    <p className="text-gray-600">
-                                        Share SwitchMarket with friends and family to grow our ethical community.
-                                    </p>
-                                </CardContent>
-                                <CardFooter className="pt-0 flex justify-center">
-                                    <Button variant="outline" className="border-teal-200 text-teal-700 hover:bg-teal-50">
-                                        Share SwitchMarket
-                                    </Button>
-                                </CardFooter>
-                            </Card>
-                        </div>
-                    </motion.div>
-
-                    {/* Verification Process */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                        className="mt-24 mb-16"
-                    >
-                        <h2 className="text-3xl font-bold text-center mb-4">How We Verify Contributions</h2>
-                        <p className="text-gray-600 text-center max-w-3xl mx-auto mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">How We Verify Contributions</h2>
+                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                             We take accuracy seriously. Here's our rigorous process to ensure all information on our platform is
                             reliable.
                         </p>
-
-                        <div className="grid md:grid-cols-3 gap-8">
-                            {[
-                                {
-                                    number: "1",
-                                    title: "Initial Review",
-                                    description:
-                                        "Our team reviews all submissions for completeness and relevance before adding them to our verification queue.",
-                                    icon: <Upload className="h-6 w-6 text-white" />,
-                                },
-                                {
-                                    number: "2",
-                                    title: "Research & Verification",
-                                    description:
-                                        "We research claims using multiple sources, including third-party certifications, public records, and industry reports.",
-                                    icon: <Search className="h-6 w-6 text-white" />,
-                                },
-                                {
-                                    number: "3",
-                                    title: "Publication",
-                                    description:
-                                        "Verified information is published on our platform with sources cited. Contributors are credited (if desired).",
-                                    icon: <ShieldCheck className="h-6 w-6 text-white" />,
-                                },
-                            ].map((step, i) => (
-                                <motion.div key={i} variants={stepVariants} className="relative">
-                                    <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 h-full">
-                                        <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
-                                            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
-                                                {step.icon}
-                                            </div>
-                                        </div>
-                                        <div className="pt-8 text-center">
-                                            <h3 className="text-xl font-bold mb-2 text-gray-800">{step.title}</h3>
-                                            <p className="text-gray-600">{step.description}</p>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
                     </motion.div>
 
-                    {/* CTA Section */}
+                    <div className="relative">
+                        {/* Vertical line */}
+                        <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-emerald-200 z-0 rounded-full"></div>
+
+                        <motion.div
+                            variants={stepVariants}
+                            initial="hidden"
+                            whileInView="show"
+                            viewport={{ once: true }}
+                            className="relative z-10 flex justify-center mb-16"
+                        >
+                            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 max-w-lg relative">
+                                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
+                                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-lg shadow-lg border-4 border-white">
+                                        <Upload className="h-7 w-7 text-white" />
+                                    </div>
+                                </div>
+                                <div className="pt-8 text-center">
+                                    <h3 className="text-2xl font-bold mb-3 text-gray-800">Initial Review</h3>
+                                    <p className="text-gray-600 text-lg">
+                                        Our team reviews all submissions for completeness and relevance before adding them to our
+                                        verification queue.
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+            {/* More Ways to Contribute - Redesigned with larger card */}
+            <section className="py-20">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="mb-16 text-center"
+                    >
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">More Ways to Contribute</h2>
+                    </motion.div>
+
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.6 }}
-                        className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl p-8 md:p-12 text-white text-center shadow-xl"
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7 }}
+                        viewport={{ once: true }}
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Make a Difference?</h2>
-                        <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-                            Join our community of conscious consumers and help build a more ethical marketplace.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Button size="lg" className="bg-white text-emerald-700 hover:bg-gray-100">
-                                Start Contributing
-                            </Button>
-                        </div>
+                        <Card className="border-none shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden bg-gradient-to-br from-teal-50 to-white rounded-2xl">
+                            <div className="grid md:grid-cols-5 gap-6">
+                                <div className="md:col-span-2 flex items-center justify-center p-8">
+                                    <div className="p-6 bg-white rounded-full shadow-inner">
+                                        <Share2 className="h-16 w-16 text-teal-600" />
+                                    </div>
+                                </div>
+                                <div className="md:col-span-3 p-8 flex flex-col justify-center">
+                                    <CardTitle className="text-3xl font-bold mb-4 text-gray-900">Spread the Word</CardTitle>
+                                    <CardDescription className="text-lg text-gray-600 mb-8">
+                                        Share SwitchMarket with friends and family to grow our ethical community. The more people know about
+                                        ethical shopping options, the greater our collective impact will be.
+                                    </CardDescription>
+                                    <div>
+                                        <Button size="lg" className="bg-teal-600 hover:bg-teal-700 text-white rounded-lg px-8">
+                                            Share SwitchMarket
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        </Card>
                     </motion.div>
                 </div>
             </section>
