@@ -7,6 +7,7 @@ import { Menu, X, User, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,6 +15,7 @@ export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const router = useRouter();
+  const { isAuthenticated } = useAuth()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -93,10 +95,10 @@ export default function Navbar() {
           Spotted
         </Link>
         <Link
-          href="/shop"
+          href={isAuthenticated ? "/contributions" : "/learn-more"}
           className="text-black hover:text-emerald-700 transition-colors font-medium"
         >
-          Shop
+          Contribution
         </Link>
         <Link
           href="/discover"
@@ -187,11 +189,11 @@ export default function Navbar() {
                 Spotted
               </Link>
               <Link
-                href="/shop"
+                href={isAuthenticated ? "/contributions" : "/learn-more"}
                 className="text-black hover:text-emerald-700 text-lg font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Shop
+                Contribution
               </Link>
               <Link
                 href="/discover"
