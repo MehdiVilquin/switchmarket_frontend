@@ -57,13 +57,13 @@ export default function AdminDashboard() {
             description: "Manage user accounts and permissions",
             color: "bg-purple-100 text-purple-700",
         },
-        // {
-        //     title: "Products",
-        //     href: "/admin/products",
-        //     icon: <ShoppingBag className="h-5 w-5" />,
-        //     description: "Manage product catalog and information",
-        //     color: "bg-amber-100 text-amber-700",
-        // },
+        {
+            title: "Products",
+            href: "/admin/products",
+            icon: <ShoppingBag className="h-5 w-5" />,
+            description: "Manage product catalog and information",
+            color: "bg-amber-100 text-amber-700",
+        },
         {
             title: "Analytics",
             href: "/admin/analytics",
