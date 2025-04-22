@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import Link from "next/link"
-import { useAuth } from "@/contexts/auth-context"
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function CommunitySection() {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated } = useAuth();
 
   return (
     <section className="py-16 px-4 md:px-8 bg-[#FBF9F7]">
@@ -32,8 +32,9 @@ export default function CommunitySection() {
               Join our community of conscious consumers
             </h2>
             <p className="text-gray-600 text-lg mb-8 leading-relaxed">
-              Connect with like-minded individuals who share your passion for sustainable and ethical beauty products.
-              Share experiences, discover new products, and make informed choices together.
+              Connect with like-minded individuals who share your passion for
+              sustainable and ethical beauty products. Share experiences,
+              discover new products, and make informed choices together.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
@@ -41,15 +42,9 @@ export default function CommunitySection() {
                 className="bg-black hover:bg-gray-900 text-white rounded-lg px-8 h-12 text-base"
                 asChild
               >
-                <Link href={isAuthenticated ? "/profile" : "/register"}>Join Community</Link>
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg px-8 h-12 text-base"
-                asChild
-              >
-                <Link href="/learn-more">Learn More</Link>
+                <Link href={isAuthenticated ? "/profile" : "/register"}>
+                  Join Community
+                </Link>
               </Button>
             </div>
           </motion.div>
@@ -73,5 +68,5 @@ export default function CommunitySection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
