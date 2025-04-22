@@ -41,8 +41,8 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
         setLabelCategories(data.categories)
       }
     } catch (error) {
-      console.error("Erreur lors de la récupération des labels:", error)
-      toast.error("Erreur lors de la récupération des labels")
+      console.error("Error fetching labels:", error)
+      toast.error("Error fetching labels")
     } finally {
       setFormLoading(false)
     }
@@ -56,28 +56,28 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
     }
 
     try {
-      console.log("Recherche d'additifs pour:", query)
+      console.log("Searching for additives:", query)
       setIsLoading(true)
 
       const response = await fetch(`http://localhost:3000/additives/tag/${query}`)
-      console.log("Statut de la réponse:", response.status)
+      console.log("Response status:", response.status)
 
       if (response.ok) {
         const data = await response.json()
-        console.log("Résultats de la recherche:", data)
+        console.log("Search results:", data)
 
         if (data.result && Array.isArray(data.additives)) {
           setSearchResults(data.additives)
         } else {
-          console.error("Format de réponse inattendu:", data)
+          console.error("Unexpected response format:", data)
           setSearchResults([])
         }
       } else {
-        console.error("Erreur lors de la recherche d'additifs:", response.statusText)
+        console.error("Error searching for additives:", response.statusText)
         setSearchResults([])
       }
     } catch (error) {
-      console.error("Exception lors de la recherche d'additifs:", error)
+      console.error("Exception searching for additives:", error)
       setSearchResults([])
     } finally {
       setIsLoading(false)
@@ -164,13 +164,13 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
     const additiveExists = formData.additives.some((a) => a.tag === additive.tag)
 
     if (additiveExists) {
-      toast.info(`L'additif ${additive.tag} est déjà dans la liste`)
+      toast.info(`Additive ${additive.tag} is already in the list`)
       return
     }
 
     const newAdditive = {
       tag: additive.tag,
-      shortName: additive.shortName || additive.name?.fr || additive.tag,
+      shortName: additive.shortName || additive.name?.en || additive.tag,
       additiveRef: additive._id,
     }
 
@@ -179,7 +179,7 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
       additives: [...prev.additives, newAdditive],
     }))
 
-    toast.success(`Additif ${additive.tag} ajouté`)
+    toast.success(`Additive ${additive.tag} added`)
   }
 
   // Supprimer un additif
@@ -197,7 +197,7 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
     e.preventDefault()
 
     if (!formData.product_name || !formData.brands) {
-      toast.error("Le nom du produit et la marque sont obligatoires")
+      toast.error("Product name and brand are required")
       return
     }
 
@@ -227,11 +227,11 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
   return (
     <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-6">
       <div className="mb-6">
-        <h2 className="text-xl font-bold mb-4 text-green-700 border-b pb-2">Informations générales</h2>
+        <h2 className="text-xl font-bold mb-4 text-green-700 border-b pb-2">General Information</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-gray-700 font-bold mb-2" htmlFor="product_name">
-              Nom du produit *
+              Product name *
             </label>
             <input
               type="text"
@@ -245,7 +245,7 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
           </div>
           <div>
             <label className="block text-gray-700 font-bold mb-2" htmlFor="brands">
-              Marque *
+              Brand *
             </label>
             <input
               type="text"
@@ -261,7 +261,7 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
       </div>
 
       <div className="mb-6">
-        <h2 className="text-xl font-bold mb-4 text-green-700 border-b pb-2">Ingrédients</h2>
+        <h2 className="text-xl font-bold mb-4 text-green-700 border-b pb-2">Ingredients</h2>
         <div className="bg-gray-50 p-4 rounded-lg">
           {formData.ingredients.map((ingredient, index) => (
             <div key={index} className="flex items-center mb-2">
@@ -269,7 +269,7 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
                 type="text"
                 value={ingredient.text}
                 onChange={(e) => handleIngredientChange(index, "text", e.target.value)}
-                placeholder="Nom de l'ingrédient"
+                placeholder="Ingredient name"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
               />
               <input
@@ -295,18 +295,18 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
             onClick={addIngredient}
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2"
           >
-            Ajouter un ingrédient
+            Add ingredient
           </button>
         </div>
       </div>
 
       <div className="mb-6">
-        <h2 className="text-xl font-bold mb-4 text-green-700 border-b pb-2">Additifs</h2>
+        <h2 className="text-xl font-bold mb-4 text-green-700 border-b pb-2">Additives</h2>
         <div className="bg-gray-50 p-4 rounded-lg">
           <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
               <label className="block text-gray-700 font-bold" htmlFor="additive-search">
-                Rechercher un additif
+                Search for an additive
               </label>
             </div>
 
@@ -316,7 +316,7 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
                 id="additive-search"
                 value={searchAdditive}
                 onChange={handleAdditiveSearch}
-                placeholder="Ex: E100, E200..."
+                placeholder="e.g. E100, E200..."
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
               {searchAdditive.length > 0 && (
@@ -341,10 +341,10 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
             {searchAdditive.length >= 2 && (
               <div className="mt-1 text-xs text-gray-500">
                 {isLoading
-                  ? "Recherche en cours..."
+                  ? "Searching..."
                   : searchResults.length > 0
-                    ? `${searchResults.length} additif(s) trouvé(s)`
-                    : "Aucun additif trouvé"}
+                    ? `${searchResults.length} additive(s) found`
+                    : "No additives found"}
               </div>
             )}
 
@@ -359,7 +359,7 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
                     <div className="flex justify-between items-center">
                       <div>
                         <span className="font-bold text-green-700">{additive.tag}</span>
-                        {additive.name?.fr && <span className="ml-2 text-gray-600">{additive.name.fr}</span>}
+                        {additive.name?.en && <span className="ml-2 text-gray-600">{additive.name.en}</span>}
                       </div>
                       <button
                         type="button"
@@ -369,10 +369,10 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
                           addAdditive(additive)
                         }}
                       >
-                        Ajouter
+                        Add
                       </button>
                     </div>
-                    {additive.fonction && <p className="text-xs text-gray-500 mt-1">Fonction: {additive.fonction}</p>}
+                    {additive.fonction && <p className="text-xs text-gray-500 mt-1">Function: {additive.fonction}</p>}
                   </div>
                 ))}
               </div>
@@ -381,7 +381,7 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
 
           {formData.additives.length > 0 && (
             <div className="mt-4">
-              <h3 className="font-bold mb-2">Additifs sélectionnés ({formData.additives.length}):</h3>
+              <h3 className="font-bold mb-2">Selected additives ({formData.additives.length}):</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                 {formData.additives.map((additive, index) => (
                   <div key={index} className="bg-white border rounded-lg p-2 flex justify-between items-center">
@@ -438,7 +438,7 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
           type="submit"
           className="bg-green-600 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition-all duration-200 transform hover:scale-105"
         >
-          Soumettre le produit
+          Submit product
         </button>
       </div>
     </form>

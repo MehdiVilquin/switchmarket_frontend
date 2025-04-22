@@ -42,9 +42,10 @@ export default function SearchHeader() {
         <div className="relative flex-1">
           <Input
             type="text"
+            name="query"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Rechercher un produit..."
+            placeholder="Search for a product..."
             className="pl-10"
           />
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -56,14 +57,14 @@ export default function SearchHeader() {
             className="text-sm text-gray-500 hover:text-gray-700 flex items-center"
           >
             <X className="w-4 h-4 mr-1" />
-            Vider
+            Clear
           </button>
         )}
         <button
           type="submit"
           className="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600"
         >
-          Rechercher
+          Search
         </button>
       </div>
     </form>

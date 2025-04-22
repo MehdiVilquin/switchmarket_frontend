@@ -69,15 +69,15 @@ export function AuthProvider({ children }) {
             if (res.ok) {
                 localStorage.setItem("token", data.token)
                 await checkAuthStatus() // Récupérer les informations utilisateur
-                toast.success("Connexion réussie !")
+                toast.success("Login successful!");
                 return { success: true }
             } else {
-                toast.error(data.message || "Erreur lors de la connexion")
+                toast.error(data.message || "Login failed");
                 return { success: false, error: data.message }
             }
         } catch (error) {
-            toast.error("Erreur de connexion au serveur")
-            return { success: false, error: "Erreur de connexion au serveur" }
+            toast.error("Server connection error");
+            return { success: false, error: "Server connection error" }
         } finally {
             setLoading(false)
         }
@@ -87,7 +87,7 @@ export function AuthProvider({ children }) {
     const logout = () => {
         localStorage.removeItem("token")
         setUser(null)
-        toast.success("Déconnexion réussie")
+        toast.success("Logout successful");
         router.push("/")
     }
 

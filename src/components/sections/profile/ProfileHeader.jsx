@@ -57,9 +57,9 @@ export function ProfileHeader() {
         </div>
 
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <CardTitle className="text-2xl md:text-3xl font-bold text-white mb-2">Mon Profil</CardTitle>
+          <CardTitle className="text-2xl md:text-3xl font-bold text-white mb-2">My Profile</CardTitle>
           <CardDescription className="text-white/80 font-medium text-base">
-            Consultez et gérez vos informations personnelles
+            View and manage your personal information
           </CardDescription>
         </motion.div>
       </div>

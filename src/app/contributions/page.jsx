@@ -16,7 +16,7 @@ export default function ContributionPage() {
   // Rediriger si non connecté
   useEffect(() => {
     if (!loading && !isAuthenticated) {
-      toast.error("Vous devez être connecté pour accéder à cette page")
+      toast.error("You must be logged in to access this page")
       router.push("/login")
     }
   }, [isAuthenticated, loading, router])
@@ -42,11 +42,11 @@ export default function ContributionPage() {
         const data = await response.json()
         setContributions(data.contributions)
       } else {
-        toast.error("Erreur lors de la récupération des contributions")
+        toast.error("Error fetching contributions")
       }
     } catch (error) {
-      console.error("Erreur:", error)
-      toast.error("Erreur de connexion au serveur")
+      console.error("Error:", error)
+      toast.error("Server connection error")
     } finally {
       setIsLoading(false)
     }
@@ -68,17 +68,17 @@ export default function ContributionPage() {
       const data = await response.json()
 
       if (response.ok) {
-        toast.success("Produit soumis avec succès")
-        // Rafraîchir la liste des contributions
+        toast.success("Product successfully submitted")
+        // Refresh the list of contributions
         fetchUserContributions()
-        // Masquer le formulaire après soumission réussie
+        // Hide the form after successful submission
         setShowForm(false)
       } else {
-        toast.error(data.message || "Erreur lors de la soumission du produit")
+        toast.error(data.message || "Error submitting product")
       }
     } catch (error) {
-      console.error("Erreur:", error)
-      toast.error("Erreur de connexion au serveur")
+      console.error("Error:", error)
+      toast.error("Server connection error")
     }
   }
 
@@ -93,10 +93,9 @@ export default function ContributionPage() {
   return (
     <div className="container mx-auto p-4">
       <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-        <h1 className="text-2xl font-bold mb-2 text-green-700">Proposer un produit</h1>
+        <h1 className="text-2xl font-bold mb-2 text-green-700">Submit a product</h1>
         <p className="text-gray-600 mb-4">
-          Contribuez à notre base de données en proposant de nouveaux produits. Votre contribution sera examinée par
-          notre équipe avant d'être publiée.
+          Contribute to our database by submitting new products. Your contribution will be reviewed by our team before being published.
         </p>
 
         <div className="flex justify-end">
@@ -104,7 +103,7 @@ export default function ContributionPage() {
             onClick={() => setShowForm(!showForm)}
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200"
           >
-            {showForm ? "Masquer le formulaire" : "Proposer un produit"}
+            {showForm ? "Hide form" : "Submit a product"}
           </button>
         </div>
       </div>
@@ -116,14 +115,14 @@ export default function ContributionPage() {
       )}
 
       <div className="bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-xl font-bold mb-4 text-green-700 border-b pb-2">Mes contributions</h2>
+        <h2 className="text-xl font-bold mb-4 text-green-700 border-b pb-2">My contributions</h2>
 
         {isLoading ? (
           <div className="flex justify-center items-center p-8">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
           </div>
         ) : contributions.length === 0 ? (
-          <p className="text-center py-8 text-gray-500">Vous n'avez pas encore soumis de produits.</p>
+          <p className="text-center py-8 text-gray-500">You haven't submitted any products yet.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {contributions.map((contribution) => (
@@ -179,10 +178,10 @@ export default function ContributionPage() {
                         }`}
                       >
                         {contribution.status === "pending"
-                          ? "En attente"
+                          ? "Pending"
                           : contribution.status === "approved"
-                            ? "Approuvé"
-                            : "Rejeté"}
+                            ? "Approved"
+                            : "Rejected"}
                       </span>
                       <p className="text-xs text-gray-500">{new Date(contribution.submittedAt).toLocaleDateString()}</p>
                     </div>

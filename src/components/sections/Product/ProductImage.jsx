@@ -15,7 +15,7 @@ export default function ProductImage({ imageUrl, OBFProductId, productName }) {
 
       {OBFProductId && (
         <div className="mt-4 flex flex-col items-center">
-          <p className="text-xs text-gray-500 mb-1">Code produit</p>
+          <p className="text-xs text-gray-500 mb-1">Product code</p>
           <Barcode
             value={OBFProductId}
             format="EAN13"
