@@ -42,15 +42,15 @@ export default function RegisterPage() {
       const data = await res.json()
 
       if (res.ok) {
-        toast.success("Compte créé avec succès !")
+        toast.success("Account successfully created!")
         setTimeout(() => {
           router.push("/login")
         }, 600)
       } else {
-        toast.error(data.message || "Échec de l'inscription")
+        toast.error(data.message || "Registration failed")
       }
     } catch (error) {
-      toast.error("Erreur de connexion au serveur")
+      toast.error("Server connection error")
     } finally {
       setIsLoading(false)
     }
@@ -59,25 +59,25 @@ export default function RegisterPage() {
   const formFields = [
     {
       id: "firstname",
-      label: "Prénom",
+      label: "First name",
       type: "text",
-      placeholder: "Votre prénom",
+      placeholder: "Your first name",
       icon: <User className="h-3.5 w-3.5 text-emerald-600" />,
       colSpan: "col-span-1",
     },
     {
       id: "lastname",
-      label: "Nom",
+      label: "Last name",
       type: "text",
-      placeholder: "Votre nom",
+      placeholder: "Your last name",
       icon: <User className="h-3.5 w-3.5 text-emerald-600" />,
       colSpan: "col-span-1",
     },
     {
       id: "username",
-      label: "Nom d'utilisateur",
+      label: "Username",
       type: "text",
-      placeholder: "Choisissez un nom d'utilisateur",
+      placeholder: "Choose a username",
       icon: <UserPlus className="h-3.5 w-3.5 text-emerald-600" />,
       colSpan: "col-span-2",
     },
@@ -85,22 +85,22 @@ export default function RegisterPage() {
       id: "email",
       label: "Email",
       type: "email",
-      placeholder: "Votre adresse email",
+      placeholder: "Your email address",
       icon: <Mail className="h-3.5 w-3.5 text-emerald-600" />,
       colSpan: "col-span-2",
     },
     {
       id: "password",
-      label: "Mot de passe",
+      label: "Password",
       type: showPassword ? "text" : "password",
-      placeholder: "Créez un mot de passe",
+      placeholder: "Create a password",
       icon: <Lock className="h-3.5 w-3.5 text-emerald-600" />,
       colSpan: "col-span-2",
       hasToggle: true,
     },
     {
       id: "birthdate",
-      label: "Date de naissance",
+      label: "Date of birth",
       type: "date",
       icon: <Calendar className="h-3.5 w-3.5 text-emerald-600" />,
       colSpan: "col-span-2",
@@ -129,8 +129,8 @@ export default function RegisterPage() {
                   <UserPlus className="h-6 w-6 text-emerald-600" />
                 </div>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Créer un compte</h1>
-              <p className="text-gray-500">Rejoignez notre communauté</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Create an account</h1>
+              <p className="text-gray-500">Join our community</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -189,11 +189,11 @@ export default function RegisterPage() {
                 >
                   {isLoading ? (
                     <div className="flex items-center justify-center">
-                      <span>Création en cours...</span>
+                      <span>Creating account...</span>
                     </div>
                   ) : (
                     <span className="flex items-center justify-center">
-                      Créer un compte
+                      Create an account
                     </span>
                   )}
                 </Button>
@@ -211,7 +211,7 @@ export default function RegisterPage() {
                   <div className="w-full border-t border-gray-200"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">Déjà inscrit ?</span>
+                  <span className="px-2 bg-white text-gray-500">Already registered?</span>
                 </div>
               </div>
 
@@ -220,7 +220,7 @@ export default function RegisterPage() {
                   href="/login"
                   className="inline-flex items-center justify-center text-sm font-medium text-emerald-600 hover:text-emerald-700 hover:underline transition-colors"
                 >
-                  Se connecter
+                  Log in
                 </Link>
               </div>
             </motion.div>

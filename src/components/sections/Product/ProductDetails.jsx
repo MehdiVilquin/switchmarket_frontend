@@ -26,7 +26,7 @@ export default function ProductDetails({ product, imageUrl }) {
   };
 
   const chemical = product.chemicalPercentage || 0;
-  const natural = 100 - chemical; // désormais on calcule le pourcentage naturel à partir du pourcentage chimique
+  const natural = 100 - chemical; // now we calculate the natural percentage from the chemical percentage
 
   return (
     <div className="w-full md:w-2/3">
@@ -91,13 +91,9 @@ export default function ProductDetails({ product, imageUrl }) {
             href={`https://world.openbeautyfacts.org/product/${product.OBFProductId}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-gray-600 hover:text-emerald-700 flex items-center"
+            className="text-emerald-600 hover:text-emerald-800 transition-colors inline-flex items-center"
           >
-            <Info className="w-4 h-4 mr-2 text-emerald-600" />
-            <span>Voir sur OpenBeautyFacts</span>
-            <span className="ml-auto text-xs text-gray-400">
-              Ref: {product.OBFProductId}
-            </span>
+            View on OpenBeautyFacts <Info className="w-4 h-4 ml-1" />
           </a>
         </div>
       )}

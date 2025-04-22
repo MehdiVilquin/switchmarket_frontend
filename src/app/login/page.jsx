@@ -33,18 +33,18 @@ export default function LoginPage() {
 
       const data = await res.json()
       if (res.ok) {
-        toast.success("Connexion réussie !");
+        toast.success("Login successful!");
         localStorage.setItem("token", data.token);
 
         await refreshUser();
 
-        //Redirection après mise à jour du contexte
+        //Redirection after context update
         router.push("/");
       } else {
-        toast.error(data.message || "Erreur de connexion");
+        toast.error(data.message || "Login error");
       }
     } catch (error) {
-      toast.error("Erreur de connexion au serveur");
+      toast.error("Server connection error");
     } finally {
       setIsLoading(false);
     }
@@ -72,8 +72,8 @@ export default function LoginPage() {
                   <LogIn className="h-6 w-6 text-emerald-600" />
                 </div>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Bienvenue</h1>
-              <p className="text-gray-500">Connectez-vous à votre compte</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Welcome</h1>
+              <p className="text-gray-500">Login to your account</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -85,7 +85,7 @@ export default function LoginPage() {
               >
                 <Label htmlFor="usernameOrEmail" className="text-sm font-medium flex items-center gap-2">
                   <User className="h-3.5 w-3.5 text-emerald-600" />
-                  <span>Email ou nom d'utilisateur</span>
+                  <span>Email or username</span>
                 </Label>
                 <div
                   className={`relative transition-all duration-300 ${focusedField === "usernameOrEmail" ? "scale-[1.01]" : ""}`}
@@ -98,7 +98,7 @@ export default function LoginPage() {
                     onBlur={() => setFocusedField(null)}
                     required
                     className="h-12 pl-4 pr-4 rounded-xl border-gray-200 focus:border-emerald-500 focus:ring-emerald-500/20 transition-all duration-300"
-                    placeholder="Entrez votre email ou nom d'utilisateur"
+                    placeholder="Enter your email or username"
                   />
                 </div>
               </motion.div>
@@ -111,7 +111,7 @@ export default function LoginPage() {
               >
                 <Label htmlFor="password" className="text-sm font-medium flex items-center gap-2">
                   <Lock className="h-3.5 w-3.5 text-emerald-600" />
-                  <span>Mot de passe</span>
+                  <span>Password</span>
                 </Label>
                 <div
                   className={`relative transition-all duration-300 ${focusedField === "password" ? "scale-[1.01]" : ""}`}
@@ -125,7 +125,7 @@ export default function LoginPage() {
                     onBlur={() => setFocusedField(null)}
                     required
                     className="h-12 pl-4 pr-12 rounded-xl border-gray-200 focus:border-emerald-500 focus:ring-emerald-500/20 transition-all duration-300"
-                    placeholder="Entrez votre mot de passe"
+                    placeholder="Enter your password"
                   />
                   <button
                     type="button"
@@ -145,11 +145,11 @@ export default function LoginPage() {
                 >
                   {isLoading ? (
                     <div className="flex items-center justify-center">
-                      <span>Connexion en cours...</span>
+                      <span>Logging in...</span>
                     </div>
                   ) : (
                     <span className="flex items-center justify-center">
-                      Se connecter
+                      Login
                       <LogIn className="ml-2 h-4 w-4" />
                     </span>
                   )}
@@ -168,7 +168,7 @@ export default function LoginPage() {
                   <div className="w-full border-t border-gray-200"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">Nouveau sur la plateforme ?</span>
+                  <span className="px-2 bg-white text-gray-500">New to the platform?</span>
                 </div>
               </div>
 
@@ -177,7 +177,7 @@ export default function LoginPage() {
                   href="/register"
                   className="inline-flex items-center justify-center text-sm font-medium text-emerald-600 hover:text-emerald-700 hover:underline transition-colors"
                 >
-                  Créer un compte
+                  Create an account
                 </Link>
               </div>
             </motion.div>
