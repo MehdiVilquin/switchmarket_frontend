@@ -1,28 +1,28 @@
-"use client"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
-import { motion } from "framer-motion"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+"use client";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function HeroSection() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [isSearching, setIsSearching] = useState(false)
-  const router = useRouter()
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+  const router = useRouter();
 
   const handleSearch = async (e) => {
-    e.preventDefault()
-    if (!searchQuery.trim()) return
-    setIsSearching(true)
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+    setIsSearching(true);
     try {
-      router.push(`/searchResults?q=${encodeURIComponent(searchQuery)}`)
+      router.push(`/searchResults?q=${encodeURIComponent(searchQuery)}`);
     } catch (error) {
-      console.error("Search error:", error)
+      console.error("Search error:", error);
     } finally {
-      setIsSearching(false)
+      setIsSearching(false);
     }
-  }
+  };
 
   return (
     <section className="relative py-12 sm:py-16 md:pt-16 md:pb-24 px-4 md:px-8 min-h-[90vh] flex items-center justify-center overflow-hidden">
@@ -46,7 +46,7 @@ export default function HeroSection() {
           <Badge className="mb-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-emerald-300 text-white-800 hover:bg-emerald-200 transition-colors">
             Ethical Beauty Choices
           </Badge>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[80px] font-medium text-white leading-tight tracking-tight md:leading-[1.35] -tracking-[0.02em] mb-2 sm:mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[80px] font-medium text-white leading-tight tracking-tight md:leading-[1.35] -tracking-[0.02em] mb-2 sm:mb-4 whitespace-nowrap">
             Beauty begins with truth
           </h1>
           <h2 className="text-lg sm:text-xl md:text-2xl lg:text-[24px] font-regular text-white tracking-tight md:leading-[1.35] -tracking-[0.02em] mb-6 sm:mb-8">
@@ -71,8 +71,8 @@ export default function HeroSection() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        e.preventDefault()
-                        handleSearch(e)
+                        e.preventDefault();
+                        handleSearch(e);
                       }
                     }}
                   />
@@ -83,5 +83,5 @@ export default function HeroSection() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
