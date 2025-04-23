@@ -26,9 +26,8 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 w-full px-6 py-4 flex justify-between items-center z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-sm" : "bg-[#78E5A8]"
-      }`}
+      className={`sticky top-0 w-full px-6 py-4 flex justify-between items-center z-50 transition-all duration-300 ${isScrolled ? "bg-white shadow-sm" : "bg-[#78E5A8]"
+        }`}
     >
       <div className="flex items-center gap-2">
         <Link href="/" className="font-semibold text-xl">
@@ -44,24 +43,27 @@ export default function Navbar() {
         >
           Search
         </Link>
-        <Link
-          href="/contribute"
-          className="text-black hover:text-emerald-700 transition-colors font-medium"
-        >
-          Spotted
-        </Link>
+
         <Link
           href="/discover"
           className="text-black hover:text-emerald-700 transition-colors font-medium"
         >
           Discover
         </Link>
-        <Link
-          href="http://localhost:3001/contributions"
-          className="text-black hover:text-emerald-700 transition-colors font-medium"
-        >
-          Contributions
-        </Link>
+        {isAuthenticated ? (
+          <Link
+            href="http://localhost:3001/contributions"
+            className="text-black hover:text-emerald-700 transition-colors font-medium"
+          >
+            Community
+          </Link>) : (
+          <Link
+            href="/contribute"
+            className="text-black hover:text-emerald-700 transition-colors font-medium"
+          >
+            Join the community
+          </Link>
+        )}
       </nav>
 
       <div className="hidden md:flex items-center gap-2">
@@ -146,28 +148,29 @@ export default function Navbar() {
                 Search
               </Link>
               <Link
-                href="/contribute"
-                className="text-black hover:text-emerald-700 text-lg font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Spotted
-              </Link>
-              <Link
                 href="/discover"
                 className="text-black hover:text-emerald-700 text-lg font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Discover
               </Link>
-              <Link
-                href="http://localhost:3001/contributions"
-                className="text-black hover:text-emerald-700 text-lg font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Contributions
-              </Link>
-
-              <div className="pt-6 border-t">
+              {isAuthenticated ? (
+                <Link
+                  href="http://localhost:3001/contributions"
+                  className="text-black hover:text-emerald-700 text-lg font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Community
+                </Link>) : (
+                <Link
+                  href="/contribute"
+                  className="text-black hover:text-emerald-700 text-lg font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Join community
+                </Link>
+              )}
+              < div className="pt-6 border-t">
                 {isAuthenticated ? (
                   <>
                     <Link
@@ -212,6 +215,6 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </header >
   );
 }
