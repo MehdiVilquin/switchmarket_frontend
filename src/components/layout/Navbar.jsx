@@ -26,8 +26,9 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 w-full px-6 py-4 flex justify-between items-center z-50 transition-all duration-300 ${isScrolled ? "bg-white shadow-sm" : "bg-[#78E5A8]"
-        }`}
+      className={`sticky top-0 w-full px-6 py-4 flex justify-between items-center z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white shadow-sm" : "bg-[#78E5A8]"
+      }`}
     >
       <div className="flex items-center gap-2">
         <Link href="/" className="font-semibold text-xl">
@@ -49,7 +50,8 @@ export default function Navbar() {
             className="text-black hover:text-emerald-700 transition-colors font-medium"
           >
             Discover
-          </Link>) : (
+          </Link>
+        ) : (
           <Link
             href="/contribute"
             className="text-black hover:text-emerald-700 transition-colors font-medium"
@@ -160,7 +162,8 @@ export default function Navbar() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Community
-                </Link>) : (
+                </Link>
+              ) : (
                 <Link
                   href="/contribute"
                   className="text-black hover:text-emerald-700 text-lg font-medium"
@@ -214,6 +217,6 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </header >
+    </header>
   );
 }
