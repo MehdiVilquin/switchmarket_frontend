@@ -99,17 +99,6 @@ export default function ProductDetails({ product, imageUrl }) {
       )}
 
       <div className="flex flex-wrap gap-3 mt-6">
-        <Button
-          onClick={toggleFavorite}
-          className={
-            isFavorite ? "bg-pink-500 text-white" : "bg-emerald-600 text-white"
-          }
-        >
-          <Heart
-            className={`h-4 w-4 mr-2 ${isFavorite ? "fill-current" : ""}`}
-          />
-          {isFavorite ? "Saved to Favorites" : "Add to Favorites"}
-        </Button>
         <Button variant="outline" onClick={handleShare}>
           <Share2 className="h-4 w-4 mr-2" /> Share
         </Button>
