@@ -71,7 +71,7 @@ export default function AdditivesPage() {
           family: a.famille || "Unclassified",
           productExamples: a.exemples_produits || "No examples available",
           adi: a.dja || "Not specified",
-          possibleAllergy: a.allergie_possible === "Oui" ? "Yes" : "No",
+          possibleAllergy: a.allergie_possible === "Yes" ? "Yes" : "No",
           comment: a.commentaire,
           note: a.note,
         }));
