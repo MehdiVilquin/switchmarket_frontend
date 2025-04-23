@@ -77,7 +77,7 @@ export default function BigAdditiveCard({
           className="mt-6 pt-4 border-t border-gray-100"
         >
           <CollapsibleTrigger className="flex items-center justify-between w-full text-sm text-gray-500 hover:text-gray-700">
-            <span>Risk Level</span>
+            <span>Description</span>
             <ChevronDown
               className={`w-4 h-4 transition-transform duration-200 ${
                 isOpen ? "transform rotate-180" : ""
