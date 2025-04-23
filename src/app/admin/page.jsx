@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "sonner"
-import { LayoutDashboard, FileText, Users, ShoppingBag, Settings, BarChart3, Shield, LogOut } from "lucide-react"
+import { FileText, Users, ShoppingBag, Shield, LogOut } from "lucide-react"
 
 export default function AdminDashboard() {
     const { user, isAuthenticated, loading, isAdmin } = useAuth()
@@ -36,13 +36,6 @@ export default function AdminDashboard() {
 
     // Admin navigation links
     const adminLinks = [
-        // {
-        //     title: "Dashboard",
-        //     href: "/admin",
-        //     icon: <LayoutDashboard className="h-5 w-5" />,
-        //     description: "Overview and key metrics",
-        //     color: "bg-emerald-100 text-emerald-700",
-        // },
         {
             title: "Contributions",
             href: "/admin/contributions",
@@ -63,13 +56,6 @@ export default function AdminDashboard() {
             icon: <ShoppingBag className="h-5 w-5" />,
             description: "Manage product catalog and information",
             color: "bg-amber-100 text-amber-700",
-        },
-        {
-            title: "Analytics",
-            href: "/admin/analytics",
-            icon: <BarChart3 className="h-5 w-5" />,
-            description: "View platform statistics and reports",
-            color: "bg-indigo-100 text-indigo-700",
         },
     ]
 

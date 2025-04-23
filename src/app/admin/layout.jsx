@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "sonner"
-import { FileText, Users, ShoppingBag, BarChart3, ChevronRight } from "lucide-react"
+import { FileText, Users, ShoppingBag, ChevronRight } from "lucide-react"
 
 export default function AdminLayout({ children }) {
     const { isAuthenticated, loading, isAdmin } = useAuth()
@@ -51,11 +51,6 @@ export default function AdminLayout({ children }) {
             title: "Products",
             href: "/admin/products",
             icon: <ShoppingBag className="h-5 w-5" />,
-        },
-        {
-            title: "Analytics",
-            href: "/admin/analytics",
-            icon: <BarChart3 className="h-5 w-5" />,
         },
     ]
 
