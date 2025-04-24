@@ -45,7 +45,7 @@ export default function TestimonialsSection() {
                   ))}
               </div>
               <p className="text-gray-600 mb-6 italic">
-                "SwitchMarket has completely changed how I shop for beauty
+                "SkinEthic has completely changed how I shop for beauty
                 products. Now I understand what I'm putting on my skin and can
                 make choices aligned with my values."
               </p>

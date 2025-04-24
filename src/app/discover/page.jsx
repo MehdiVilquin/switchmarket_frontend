@@ -57,59 +57,70 @@ export default function DiscoverPage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-32 px-4 md:px-8 bg-[#FBF9F7]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            className="flex flex-col items-center text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Badge className="mb-4 px-3 py-1 bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition-colors">
-              Latest News
-            </Badge>
-            <h1 className="text-5xl md:text-[80px] font-medium text-black leading-tight tracking-tight md:leading-[1.35] -tracking-[0.02em] mb-5 max-w-4xl">
-              Ethical Beauty News
-            </h1>
-            <p className="text-xl md:text-3xl text-[#3D3F3D] leading-[1.35] max-w-4xl">
-              Stay up to date with the latest news and trends in ethical and
-              sustainable beauty products.
-            </p>
-          </motion.div>
-
-          {/* Barre de recherche */}
-          <div className="mb-16">
-            <form
-              onSubmit={handleSubmit}
-              className="relative max-w-2xl mx-auto"
+      <section className="relative isolate overflow-hidden bg-gray-900">
+        <div
+          className="absolute inset-0 -z-10"
+          style={{
+            backgroundImage: "url('/discover_hero.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div className="absolute inset-0 bg-black/40 -z-10" />
+        <div className="py-16 md:py-20 px-4 md:px-8">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              className="flex flex-col items-center text-center mb-10"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              <div className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search articles..."
-                  className="w-full px-6 py-4 pl-14 pr-12 bg-white rounded-xl border-2 border-gray-200 focus:outline-none focus:border-black transition-colors text-lg"
-                />
-                <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={clearSearch}
-                    className="absolute right-5 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 hover:text-gray-600"
-                  >
-                    <X className="h-5 w-5" />
-                  </button>
-                )}
-              </div>
-            </form>
-            {searchQuery && (
-              <div className="text-center text-base text-gray-500 mt-4">
-                Found {filteredArticles.length} article
-                {filteredArticles.length !== 1 ? "s" : ""} matching "
-                {searchQuery}"
-              </div>
-            )}
+              <Badge className="mb-3 px-3 py-1 bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition-colors">
+                Latest News
+              </Badge>
+              <h1 className="text-4xl md:text-6xl font-medium text-white leading-tight tracking-tight md:leading-[1.2] -tracking-[0.02em] mb-4 max-w-4xl">
+                Ethical Beauty News
+              </h1>
+              <p className="text-lg md:text-2xl text-gray-200 leading-[1.35] max-w-3xl">
+                Stay up to date with the latest news and trends in ethical and
+                sustainable beauty products.
+              </p>
+            </motion.div>
+
+            {/* Barre de recherche */}
+            <div className="mb-8">
+              <form
+                onSubmit={handleSubmit}
+                className="relative max-w-2xl mx-auto"
+              >
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search articles..."
+                    className="w-full px-6 py-4 pl-14 pr-12 bg-white rounded-xl border-2 border-gray-200 focus:outline-none focus:border-black transition-colors text-lg"
+                  />
+                  <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={clearSearch}
+                      className="absolute right-5 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 hover:text-gray-600"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
+                  )}
+                </div>
+              </form>
+              {searchQuery && (
+                <div className="text-center text-base text-gray-500 mt-4">
+                  Found {filteredArticles.length} article
+                  {filteredArticles.length !== 1 ? "s" : ""} matching "
+                  {searchQuery}"
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>

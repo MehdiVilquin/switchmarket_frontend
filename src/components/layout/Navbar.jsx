@@ -1,37 +1,41 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Menu, X, User, LogOut } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import { useRouter } from "next/navigation"
-import { useAuth } from "@/contexts/auth-context"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Menu, X, User, LogOut } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const router = useRouter()
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
-  const { isAuthenticated, logout, user, isAdmin } = useAuth()
+  const { isAuthenticated, logout, user, isAdmin } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
+      setIsScrolled(window.scrollY > 10);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <header
-      className={`sticky top-0 w-full px-6 py-4 flex justify-between items-center z-50 transition-all duration-300 ${isScrolled ? "bg-white/95 backdrop-blur-sm shadow-sm" : "bg-[#78E5A8]"
-        }`}
+      className={`sticky top-0 w-full px-6 py-4 flex justify-between items-center z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white/95 backdrop-blur-sm shadow-sm" : "bg-[#78E5A8]"
+      }`}
     >
       <div className="flex items-center gap-2">
-        <Link href="/" className="font-semibold text-xl hover:text-emerald-700 transition-colors">
-          Switch Market
+        <Link
+          href="/"
+          className="font-semibold text-2xl hover:text-emerald-700 transition-colors"
+        >
+          SkinEthic
         </Link>
       </div>
 
@@ -77,7 +81,9 @@ export default function Navbar() {
             >
               <Link href="/profile">
                 <User className="h-4 w-4 mr-1" />
-                <span className="truncate max-w-[100px]">{user?.username || user?.firstname}</span>
+                <span className="truncate max-w-[100px]">
+                  {user?.username || user?.firstname}
+                </span>
               </Link>
             </Button>
             <Button
@@ -123,7 +129,11 @@ export default function Navbar() {
         className="md:hidden hover:bg-black/10 transition-colors"
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
       >
-        {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        {mobileMenuOpen ? (
+          <X className="h-5 w-5" />
+        ) : (
+          <Menu className="h-5 w-5" />
+        )}
       </Button>
 
       {/* Mobile menu */}
@@ -181,8 +191,8 @@ export default function Navbar() {
                     </Link>
                     <button
                       onClick={() => {
-                        logout()
-                        setMobileMenuOpen(false)
+                        logout();
+                        setMobileMenuOpen(false);
                       }}
                       className="flex items-center text-black hover:text-emerald-700 text-lg font-medium p-2 -mx-2 rounded-md hover:bg-gray-50 transition-colors w-full text-left"
                     >
@@ -224,5 +234,5 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </header>
-  )
+  );
 }

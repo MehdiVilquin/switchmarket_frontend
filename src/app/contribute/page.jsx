@@ -102,7 +102,7 @@ export default function ContributePage() {
                   Community Contributions
                 </h1>
                 <h2 className="text-xl sm:text-2xl font-regular leading-8 text-gray-100">
-                  Contribute to SwitchMarket
+                  Contribute to SkinEthic
                 </h2>
               </div>
               <p className="text-base sm:text-lg leading-8 text-gray-200 max-w-xl mx-auto font-light">
@@ -210,9 +210,9 @@ export default function ContributePage() {
                     Spread the Word
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Share SwitchMarket with friends and family to grow our
-                    ethical community. The more people know about ethical
-                    shopping options, the greater our collective impact will be.
+                    Share SkinEthic with friends and family to grow our ethical
+                    community. The more people know about ethical shopping
+                    options, the greater our collective impact will be.
                   </p>
                 </div>
               </div>
