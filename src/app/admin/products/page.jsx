@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "sonner"
+import { BASE_APIURL } from "@/config"
 import {
     Search,
     RefreshCw,
@@ -66,7 +67,7 @@ export default function AdminProductsPage() {
         try {
             setIsRefreshing(true)
             const token = localStorage.getItem("token")
-            let url = `http://localhost:3000/products?page=${page}&limit=10`
+            let url = `${BASE_APIURL}/products?page=${page}&limit=10`
 
             if (searchQuery) {
                 url += `&all=${encodeURIComponent(searchQuery)}`
@@ -102,7 +103,7 @@ export default function AdminProductsPage() {
     const fetchLabels = async () => {
         try {
             const token = localStorage.getItem("token")
-            const response = await fetch("http://localhost:3000/labels", {
+            const response = await fetch(`${BASE_APIURL}/labels`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -123,7 +124,7 @@ export default function AdminProductsPage() {
     const fetchAdditives = async () => {
         try {
             const token = localStorage.getItem("token")
-            const response = await fetch("http://localhost:3000/additives", {
+            const response = await fetch(`${BASE_APIURL}/additives`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -157,7 +158,7 @@ export default function AdminProductsPage() {
     const deleteProduct = async (productId) => {
         try {
             const token = localStorage.getItem("token")
-            const response = await fetch(`http://localhost:3000/products/${productId}`, {
+            const response = await fetch(`${BASE_APIURL}/products/${productId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -184,7 +185,7 @@ export default function AdminProductsPage() {
         try {
             setIsLoading(true)
             const token = localStorage.getItem("token")
-            const response = await fetch(`http://localhost:3000/products/${productId}`, {
+            const response = await fetch(`${BASE_APIURL}/products/${productId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -223,7 +224,7 @@ export default function AdminProductsPage() {
     const updateProduct = async () => {
         try {
             const token = localStorage.getItem("token")
-            const response = await fetch(`http://localhost:3000/products/${editedProduct._id}`, {
+            const response = await fetch(`${BASE_APIURL}/products/${editedProduct._id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

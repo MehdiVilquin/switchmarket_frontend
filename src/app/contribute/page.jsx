@@ -7,8 +7,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Share2 } from "lucide-react";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+import { BASE_APIURL } from "@/config";
 
 const useProductsUnderScore = () => {
   const [products, setProducts] = useState([]);
@@ -19,7 +18,7 @@ const useProductsUnderScore = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `${API_URL}/products?limit=50&sort=-completion_score`
+          `${BASE_APIURL}/products?limit=50&sort=-completion_score`
         );
         const data = await response.json();
 

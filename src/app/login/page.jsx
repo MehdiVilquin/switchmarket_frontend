@@ -10,6 +10,7 @@ import { toast } from "sonner"
 import { motion } from "framer-motion"
 import { Eye, EyeOff, LogIn, User, Lock } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
+import { BASE_APIURL } from "@/config";
 
 export default function LoginPage() {
   const [usernameOrEmail, setUsernameOrEmail] = useState("")
@@ -25,7 +26,7 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
-      const res = await fetch("http://localhost:3000/users/login", {
+      const res = await fetch(`${BASE_APIURL}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usernameOrEmail, password }),

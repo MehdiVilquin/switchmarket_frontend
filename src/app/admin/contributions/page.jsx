@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "sonner"
+import { BASE_APIURL } from "@/config"
 
 export default function AdminContributionsPage() {
   const { user, isAuthenticated, loading } = useAuth()
@@ -36,7 +37,7 @@ export default function AdminContributionsPage() {
         return
       }
 
-      const response = await fetch("http://localhost:3000/contributions", {
+      const response = await fetch(`${BASE_APIURL}/contributions`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -59,7 +60,7 @@ export default function AdminContributionsPage() {
   const fetchAllContributions = async () => {
     try {
       const token = localStorage.getItem("token")
-      const response = await fetch("http://localhost:3000/contributions", {
+      const response = await fetch(`${BASE_APIURL}/contributions`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -97,7 +98,7 @@ export default function AdminContributionsPage() {
 
     try {
       const token = localStorage.getItem("token")
-      const response = await fetch(`http://localhost:3000/contributions/${selectedContribution._id}/approve`, {
+      const response = await fetch(`${BASE_APIURL}/contributions/${selectedContribution._id}/approve`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +127,7 @@ export default function AdminContributionsPage() {
 
     try {
       const token = localStorage.getItem("token")
-      const response = await fetch(`http://localhost:3000/contributions/${selectedContribution._id}/reject`, {
+      const response = await fetch(`${BASE_APIURL}/contributions/${selectedContribution._id}/reject`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

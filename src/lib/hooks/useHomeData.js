@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchOBFData, getBestOBFImage } from "@/lib/openBeautyFacts";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+import { BASE_APIURL } from "@/config";
 
 export default function useHomeData() {
   const [products, setProducts] = useState([]);
@@ -13,8 +12,8 @@ export default function useHomeData() {
       setIsLoading(true);
       try {
         const [productsRes, additivesRes] = await Promise.all([
-          fetch(`${API_URL}/products/random/6`),
-          fetch(`${API_URL}/additives/random/4`), // 4 is the number of additives to display
+          fetch(`${BASE_APIURL}/products/random/6`),
+          fetch(`${BASE_APIURL}/additives/random/4`), // 4 is the number of additives to display
         ]);
         const productsData = await productsRes.json();
         const additivesData = await additivesRes.json();

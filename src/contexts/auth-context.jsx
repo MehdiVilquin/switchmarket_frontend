@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect } from "react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { BASE_APIURL } from "@/config"
 
 // Création du contexte d'authentification
 const AuthContext = createContext(undefined)
@@ -32,7 +33,7 @@ export function AuthProvider({ children }) {
                 return
             }
 
-            const response = await fetch("http://localhost:3000/users/me", {
+            const response = await fetch(`${BASE_APIURL}/users/me`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -58,7 +59,7 @@ export function AuthProvider({ children }) {
     const login = async (credentials) => {
         try {
             setLoading(true)
-            const res = await fetch("http://localhost:3000/users/login", {
+            const res = await fetch(`${BASE_APIURL}/users/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(credentials),

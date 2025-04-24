@@ -1,8 +1,8 @@
 "use client";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { fetchOBFData, getBestOBFImage } from "@/lib/openBeautyFacts";
+import { BASE_APIURL } from "@/config";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 const PRODUCTS_PER_PAGE = 12;
 
 // Simple in-memory cache to avoid redundant fetches
@@ -62,8 +62,8 @@ export default function useSearchProducts(searchQuery = "", filterParams = {}) {
 
         const endpoint =
           Object.keys(cleanParams).length === 0
-            ? `${API_URL}/products/random/${PRODUCTS_PER_PAGE}`
-            : `${API_URL}/products?${queryParams.toString()}`;
+            ? `${BASE_APIURL}/products/random/${PRODUCTS_PER_PAGE}`
+            : `${BASE_APIURL}/products?${queryParams.toString()}`;
 
         console.log("Fetching products from:", endpoint);
 

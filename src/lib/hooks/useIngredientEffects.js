@@ -2,9 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { processEffects } from "@/lib/utils/effects";
-
-// API URL (uses environment variable or localhost as default)
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+import { BASE_APIURL } from "@/config";
 
 // Simple cache to avoid repeated API calls
 const effectsCache = new Map();
@@ -25,7 +23,7 @@ const fetchIngredientEffects = async (ingredient) => {
   try {
     console.log(`Fetching effects for ${ingredient.text}`);
     const response = await fetch(
-      `${API_URL}/effects/search?query=${encodeURIComponent(ingredient.text)}`
+      `${BASE_APIURL}/effects/search?query=${encodeURIComponent(ingredient.text)}`
     );
 
     if (!response.ok) {

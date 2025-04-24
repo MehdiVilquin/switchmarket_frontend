@@ -1,30 +1,6 @@
 import { useState, useEffect } from "react";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-
-const fetchOBFData = async (ean) => {
-  try {
-    const response = await fetch(
-      `https://world.openbeautyfacts.org/api/v0/product/${ean}.json`
-    );
-    if (!response.ok) throw new Error(`OBF API error: ${response.status}`);
-    return await response.json();
-  } catch (error) {
-    console.error("Failed to fetch OBF data:", error);
-    return null;
-  }
-};
-
-const getBestOBFImage = (obfData) => {
-  if (!obfData?.product) return null;
-  const options = [
-    obfData.product.images?.front?.display?.fr,
-    obfData.product.image_front_url,
-    obfData.product.image_url,
-    obfData.product.image_front_small_url,
-  ];
-  return options.find((url) => typeof url === "string") || null;
-};
+import { fetchOBFData, getBestOBFImage } from "@/lib/openBeautyFacts";
+import { BASE_APIURL } from "@/config";
 
 const getDirectOBFImageUrl = (ean) => {
   if (!ean) return null;
@@ -51,7 +27,9 @@ const useProductDetails = (productId) => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const res = await fetch(`${API_URL}/products/${productId}`);
+        const url = `${BASE_APIURL}/products/${productId}`;
+        console.log(`Fetching product details from: ${url}`)
+        const res = await fetch(url);
         if (!res.ok) throw new Error(`Failed to fetch product: ${res.status}`);
 
         const data = await res.json();

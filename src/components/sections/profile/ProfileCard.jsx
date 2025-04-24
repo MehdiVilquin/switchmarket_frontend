@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/auth-context"
 import { ProfileHeader } from "./ProfileHeader"
 import { ProfileView } from "./ProfileView"
 import { ProfileEditForm } from "./ProfileEditForm"
+import { BASE_APIURL } from "@/config"
 
 export function ProfileCard() {
     const { user, refreshUser } = useAuth()
@@ -97,7 +98,7 @@ export function ProfileCard() {
                 dataToSend.newPassword = formData.newPassword
             }
 
-            const response = await fetch("http://localhost:3000/users/update", {
+            const response = await fetch(`${BASE_APIURL}/users/update`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

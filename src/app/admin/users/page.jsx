@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "sonner"
 import { Trash, Shield, ShieldOff, RefreshCw, Search } from "lucide-react"
+import { BASE_APIURL } from "@/config"
 
 export default function AdminUsersPage() {
     const { user, isAuthenticated, loading, isAdmin } = useAuth()
@@ -37,10 +38,11 @@ export default function AdminUsersPage() {
 
     // Fetch all users
     const fetchUsers = async () => {
+        setIsLoading(true)
         try {
             setIsRefreshing(true)
             const token = localStorage.getItem("token")
-            const response = await fetch("http://localhost:3000/users", {
+            const response = await fetch(`${BASE_APIURL}/users`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -65,7 +67,7 @@ export default function AdminUsersPage() {
     const promoteToAdmin = async (userId) => {
         try {
             const token = localStorage.getItem("token")
-            const response = await fetch(`http://localhost:3000/users/promote/${userId}`, {
+            const response = await fetch(`${BASE_APIURL}/users/promote/${userId}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -90,7 +92,7 @@ export default function AdminUsersPage() {
     const demoteToUser = async (userId) => {
         try {
             const token = localStorage.getItem("token")
-            const response = await fetch(`http://localhost:3000/users/demote/${userId}`, {
+            const response = await fetch(`${BASE_APIURL}/users/demote/${userId}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -115,7 +117,7 @@ export default function AdminUsersPage() {
     const deleteUser = async (userId) => {
         try {
             const token = localStorage.getItem("token")
-            const response = await fetch(`http://localhost:3000/users/${userId}`, {
+            const response = await fetch(`${BASE_APIURL}/users/${userId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,

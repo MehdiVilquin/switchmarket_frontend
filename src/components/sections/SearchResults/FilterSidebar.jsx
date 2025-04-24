@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Loader2, X } from "lucide-react"
+import { BASE_APIURL } from "@/config"
 
 export default function FilterSidebar({ onFiltersChange }) {
     const searchParams = useSearchParams()
@@ -31,10 +32,8 @@ export default function FilterSidebar({ onFiltersChange }) {
             setError(null)
 
             try {
-                const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
-
                 // Fetch labels
-                const labelsResponse = await fetch(`${API_URL}/labels`)
+                const labelsResponse = await fetch(`${BASE_APIURL}/labels`)
                 if (!labelsResponse.ok) {
                     throw new Error(`API error: ${labelsResponse.status}`)
                 }
@@ -46,7 +45,7 @@ export default function FilterSidebar({ onFiltersChange }) {
                 }
 
                 // Fetch unique brands from products
-                const brandsResponse = await fetch(`${API_URL}/products/brands`)
+                const brandsResponse = await fetch(`${BASE_APIURL}/products/brands`)
                 if (brandsResponse.ok) {
                     const brandsData = await brandsResponse.json()
                     if (brandsData.result) {
@@ -54,7 +53,7 @@ export default function FilterSidebar({ onFiltersChange }) {
                     }
                 } else {
                     // If the brands endpoint doesn't exist, fetch some products and extract brands
-                    const productsResponse = await fetch(`${API_URL}/products/random/50`)
+                    const productsResponse = await fetch(`${BASE_APIURL}/products/random/50`)
                     if (productsResponse.ok) {
                         const productsData = await productsResponse.json()
                         if (productsData.result && productsData.products) {

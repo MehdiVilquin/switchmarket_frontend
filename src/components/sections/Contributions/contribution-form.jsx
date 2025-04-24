@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { toast } from "sonner"
+import { BASE_APIURL } from '@/config';
 
 export default function ContributionForm({ onSubmit, initialData = null }) {
   // État du formulaire
@@ -34,7 +35,7 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
   const fetchLabels = async () => {
     try {
       setFormLoading(true)
-      const response = await fetch("http://localhost:3000/labels")
+      const response = await fetch(`${BASE_APIURL}/labels`)
       if (response.ok) {
         const data = await response.json()
         setAvailableLabels(data.labels)
@@ -59,7 +60,7 @@ export default function ContributionForm({ onSubmit, initialData = null }) {
       console.log("Searching for additives:", query)
       setIsLoading(true)
 
-      const response = await fetch(`http://localhost:3000/additives/tag/${query}`)
+      const response = await fetch(`${BASE_APIURL}/additives/tag/${query}`)
       console.log("Response status:", response.status)
 
       if (response.ok) {

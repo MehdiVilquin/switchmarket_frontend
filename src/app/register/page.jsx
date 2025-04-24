@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 import { motion } from "framer-motion"
 import { Eye, EyeOff, UserPlus, Mail, Lock, Calendar, User } from "lucide-react"
+import { BASE_APIURL } from "@/config";
 
 export default function RegisterPage() {
   const [form, setForm] = useState({
@@ -33,7 +34,7 @@ export default function RegisterPage() {
     setIsLoading(true)
 
     try {
-      const res = await fetch("http://localhost:3000/users/register", {
+      const res = await fetch(`${BASE_APIURL}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

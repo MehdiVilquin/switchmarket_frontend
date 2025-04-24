@@ -12,8 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { BASE_APIURL } from "@/config";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 const ITEMS_PER_BATCH = 6;
 
 export default function AdditivesPage() {
@@ -56,9 +56,10 @@ export default function AdditivesPage() {
   }, [additives, allergyFilter, originFilter, noteFilter]);
 
   async function fetchAdditives() {
+    setIsLoading(true);
     try {
-      const res = await fetch(`${API_URL}/additives`);
-      const data = await res.json();
+      const response = await fetch(`${BASE_APIURL}/additives`);
+      const data = await response.json();
 
       if (data.result && data.additives) {
         const processedAdditives = data.additives.map((a) => ({

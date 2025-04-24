@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+import { BASE_APIURL } from "@/config";
 
 export default function useNewsData(options = {}) {
   const [articles, setArticles] = useState([]);
@@ -18,7 +17,7 @@ export default function useNewsData(options = {}) {
         if (feedType && feedType !== 'all') queryParams.append('feedType', feedType);
         if (refresh) queryParams.append('refresh', 'true');
         
-        const url = `${API_URL}/news?${queryParams.toString()}`;
+        const url = `${BASE_APIURL}/news?${queryParams.toString()}`;
         const response = await fetch(url);
         
         if (!response.ok) {

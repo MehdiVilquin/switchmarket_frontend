@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "sonner"
+import { BASE_APIURL } from "@/config"
 import ContributionForm from "@/components/sections/Contributions/contribution-form"
 
 export default function ContributionPage() {
@@ -32,7 +33,7 @@ export default function ContributionPage() {
   const fetchUserContributions = async () => {
     try {
       const token = localStorage.getItem("token")
-      const response = await fetch("http://localhost:3000/contributions/me", {
+      const response = await fetch(`${BASE_APIURL}/contributions/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -56,7 +57,7 @@ export default function ContributionPage() {
   const handleSubmit = async (formData) => {
     try {
       const token = localStorage.getItem("token")
-      const response = await fetch("http://localhost:3000/contributions", {
+      const response = await fetch(`${BASE_APIURL}/contributions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
