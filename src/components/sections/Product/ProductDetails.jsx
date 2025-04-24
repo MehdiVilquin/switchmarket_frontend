@@ -1,15 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Heart, Share2, Info, Leaf, Beaker } from "lucide-react";
+import { Share2, Info, Leaf, Beaker } from "lucide-react";
 
-export default function ProductDetails({ product, imageUrl }) {
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  const toggleFavorite = () => setIsFavorite(!isFavorite);
-
+export default function ProductDetails({ product }) {
   const handleShare = () => {
     if (navigator.share) {
       navigator
@@ -26,23 +20,13 @@ export default function ProductDetails({ product, imageUrl }) {
   };
 
   const chemical = product.chemicalPercentage || 0;
-  const natural = 100 - chemical; // now we calculate the natural percentage from the chemical percentage
+  const natural = 100 - chemical;
 
   return (
-    <div className="w-full md:w-2/3">
-      <h1 className="text-3xl font-bold text-gray-800 mb-2">
-        {product.product_name || "Unnamed Product"}
-      </h1>
-      <p className="text-xl text-emerald-700 font-medium mb-4">
-        {product.brands || "Unknown Brand"}
-      </p>
-
+    <div>
       <div className="mb-6">
-        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-          Composition
-        </h3>
         <div className="mb-4">
-          <div className="flex justify-between text-sm mb-1">
+          <div className="flex justify-between text-xl mb-1">
             <span className="flex items-center text-emerald-600">
               <Leaf className="h-4 w-4 mr-1" /> Natural
             </span>
@@ -60,30 +44,12 @@ export default function ProductDetails({ product, imageUrl }) {
               style={{ width: `${chemical}%` }}
             ></div>
           </div>
-          <div className="flex justify-between text-xs mt-1 text-gray-500">
+          <div className="flex justify-between text-xl mt-1 text-gray-500">
             <span>{natural}%</span>
             <span>{chemical}%</span>
           </div>
         </div>
       </div>
-
-      {product.labeltags?.length > 0 && (
-        <div className="mb-5">
-          <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-            Labels
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {product.labeltags.map((tag, index) => (
-              <Badge
-                key={index}
-                className="bg-emerald-50 text-emerald-700 border border-emerald-200 py-1 px-3 rounded-full"
-              >
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        </div>
-      )}
 
       {product.OBFProductId && (
         <div className="mb-5 p-3 bg-gray-50 rounded-lg border border-gray-100">
@@ -98,7 +64,7 @@ export default function ProductDetails({ product, imageUrl }) {
         </div>
       )}
 
-      <div className="flex flex-wrap gap-3 mt-6">
+      <div className="flex flex-wrap gap-3">
         <Button variant="outline" onClick={handleShare}>
           <Share2 className="h-4 w-4 mr-2" /> Share
         </Button>

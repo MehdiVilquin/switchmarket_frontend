@@ -21,36 +21,68 @@ export default function ProductPage({ params: paramsPromise }) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 pb-16">
+      <div className="min-h-screen bg-white pb-16">
         <ProductHeader productName="..." />
-        <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
-          <div className="flex flex-col md:flex-row gap-8">
-            <Skeleton className="h-80 w-full md:w-1/3 rounded-xl" />
-            <div className="w-full md:w-2/3 space-y-4">
-              <Skeleton className="h-10 w-3/4" />
-              <Skeleton className="h-6 w-1/2" />
-              <div className="flex gap-2">
-                <Skeleton className="h-8 w-20" />
-                <Skeleton className="h-8 w-20" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="group relative overflow-hidden bg-white border-2 border-gray-200 rounded-xl p-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              <div className="md:col-span-1">
+                <Skeleton className="aspect-square rounded-lg" />
               </div>
-              <Skeleton className="h-32 w-full" />
-              <div className="flex gap-2">
-                <Skeleton className="h-10 w-40" />
-                <Skeleton className="h-10 w-40" />
+              <div className="md:col-span-2">
+                <div className="flex flex-col gap-6">
+                  <div>
+                    <Skeleton className="h-7 w-1/2 mb-2" />
+                    <Skeleton className="h-8 w-3/4" />
+                  </div>
+
+                  <div className="flex gap-3">
+                    <Skeleton className="h-[52px] w-32 rounded-full" />
+                    <Skeleton className="h-[52px] w-32 rounded-full" />
+                    <Skeleton className="h-[52px] w-32 rounded-full" />
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    <Skeleton className="h-8 w-24 rounded-full" />
+                    <Skeleton className="h-8 w-32 rounded-full" />
+                    <Skeleton className="h-8 w-28 rounded-full" />
+                  </div>
+
+                  <Skeleton className="h-6 w-48" />
+                </div>
               </div>
             </div>
           </div>
-          <Skeleton className="h-8 w-40" />
-          <div className="space-y-3">
-            {Array(5)
-              .fill(0)
-              .map((_, i) => (
-                <div key={i} className="flex items-center">
-                  <Skeleton className="h-6 w-1/3" />
-                  <Skeleton className="h-4 flex-1 mx-2" />
-                  <Skeleton className="h-6 w-16" />
-                </div>
-              ))}
+
+          <div className="mt-12 space-y-8">
+            <div>
+              <Skeleton className="h-8 w-48 mb-6" />
+              <div className="flex flex-wrap gap-3">
+                <Skeleton className="h-[52px] w-40 rounded-full" />
+                <Skeleton className="h-[52px] w-48 rounded-full" />
+                <Skeleton className="h-[52px] w-44 rounded-full" />
+              </div>
+            </div>
+
+            <div>
+              <Skeleton className="h-8 w-48 mb-6" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {Array(6)
+                  .fill(0)
+                  .map((_, i) => (
+                    <div
+                      key={i}
+                      className="border-2 border-gray-200 rounded-lg p-4"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <Skeleton className="h-6 w-1/3" />
+                        <Skeleton className="h-6 w-16" />
+                      </div>
+                      <Skeleton className="h-1.5 w-full" />
+                    </div>
+                  ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -62,27 +94,48 @@ export default function ProductPage({ params: paramsPromise }) {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 pb-16">
+    <main className="min-h-screen bg-white pb-16">
       <ProductHeader productName={product.product_name} />
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="space-y-12"
         >
-          <div className="flex flex-col md:flex-row gap-8">
-            <ProductImage
-              imageUrl={imageUrl}
-              OBFProductId={product.OBFProductId}
-              productName={product.product_name}
-            />
-            <ProductDetails product={product} imageUrl={imageUrl} />
+          <div className="border-2 border-gray-200 hover:border-black transition-colors rounded-xl bg-white overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 p-8">
+              <div className="md:col-span-1">
+                <ProductImage
+                  imageUrl={imageUrl}
+                  OBFProductId={product.OBFProductId}
+                  productName={product.product_name}
+                />
+              </div>
+              <div className="md:col-span-2 flex flex-col">
+                <div className="mb-8">
+                  <div className="text-lg font-medium text-gray-600 mb-2">
+                    {product.brands || "Unknown Brand"}
+                  </div>
+                  <h1 className="text-4xl font-semibold text-gray-900 leading-tight tracking-tight">
+                    {product.product_name || "Unnamed Product"}
+                  </h1>
+                </div>
+                <div>
+                  <ProductDetails product={product} imageUrl={imageUrl} />
+                </div>
+              </div>
+            </div>
           </div>
-          <ProductEffects
-            effects={product.effects}
-            ingredients={product.ingredients}
-          />
-          <ProductIngredients ingredients={product.ingredients} />
+
+          <div className="space-y-8">
+            <ProductEffects
+              effects={product.effects}
+              ingredients={product.ingredients}
+            />
+
+            <ProductIngredients ingredients={product.ingredients} />
+          </div>
         </motion.div>
       </div>
     </main>

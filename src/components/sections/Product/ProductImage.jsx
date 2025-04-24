@@ -4,24 +4,24 @@ import Barcode from "react-barcode";
 
 export default function ProductImage({ imageUrl, OBFProductId, productName }) {
   return (
-    <div className="w-full md:w-1/3 flex flex-col">
-      <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 p-4 flex items-center justify-center h-80">
+    <div className="w-full">
+      <div className="bg-white border-2 border-gray-200 rounded-lg p-8 flex items-center justify-center aspect-square">
         <img
           src={imageUrl || "/placeholder.png"}
           alt={productName || "Product image"}
-          className="object-contain max-h-full max-w-full"
+          className="object-contain w-full h-full"
         />
       </div>
 
       {OBFProductId && (
-        <div className="mt-4 flex flex-col items-center">
-          <p className="text-xs text-gray-500 mb-1">Product code</p>
+        <div className="mt-6 flex flex-col items-center">
+          <p className="text-sm text-gray-500 mb-2">Product code</p>
           <Barcode
             value={OBFProductId}
             format="EAN13"
             height={40}
             width={1.5}
-            fontSize={10}
+            fontSize={12}
             margin={0}
             background="#ffffff"
             lineColor="#333333"

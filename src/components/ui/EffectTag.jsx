@@ -1,5 +1,13 @@
 "use client";
 
+import { Leaf, AlertTriangle } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 // Configuration des couleurs selon le type et le score
 const TAG_COLORS = {
   benefit: {
@@ -41,32 +49,42 @@ const formatIngredients = (ingredients) => {
     })
     .map(([percent, names]) => {
       const uniqueNames = [...new Set(names)].join(", ");
-      return percent === "N/A" ? uniqueNames : `${uniqueNames} (${percent}%)`;
+      return percent === "N/A"
+        ? uniqueNames
+        : `${uniqueNames} (${parseFloat(percent).toFixed(1)}%)`;
     })
     .join("\n");
 };
 
 // Composant pour afficher un effet
 export const EffectTag = ({ label, score, type = "benefit", ingredients }) => (
-  <div className="group relative">
-    <div
-      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm ${
-        TAG_COLORS[type][getScoreLevel(score)]
-      }`}
-    >
-      <span className="font-medium">{label}</span>
-      {score && (
-        <span className="inline-flex items-center justify-center rounded-full bg-white/25 px-1.5 py-0.5 text-xs font-medium">
-          {score}
-        </span>
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger>
+        <div className="flex h-[52px] items-center justify-center rounded-full border-2 border-gray-200 bg-white px-4 hover:border-black transition-colors">
+          <div className="flex items-center gap-2">
+            {type === "benefit" ? (
+              <Leaf className="h-5 w-5 text-emerald-600" />
+            ) : (
+              <AlertTriangle className="h-5 w-5 text-amber-600" />
+            )}
+            <span className="text-lg">{label}</span>
+            {score && (
+              <span className="ml-1 text-sm text-gray-500">({score})</span>
+            )}
+          </div>
+        </div>
+      </TooltipTrigger>
+      {ingredients?.length > 0 && (
+        <TooltipContent>
+          <p className="font-medium mb-1">Related ingredients:</p>
+          <p className="text-sm text-gray-400 whitespace-pre-line">
+            {formatIngredients(ingredients)}
+          </p>
+        </TooltipContent>
       )}
-    </div>
-    {ingredients?.length > 0 && (
-      <div className="absolute z-10 invisible group-hover:visible bg-white border border-gray-200 rounded-md p-2 shadow-lg min-w-[200px] max-w-[300px] whitespace-pre-line text-sm text-gray-700 top-full left-0 mt-1">
-        {formatIngredients(ingredients)}
-      </div>
-    )}
-  </div>
+    </Tooltip>
+  </TooltipProvider>
 );
 
 // Composant pour afficher un groupe d'effets
@@ -74,9 +92,9 @@ export const EffectTagGroup = ({ title, tags, type = "benefit" }) => {
   if (!tags?.length) return null;
 
   return (
-    <div className="space-y-3">
-      <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-      <div className="flex flex-wrap gap-2">
+    <div className="space-y-4">
+      <h3 className="text-lg font-medium text-gray-900">{title}</h3>
+      <div className="flex flex-wrap gap-3">
         {tags.map((tag, index) => (
           <EffectTag
             key={`${tag.function}-${index}`}

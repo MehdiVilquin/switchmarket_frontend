@@ -1,7 +1,6 @@
 "use client";
 
 import useIngredientEffects from "@/lib/hooks/useIngredientEffects";
-import { Card } from "@/components/ui/card";
 import { EffectTagGroup } from "@/components/ui/EffectTag";
 import { processEffects } from "@/lib/utils/effects";
 
@@ -13,9 +12,9 @@ const EffectsDisplay = ({ effects }) => {
   }
 
   return (
-    <div className="mt-12">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Effects</h2>
-      <Card className="p-6 space-y-8">
+    <div className="mt-8">
+      <h2 className="text-2xl font-semibold text-gray-900 mb-6">Effects</h2>
+      <div className="space-y-8">
         {/* Benefits */}
         {effects.benefits?.length > 0 && (
           <EffectTagGroup
@@ -32,7 +31,7 @@ const EffectsDisplay = ({ effects }) => {
             type="concern"
           />
         )}
-      </Card>
+      </div>
     </div>
   );
 };
@@ -48,7 +47,7 @@ export default function ProductEffects({ effects = [], ingredients = [] }) {
     useIngredientEffects(ingredients);
 
   if (error) {
-    return <div className="mt-12 text-red-500">{error}</div>;
+    return <div className="mt-8 text-red-500">{error}</div>;
   }
 
   return <EffectsDisplay effects={ingredientEffects} />;
