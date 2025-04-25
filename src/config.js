@@ -5,7 +5,7 @@
 
 export const BASE_APIURL =
   process.env.NEXT_PUBLIC_API_URL ||
-  "https://switchmarket-backend-ca0s5z6av-vilquinmehdi-gmailcoms-projects.vercel.app" ||
+  "https://switchmarket-frontend.vercel.app/" ||
   "http://localhost:3000";
 
 // If you want to override via environment variable uncomment below and comment above line.
