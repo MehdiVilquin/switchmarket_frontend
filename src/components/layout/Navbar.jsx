@@ -56,7 +56,7 @@ export default function Navbar() {
         </Link>
         {isAuthenticated ? (
           <Link
-            href="http://localhost:3001/contributions"
+            href="/contributions"
             className="text-black hover:text-emerald-700 transition-colors font-medium relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 hover:after:w-full after:bg-emerald-700 after:transition-all"
           >
             Community
@@ -163,7 +163,7 @@ export default function Navbar() {
               </Link>
               {isAuthenticated ? (
                 <Link
-                  href="http://localhost:3001/contributions"
+                  href="/contributions"
                   className="text-black hover:text-emerald-700 text-lg font-medium p-2 -mx-2 rounded-md hover:bg-gray-50 transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >

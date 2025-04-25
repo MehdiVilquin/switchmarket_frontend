@@ -44,23 +44,21 @@ export default function AdminProductsPage() {
     useEffect(() => {
         if (!loading) {
             if (!isAuthenticated) {
-                toast.error("You must be logged in to access this page")
+                toast.error("Access denied. Please log in.")
                 router.push("/login")
                 return
             }
 
-            // Check if user is admin
             if (!isAdmin()) {
-                toast.error("You don't have admin privileges")
+                toast.error("Access denied. Admin only.")
                 router.push("/")
                 return
             }
 
-            fetchProducts()
-            fetchLabels()
-            fetchAdditives()
+            fetchAllContributions()
         }
     }, [isAuthenticated, loading, router, isAdmin])
+
 
     // Fetch all products with pagination
     const fetchProducts = async (page = 1, searchQuery = "") => {
@@ -392,10 +390,10 @@ export default function AdminProductsPage() {
                                             <td className="py-3 px-6 text-center">
                                                 <span
                                                     className={`px-2 py-1 rounded-full text-xs ${product.chemicalPercentage > 50
-                                                            ? "bg-red-100 text-red-800"
-                                                            : product.chemicalPercentage > 25
-                                                                ? "bg-yellow-100 text-yellow-800"
-                                                                : "bg-green-100 text-green-800"
+                                                        ? "bg-red-100 text-red-800"
+                                                        : product.chemicalPercentage > 25
+                                                            ? "bg-yellow-100 text-yellow-800"
+                                                            : "bg-green-100 text-green-800"
                                                         }`}
                                                 >
                                                     {product.chemicalPercentage}%
@@ -443,8 +441,8 @@ export default function AdminProductsPage() {
                                     onClick={() => handlePageChange(pagination.page - 1)}
                                     disabled={pagination.page === 1}
                                     className={`p-2 rounded-lg ${pagination.page === 1
-                                            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                                            : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+                                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                        : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
                                         }`}
                                 >
                                     <ChevronLeft className="h-5 w-5" />
@@ -467,8 +465,8 @@ export default function AdminProductsPage() {
                                             key={pageNum}
                                             onClick={() => handlePageChange(pageNum)}
                                             className={`w-10 h-10 rounded-lg ${pagination.page === pageNum
-                                                    ? "bg-emerald-500 text-white"
-                                                    : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+                                                ? "bg-emerald-500 text-white"
+                                                : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
                                                 }`}
                                         >
                                             {pageNum}
@@ -479,8 +477,8 @@ export default function AdminProductsPage() {
                                     onClick={() => handlePageChange(pagination.page + 1)}
                                     disabled={pagination.page === pagination.pages}
                                     className={`p-2 rounded-lg ${pagination.page === pagination.pages
-                                            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                                            : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+                                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                        : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
                                         }`}
                                 >
                                     <ChevronRight className="h-5 w-5" />
@@ -526,10 +524,10 @@ export default function AdminProductsPage() {
                                             <span className="font-medium">Chemical Percentage:</span>{" "}
                                             <span
                                                 className={`px-2 py-1 rounded-full text-xs ${selectedProduct.chemicalPercentage > 50
-                                                        ? "bg-red-100 text-red-800"
-                                                        : selectedProduct.chemicalPercentage > 25
-                                                            ? "bg-yellow-100 text-yellow-800"
-                                                            : "bg-green-100 text-green-800"
+                                                    ? "bg-red-100 text-red-800"
+                                                    : selectedProduct.chemicalPercentage > 25
+                                                        ? "bg-yellow-100 text-yellow-800"
+                                                        : "bg-green-100 text-green-800"
                                                     }`}
                                             >
                                                 {selectedProduct.chemicalPercentage}%
