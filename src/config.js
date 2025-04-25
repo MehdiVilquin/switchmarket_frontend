@@ -1,6 +1,5 @@
 // config.js
 
-// Global configuration file for frontend
 // BASE_APIURL will be set from environment variable at build time.
 // Utilise la variable d'environnement pour cibler le backend adapté à l'environnement
 // En local : NEXT_PUBLIC_API_URL=http://localhost:3000
