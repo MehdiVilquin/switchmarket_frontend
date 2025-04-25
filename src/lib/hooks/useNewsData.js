@@ -1,32 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { BASE_APIURL } from "@/config";
 
 export default function useNewsData(options = {}) {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  const { limit = 20, feedType = 'all', refresh = false } = options;
+
+  const { limit = 20, feedType = "all", refresh = false } = options;
 
   useEffect(() => {
     const fetchNews = async () => {
       setIsLoading(true);
       try {
         const queryParams = new URLSearchParams();
-        if (limit) queryParams.append('limit', limit);
-        if (feedType && feedType !== 'all') queryParams.append('feedType', feedType);
-        if (refresh) queryParams.append('refresh', 'true');
-        
+        if (limit) queryParams.append("limit", limit);
+        if (feedType && feedType !== "all")
+          queryParams.append("feedType", feedType);
+        if (refresh) queryParams.append("refresh", "true");
+
         const url = `${BASE_APIURL}/news?${queryParams.toString()}`;
         const response = await fetch(url);
-        
+
         if (!response.ok) {
-          throw new Error('Failed to fetch news');
+          throw new Error("Failed to fetch news");
         }
-        
+
         const data = await response.json();
-        
-        // Trier les articles pour mettre en priorité ceux avec des images
+
+        // Trier les articles pour mettre en priorité ceux avec des images dans le bon ordre
         const sortedArticles = [...(data.articles || [])].sort((a, b) => {
           // Si a a une image et b n'en a pas, a vient en premier
           if (a.image && !b.image) return -1;
@@ -39,10 +40,10 @@ export default function useNewsData(options = {}) {
           // Si une des dates est manquante, garder l'ordre existant
           return 0;
         });
-        
+
         setArticles(sortedArticles);
       } catch (err) {
-        console.error('Error fetching news:', err);
+        console.error("Error fetching news:", err);
         setError(err.message);
       } finally {
         setIsLoading(false);
