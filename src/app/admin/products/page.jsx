@@ -23,6 +23,7 @@ import Link from "next/link"
 export default function AdminProductsPage() {
     const { isAuthenticated, loading, isAdmin } = useAuth()
     const router = useRouter()
+
     const [products, setProducts] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [searchTerm, setSearchTerm] = useState("")
@@ -40,7 +41,6 @@ export default function AdminProductsPage() {
     const [editMode, setEditMode] = useState(false)
     const [editedProduct, setEditedProduct] = useState(null)
 
-    // Redirect if not authenticated
     useEffect(() => {
         if (!loading) {
             if (!isAuthenticated) {
@@ -55,10 +55,11 @@ export default function AdminProductsPage() {
                 return
             }
 
-            fetchAllContributions()
+            fetchProducts()
+            fetchLabels()
+            fetchAdditives()
         }
-    }, [isAuthenticated, loading, router, isAdmin])
-
+    }, [isAuthenticated, loading, isAdmin, router])
 
     // Fetch all products with pagination
     const fetchProducts = async (page = 1, searchQuery = "") => {

@@ -7,56 +7,31 @@ import { toast } from "sonner"
 import { BASE_APIURL } from "@/config"
 
 export default function AdminContributionsPage() {
-  const { user, isAuthenticated, loading } = useAuth()
+  const { user, isAuthenticated, loading, isAdmin } = useAuth()
   const router = useRouter()
   const [contributions, setContributions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [reviewNotes, setReviewNotes] = useState("")
   const [selectedContribution, setSelectedContribution] = useState(null)
-  const [isAdmin, setIsAdmin] = useState(false)
 
-  // Rediriger si non connecté
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      toast.error("Access denied. Please log in.")
-      router.push("/login")
-      return
-    }
-
-    // Vérifier si l'utilisateur est admin
-    checkAdminStatus()
-  }, [isAuthenticated, loading, router])
-
-  // Vérifier si l'utilisateur est admin
-  const checkAdminStatus = async () => {
-    try {
-      const token = localStorage.getItem("token")
-      if (!token) {
+    if (!loading) {
+      if (!isAuthenticated) {
         toast.error("Access denied. Please log in.")
         router.push("/login")
         return
       }
 
-      const response = await fetch(`${BASE_APIURL}/contributions`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-
-      if (response.ok) {
-        setIsAdmin(true)
-        fetchAllContributions()
-      } else {
-        toast.error("Error checking admin rights")
+      if (!isAdmin()) {
+        toast.error("Access denied. Admin only.")
         router.push("/")
+        return
       }
-    } catch (error) {
-      console.error("Error:", error)
-      toast.error("Server connection error")
-    }
-  }
 
-  // Charger toutes les contributions
+      fetchAllContributions()
+    }
+  }, [loading, isAuthenticated, isAdmin, router])
+
   const fetchAllContributions = async () => {
     try {
       const token = localStorage.getItem("token")
@@ -80,19 +55,16 @@ export default function AdminContributionsPage() {
     }
   }
 
-  // Ouvrir la modal de révision
   const openReviewModal = (contribution) => {
     setSelectedContribution(contribution)
     setReviewNotes("")
   }
 
-  // Fermer la modal
   const closeReviewModal = () => {
     setSelectedContribution(null)
     setReviewNotes("")
   }
 
-  // Approuver une contribution
   const approveContribution = async () => {
     if (!selectedContribution) return
 
@@ -121,7 +93,6 @@ export default function AdminContributionsPage() {
     }
   }
 
-  // Rejeter une contribution
   const rejectContribution = async () => {
     if (!selectedContribution) return
 
@@ -150,7 +121,7 @@ export default function AdminContributionsPage() {
     }
   }
 
-  if (loading || !isAuthenticated || !isAdmin) {
+  if (loading || !isAuthenticated || !isAdmin()) {
     return (
       <div className="container mx-auto p-4 flex justify-center items-center min-h-[50vh]">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
@@ -198,13 +169,12 @@ export default function AdminContributionsPage() {
                     <td className="py-3 px-6 text-left">{new Date(contribution.submittedAt).toLocaleDateString()}</td>
                     <td className="py-3 px-6 text-left">
                       <span
-                        className={`px-2 py-1 rounded text-xs ${
-                          contribution.status === "pending"
+                        className={`px-2 py-1 rounded text-xs ${contribution.status === "pending"
                             ? "bg-yellow-100 text-yellow-800"
                             : contribution.status === "approved"
                               ? "bg-green-100 text-green-800"
                               : "bg-red-100 text-red-800"
-                        }`}
+                          }`}
                       >
                         {contribution.status === "pending"
                           ? "Pending"
@@ -255,13 +225,12 @@ export default function AdminContributionsPage() {
               <p className="text-gray-600">Date: {new Date(selectedContribution.submittedAt).toLocaleDateString()}</p>
               <p className="mt-2">
                 <span
-                  className={`px-2 py-1 rounded text-xs ${
-                    selectedContribution.status === "pending"
+                  className={`px-2 py-1 rounded text-xs ${selectedContribution.status === "pending"
                       ? "bg-yellow-100 text-yellow-800"
                       : selectedContribution.status === "approved"
                         ? "bg-green-100 text-green-800"
                         : "bg-red-100 text-red-800"
-                  }`}
+                    }`}
                 >
                   {selectedContribution.status === "pending"
                     ? "Pending"
