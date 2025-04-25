@@ -9,8 +9,11 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
 
 export default function Navbar() {
+  // State pour savoir si la page est scrolée
   const [isScrolled, setIsScrolled] = useState(false);
+  // State pour savoir si le menu mobile est ouvert
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // Router pour rediriger l'utilisateur
   const router = useRouter();
 
   const { isAuthenticated, logout, user, isAdmin } = useAuth();
